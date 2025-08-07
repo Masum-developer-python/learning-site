@@ -1,0 +1,53 @@
+@font-face {
+  font-family: "akbar";
+  src: url("/fonts/Akbar.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+ @font-face {
+        font-family: "jameel-noori-nastaleeq";
+        src: url("https://cdn.jsdelivr.net/gh/tariq-abdullah/urdu-web-font-CDN/JameelNooriNastaleeq.woff")
+          format("woff");
+      }
+      
+      @font-face {
+        font-family: "mehr-nastaleeq";
+        src: url("https://cdn.jsdelivr.net/gh/tariq-abdullah/urdu-web-font-CDN/MehrNastaleeq.ttf")
+          format("ttf");
+      } 
+     @font-face {
+        font-family: "nastaleeq-nafees";
+        src: url("https://cdn.jsdelivr.net/gh/tariq-abdullah/urdu-web-font-CDN/PDMS_NastaliqNafees.ttf")
+          format("opentype");
+      }  
+      @font-face {
+        font-family: "lahori-nastaleeq";
+        src: url("https://cdn.jsdelivr.net/gh/tariq-abdullah/urdu-web-font-CDN/AlviLahoriNastaleeq.woff2")
+          format("woff2");
+      }  
+      @font-face {
+        font-family: "jameel-noori-nastaleeq";
+        src: url("https://cdn.jsdelivr.net/gh/tariq-abdullah/urdu-web-font-CDN/JameelNooriNastaleeq.woff")
+          format("woff");
+      } 
+       @font-face {
+        font-family: "saudi";
+        src: url("https://github.com/quranacademy/test-arabic-fonts/blob/2642bd76b34faacad49b7b462a495e5b7705f899/fonts/saudi.ttf")
+          format("opentype");
+      }  
+      @font-face {
+        font-family: "noto-nastaleeq";
+        src: url("https://cdn.jsdelivr.net/gh/tariq-abdullah/urdu-web-font-CDN/NotoNastaliqUrduDraft.woff")
+          format("woff");
+      } 
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  body {
+    @apply bg-white text-gray-900;
+  }
+}
