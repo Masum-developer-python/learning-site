@@ -5,9 +5,9 @@ const Blog = ({ selectedColor }) => {
     ${selectedColor.backgroundColor} ${selectedColor.textColor} 
     `}
     >
-      <div>
+      <div className="w-full bg-red-100">
         <img
-          src="./src/assets/RAREbg.jpg"
+          src="images/RAREbg.jpg"
           alt="RARe Academy Logo"
           className="mx-auto"
         />
