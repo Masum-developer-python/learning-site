@@ -1,4 +1,3 @@
-import { arabicDiacritics } from "../data";
 import React, { useState, useRef } from "react";
 import { UserNavigation } from "./navigations";
 import ThemeSelector from "./ThemeSelector";
@@ -56,7 +55,7 @@ function Submenu({
   return (
     <ul
       key={`vlkzb`}
-      className={`font-bangla w-12 md:w-20 lg:w-24 text-xs md:text-xl lg:text-2xl relative h-full text-center whitespace-normal 
+      className={`font-bangla w-16 md:w-20 lg:w-24 text-xs md:text-xl lg:text-2xl relative h-full text-center whitespace-normal 
         ${selectedColor.backgroundColor} ${selectedColor.textColor}`}
     >
       <li key={"w1234"} className="text-xs">

@@ -12,6 +12,7 @@ import Nav from "./components/Nav";
 import ICT from "./pages/ICT";
 import Whiteboard from "./components/Whiteboard";
 import OverlayWhiteboard from "./components/OverlayWhiteboard";
+import Blog from "./pages/Blog";
 
 function App() {
   console.log("App.jsx");
@@ -130,6 +131,7 @@ function App() {
                 </div>
               )}
               <Routes>
+                <Route path="/" element={<Blog  selectedColor={selectedColor} />} />
                 <Route path="/ict" element={<ICT />} />
                 <Route path="/whiteboard" element={<Whiteboard />} />
               </Routes>
