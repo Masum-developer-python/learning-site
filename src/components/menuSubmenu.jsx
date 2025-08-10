@@ -2,8 +2,7 @@ import React, { useState, useRef } from "react";
 import { UserNavigation } from "./navigations";
 import ThemeSelector from "./ThemeSelector";
 import ColorSelector from "./ColorSelector";
-import { PencilRuler, X} from 'lucide-react';
-
+import { PencilRuler, X } from "lucide-react";
 
 function Submenu({
   selectedTheme,
@@ -60,7 +59,7 @@ function Submenu({
     >
       <li key={"w1234"} className="text-xs">
         <hr />
-        
+
         {/* Category Name */}
         <button
           onClick={() => {
@@ -69,12 +68,29 @@ function Submenu({
           }}
           className="block px-3 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000 mx-auto"
         >
-          {whiteboardOpen ? <X className="inline-block " /> : <PencilRuler className="inline-block " />}
+          {whiteboardOpen ? (
+            <X className="inline-block " />
+          ) : (
+            <PencilRuler className="inline-block " />
+          )}
         </button>
-        
+
         <hr />
       </li>
-
+      <li key={"0"} className="">
+        <hr />
+        <br />
+        <br />
+        {/* Category Name */}
+        <a
+          className="block px-3 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000"
+          href={"/"}
+        >
+          Home
+        </a>
+        <br />
+        <hr />
+      </li>
       <li key={"1"} className="">
         <hr />
         <br />

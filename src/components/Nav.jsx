@@ -28,7 +28,6 @@ function Nav({
         w-20 lg:w-32 pl-0 lg:pl-1 h-full flex flex-col justify-between items-start 
         fixed left-1 lg:left-6 h-[calc(100vh-5px)] overflow-y-scroll mt-0`}
       >
-        <div className="text-lg font-bold m-2"></div>
         <Submenu
           selectedTheme={selectedTheme}
           selectedColor={selectedColor}
