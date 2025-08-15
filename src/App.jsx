@@ -2,13 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {
   alphabetColorCombinations,
-  arabicDiacritics,
-  receiveDataFromDjango,
+  
 } from "./data";
 
 import Nav from "./components/Nav";
-
-
 import ICT from "./pages/ICT";
 import Whiteboard from "./components/Whiteboard";
 import OverlayWhiteboard from "./components/OverlayWhiteboard";
@@ -16,24 +13,9 @@ import Blog from "./pages/Blog";
 
 function App() {
   console.log("App.jsx");
-  console.log(arabicDiacritics.Harakat.diacritics[0].pages[0].column);
-  const [arabicAlphabet, setArabicAlphabet] = useState([]);
   const [whiteboardOpen, setWhiteboardOpen] = useState(false);
   const outerRef = useRef(null);
   const whiteboardContainerRef = useRef(null);
-
-  let rootAddress = localStorage.getItem("rootAddress");
-  console.log(rootAddress);
-  useEffect(() => {
-    async function fetchData() {
-      const data = await receiveDataFromDjango(
-        rootAddress + "arabic-alphabets/"
-      );
-      setArabicAlphabet(data); // ✅ Update state with fetched data
-    }
-    fetchData();
-  }, []);
-
   // Initialize state from localStorage or default values
   const [selectedTheme, setSelectedTheme] = useState(() => {
     const saved = localStorage.getItem("arabic-app-theme");
@@ -85,11 +67,6 @@ function App() {
     return reciterList[0];
   });
 
-  // Save to localStorage on change
-  useEffect(() => {
-    localStorage.setItem("arabic-app-reciter", JSON.stringify(selectedReciter));
-    console.log(selectedReciter);
-  }, [selectedReciter]);
 
   useEffect(() => {
     if (outerRef.current && whiteboardContainerRef.current) {
@@ -121,7 +98,7 @@ function App() {
         >
           {/* <OverlayWhiteboard /> */}
           <Router>
-            <main className=" flex w-[calc(100%-10px)] pb-16 sm:pb-4 md:pb-4 ">
+            <main className="bg-[url('/images/logo.png')] bg-no-repeat bg-contain bg-center h-full flex w-[calc(100%-10px)] pb-16 sm:pb-4 md:pb-4 ">
               {whiteboardOpen && (
                 <div
                   ref={whiteboardContainerRef}

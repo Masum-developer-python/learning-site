@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { UserNavigation } from "./navigations";
 import ThemeSelector from "./ThemeSelector";
 import ColorSelector from "./ColorSelector";
 import { PencilRuler, X } from "lucide-react";
@@ -10,16 +9,12 @@ function Submenu({
   setSelectedTheme,
   setSelectedColor,
   alphabetColorCombinations,
-  selectedReciter,
-  setSelectedReciter,
-  reciterList,
   whiteboardOpen = false,
   setWhiteboardOpen,
 }) {
   const [openCategories, setOpenCategories] = useState({});
   const [openSubCategories, setOpenSubCategories] = useState({});
 
-  console.log(whiteboardOpen);
   const toggleCategory = (category) => {
     setOpenCategories((prev) => {
       const isCurrentlyOpen = prev[category];
