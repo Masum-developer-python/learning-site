@@ -1,7 +1,8 @@
 export default function AE() {
   return (
     <div className="w-full">
-      <table className="border border-gray-900 w-[90%] mx-auto text-5xl">
+      
+      <table className="border border-gray-900 w-[90%] mx-auto md:text-5xl">
         <thead className="text-center">
           <tr>
             <th className="border border-gray-900">বামপক্ষ</th>
