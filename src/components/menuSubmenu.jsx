@@ -48,8 +48,7 @@ function Submenu({
   };
   return (
     <ul
-      key={`vlkzb`}
-      className={`font-bangla w-16 md:w-20 lg:w-24 text-xs md:text-xl lg:text-2xl relative h-full text-center whitespace-normal 
+      className={`font-bangla w-16 md:w-20 lg:w-24 text-xs md:text-md lg:text-2xl relative h-full text-center whitespace-normal 
         ${selectedColor.backgroundColor} ${selectedColor.textColor}`}
     >
       <li key={"w1234"} className="text-xs">
@@ -61,7 +60,7 @@ function Submenu({
             // Handle whiteboard button click
             setWhiteboardOpen((prev) => !prev);
           }}
-          className="block px-3 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000 mx-auto"
+          className="block px-1 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000 mx-auto"
         >
           {whiteboardOpen ? (
             <X className="inline-block " />
@@ -78,7 +77,7 @@ function Submenu({
         <br />
         {/* Category Name */}
         <a
-          className="block px-3 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000"
+          className="block px-1 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000"
           href={"/"}
         >
           Home
@@ -92,7 +91,7 @@ function Submenu({
         <br />
         {/* Category Name */}
         <a
-          className="block px-3 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000"
+          className="block px-1 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000"
           href={"/ict"}
         >
           ICT
@@ -106,7 +105,7 @@ function Submenu({
         <br />
         {/* Category Name */}
         <a
-          className="block px-3 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000"
+          className="block px-1 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000"
           href={"/math"}
         >
           Math
@@ -120,7 +119,7 @@ function Submenu({
         <br />
         {/* Category Name */}
         <a
-          className="block px-3 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000"
+          className="block px-1 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000"
           href={"/physics"}
         >
           Physics
@@ -134,7 +133,7 @@ function Submenu({
         <br />
         {/* Category Name */}
         <a
-          className="block px-3 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000"
+          className="block px-1 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000"
           href={"/chemistry"}
         >
           Chemistry
@@ -148,7 +147,7 @@ function Submenu({
         <br />
         {/* Category Name */}
         <a
-          className="block px-3 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000"
+          className="block px-1 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000"
           href={"/whiteboard"}
         >
           হোয়াইট বোর্ড

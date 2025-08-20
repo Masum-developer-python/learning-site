@@ -1,12 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import {
-  alphabetColorCombinations,
-  
-} from "./data";
+import { alphabetColorCombinations } from "./data";
 
 import Nav from "./components/Nav";
 import ICT from "./pages/ICT";
+import Math from "./pages/Math";
 import Whiteboard from "./components/Whiteboard";
 import OverlayWhiteboard from "./components/OverlayWhiteboard";
 import Blog from "./pages/Blog";
@@ -67,7 +65,6 @@ function App() {
     return reciterList[0];
   });
 
-
   useEffect(() => {
     if (outerRef.current && whiteboardContainerRef.current) {
       const scrollHeight = outerRef.current.scrollHeight;
@@ -94,22 +91,32 @@ function App() {
 
         <div
           ref={outerRef}
-          className="flex-1 fixed left-16 md:left-32 lg:left-40 top-0 bottom-12 right-0 overflow-y-auto h-full"
+          className="flex-1 fixed left-16 md:left-24 lg:left-40 top-0 bottom-12 right-0 overflow-y-auto h-full
+          bg-[url('/images/logo.png')] bg-no-repeat bg-contain bg-center"
         >
           {/* <OverlayWhiteboard /> */}
           <Router>
-            <main className="bg-[url('/images/logo.png')] bg-no-repeat bg-contain bg-center h-full flex w-[calc(100%-10px)] pb-16 sm:pb-4 md:pb-4 ">
+            <main
+              className={`bg-white/85 ${selectedColor.backgroundColor} ${selectedColor.textColor} flex w-[calc(100%-10px)] pb-16 sm:pb-4 md:pb-4`}
+            >
               {whiteboardOpen && (
                 <div
                   ref={whiteboardContainerRef}
                   className="w-[calc(100%-10px)] absolute z-10 pb-16 sm:pb-4 md:pb-4 pr-6"
                 >
-                  <Whiteboard whiteboardOpen={whiteboardOpen} height={`${outerRef.current.scrollHeight}px`} />
+                  <Whiteboard
+                    whiteboardOpen={whiteboardOpen}
+                    height={`${outerRef.current.scrollHeight}px`}
+                  />
                 </div>
               )}
               <Routes>
-                <Route path="/" element={<Blog  selectedColor={selectedColor} />} />
+                <Route
+                  path="/"
+                  element={<Blog selectedColor={selectedColor} />}
+                />
                 <Route path="/ict" element={<ICT />} />
+                <Route path="/math" element={<Math />} />
                 <Route path="/whiteboard" element={<Whiteboard />} />
               </Routes>
             </main>
@@ -120,7 +127,7 @@ function App() {
         className="h-auto w-[calc(100%-60px)] mx-auto px-12 flex items-center justify-center text-center font-sans
         text-[#555] border-t border-[#eaeaea] text-base rounded-lg block z-10"
       >
-         Developed by &nbsp;
+        Developed by &nbsp;
         <strong>
           <a href="https://www.facebook.com/rahmatullah.masum/"> Masum </a> @{" "}
           <button title="Rufaidah" className="text-green-500">
