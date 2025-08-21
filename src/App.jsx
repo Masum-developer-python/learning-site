@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { alphabetColorCombinations } from "./data";
+import { useReactToPrint } from "react-to-print";
 
 import Nav from "./components/Nav";
 import ICT from "./pages/ICT";
@@ -72,6 +73,13 @@ function App() {
       console.log("Set whiteboard container height to:", scrollHeight);
     }
   }, [whiteboardOpen]); // Run when whiteboard is opened
+  const sectionRef = useRef();
+  const handlePrint = useReactToPrint({
+    // content: () => sectionRef.current,
+    contentRef: outerRef,
+    documentTitle: "RARe Academy - ",
+  });
+  console.log(handlePrint);
 
   return (
     <div className="min-h-screen flex flex-col ">
@@ -88,16 +96,22 @@ function App() {
           whiteboardOpen={whiteboardOpen}
           setWhiteboardOpen={setWhiteboardOpen}
         />
-
+        <img
+          src="/images/print_btn.png"
+          className="w-10 h-10 fixed top-2 right-2 z-50 cursor-pointer"
+          onClick={handlePrint}
+          width="24"
+          title="প্রিন্ট"
+          alt="print_btn"
+        ></img>
         <div
           ref={outerRef}
           className="flex-1 fixed left-16 md:left-24 lg:left-40 top-0 bottom-12 right-0 overflow-y-auto h-full
           bg-[url('/images/logo.png')] bg-no-repeat bg-contain bg-center"
         >
-          {/* <OverlayWhiteboard /> */}
           <Router>
             <main
-              className={`bg-white/85 ${selectedColor.backgroundColor} ${selectedColor.textColor} flex w-[calc(100%-10px)] pb-16 sm:pb-4 md:pb-4`}
+              className={`bg-white/85 ${selectedColor.backgroundColor} ${selectedColor.textColor} flex w-[calc(100%-0px)] min-h-screen pb-16 sm:pb-4 md:pb-4`}
             >
               {whiteboardOpen && (
                 <div

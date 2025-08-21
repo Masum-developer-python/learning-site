@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { useReactToPrint } from "react-to-print";
 
 import AE from "../components/AlgebraicExpression";
 
@@ -42,25 +41,10 @@ export default function Math() {
     setUnit(selectedTopic);
   };
   const [unit, setUnit] = useState("");
-  const sectionRef = useRef();
-  const handlePrint = useReactToPrint({
-    // content: () => sectionRef.current,
-    contentRef: sectionRef,
-    documentTitle: unit,
-  });
-  console.log(handlePrint);
   return (
     <div className="mx-auto w-[100%]">
-      <img
-        src="/images/print_btn.png"
-        className="w-10 h-10 fixed top-2 right-2 z-50 cursor-pointer"
-        onClick={handlePrint}
-        width="24"
-        title="প্রিন্ট"
-        alt="print_btn"
-      ></img>
       <select
-        className="mb-4 p-2 border border-gray-300 rounded w-full"
+        className=" p-2 border border-gray-300 rounded w-full"
         onChange={handleChange}
       >
         <option value="cover" selected className="text-center">
@@ -68,13 +52,13 @@ export default function Math() {
         </option>
         {mathTopicsList}
       </select>
-      <div ref={sectionRef} className="p-4 border mt-4">
-        {unit === "algebraicExpression" && (
-          <div>
-            <AE />
-          </div>
-        )}
-      </div>
+
+      {unit === "algebraicExpression" && (
+        <div>
+          <AE />
+        </div>
+      )}
+
       {/* Add more components for other topics as needed */}
     </div>
   );
