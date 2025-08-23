@@ -111,7 +111,7 @@ function App() {
         >
           <Router>
             <main
-              className={`bg-white/85 ${selectedColor.backgroundColor} ${selectedColor.textColor} flex w-[calc(100%-0px)] min-h-screen pb-16 sm:pb-4 md:pb-4`}
+              className={`${selectedColor.backgroundColor} ${selectedColor.textColor} flex w-[calc(100%-0px)] min-h-screen pb-16 sm:pb-4 md:pb-4`}
             >
               {whiteboardOpen && (
                 <div
@@ -129,8 +129,8 @@ function App() {
                   path="/"
                   element={<Blog selectedColor={selectedColor} />}
                 />
-                <Route path="/ict" element={<ICT />} />
-                <Route path="/math" element={<Math />} />
+                <Route path="/ict" element={<ICT selectedColor={selectedColor} />} />
+                <Route path="/math" element={<Math selectedColor={selectedColor} />} />
                 <Route path="/whiteboard" element={<Whiteboard />} />
               </Routes>
             </main>
@@ -141,9 +141,9 @@ function App() {
         className="h-auto w-[calc(100%-60px)] mx-auto px-12 flex items-center justify-center text-center font-sans
         text-[#555] border-t border-[#eaeaea] text-base rounded-lg block z-10"
       >
-        Developed by &nbsp;
+        তত্ত্বাবধায়ক :&nbsp; 
         <strong>
-          <a href="https://www.facebook.com/rahmatullah.masum/"> Masum </a> @{" "}
+          <a href="https://www.facebook.com/rahmatullah.masum/"> মাসুম </a> @{" "}
           <button title="Rufaidah" className="text-green-500">
             <em>R </em>
           </button>

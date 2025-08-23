@@ -5,22 +5,22 @@ export const alphabetColorCombinations = [
     theme: "Calm Learning",
     combinations: [
       {
-        backgroundColor: "bg-blue-50",
+        backgroundColor: "bg-blue-50/85",
         textColor: "text-blue-800",
         description: "Soft blue & deep blue",
       },
       {
-        backgroundColor: "bg-orange-50",
+        backgroundColor: "bg-orange-50/85",
         textColor: "text-orange-900",
         description: "Soft orange & deep orange",
       },
       {
-        backgroundColor: "bg-yellow-100",
+        backgroundColor: "bg-yellow-100/85",
         textColor: "text-gray-900",
         description: "Light yellow & dark gray",
       },
       {
-        backgroundColor: "bg-teal-50",
+        backgroundColor: "bg-teal-50/85",
         textColor: "text-teal-900",
         description: "Mild teal & dark teal",
       },
@@ -30,17 +30,17 @@ export const alphabetColorCombinations = [
     theme: "High Contrast",
     combinations: [
       {
-        backgroundColor: "bg-white",
+        backgroundColor: "bg-white/85",
         textColor: "text-black",
         description: "Classic black & white",
       },
       {
-        backgroundColor: "bg-gray-100",
+        backgroundColor: "bg-gray-100/85",
         textColor: "text-indigo-800",
         description: "Light gray & deep indigo",
       },
       {
-        backgroundColor: "bg-yellow-50",
+        backgroundColor: "bg-yellow-50/85",
         textColor: "text-purple-900",
         description: "Soft yellow & deep purple",
       },
@@ -50,17 +50,17 @@ export const alphabetColorCombinations = [
     theme: "Pastel Soft",
     combinations: [
       {
-        backgroundColor: "bg-pink-50",
+        backgroundColor: "bg-pink-50/85",
         textColor: "text-pink-900",
         description: "Soft pink & deep pink",
       },
       {
-        backgroundColor: "bg-blue-100",
+        backgroundColor: "bg-blue-100/85",
         textColor: "text-blue-900",
         description: "Light blue & deep blue",
       },
       {
-        backgroundColor: "bg-green-50",
+        backgroundColor: "bg-green-50/85",
         textColor: "text-green-900",
         description: "Pale green & dark green",
       },
@@ -70,17 +70,17 @@ export const alphabetColorCombinations = [
     theme: "Night Study",
     combinations: [
       {
-        backgroundColor: "bg-gray-900",
+        backgroundColor: "bg-gray-900/85",
         textColor: "text-yellow-100",
         description: "Dark gray & pale yellow",
       },
       {
-        backgroundColor: "bg-black",
+        backgroundColor: "bg-black/85",
         textColor: "text-green-200",
         description: "Black & soft green",
       },
       {
-        backgroundColor: "bg-gray-800",
+        backgroundColor: "bg-gray-800/85",
         textColor: "text-purple-200",
         description: "Charcoal & light purple",
       },

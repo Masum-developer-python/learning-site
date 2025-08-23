@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 
 import AE from "../components/AlgebraicExpression";
 
-export default function Math() {
+export default function Math({ selectedColor }) {
   const mathTopics = {
     realNumber: "সাধারণ গণিত ১ম অধ্যায় - বাস্তব সংখ্যা",
     setFunction: "সাধারণ গণিত ২য় & উচ্চতর গণিত ১ম অধ্যায় - সেট ও ফাংশন",
@@ -32,7 +32,7 @@ export default function Math() {
     // probability: "সম্ভাবনা",
   };
   const mathTopicsList = Object.entries(mathTopics).map(([key, value]) => (
-    <option key={key} value={key} className="text-center w-full">
+    <option key={key} value={key} className={`text-center w-full ${selectedColor.textColor} ${selectedColor.backgroundColor}`}>
       {value}
     </option>
   ));
@@ -44,10 +44,10 @@ export default function Math() {
   return (
     <div className="mx-auto w-[100%]">
       <select
-        className=" p-2 border border-gray-300 rounded w-full"
+        className={`p-2 border rounded w-full ${selectedColor.textColor} ${selectedColor.backgroundColor}`}
         onChange={handleChange}
       >
-        <option value="cover" selected className="text-center">
+        <option value="cover" selected className={`text-center ${selectedColor.textColor} ${selectedColor.backgroundColor}`}>
           অধ্যায় নির্বাচন করুন
         </option>
         {mathTopicsList}
