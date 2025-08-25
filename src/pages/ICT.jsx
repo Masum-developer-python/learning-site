@@ -97,18 +97,18 @@ const ICT = () => {
             </select>
             <br />
             <div className="mt-4">
-              <p className="text-6xl">
+              {/* <p className="text-6xl">
                 {tergetedBase && (
                   <>
                     {integerPart || "0"}
-                    <sub>{inputBase}</sub> {" => "}
+                    <sub>{inputBase}</sub> {" ==> "}
                     {` ${parseInt(integerPart, inputBase)
                       .toString(tergetedBase)
                       .toUpperCase()}`}{" "}
                     <sub>{tergetedBase}</sub>
                   </>
                 )}
-              </p>
+              </p> */}
               <br />
               {/* //--------------------------------------------------------------------------------------------------- */}
               {tergetedBase && input && inputBase == 10 && (
@@ -152,7 +152,7 @@ const ICT = () => {
                           <p className="text-4xl text-left">
                             {integerPart || "0"}
                             {fractionalPart ? `.${fractionalPart}` : ""}
-                            <sub>{inputBase}</sub> {" => "}
+                            <sub>{inputBase}</sub> {" => "} (
                             {reminders.reverse().map((reminder, index) => (
                               <div key={index} className="inline-block">
                                 {` ${parseInt(reminder, inputBase)
@@ -160,17 +160,16 @@ const ICT = () => {
                                   .toUpperCase()}`}
                               </div>
                             ))}
-                            .
+                            {fractionalPart ? "." : ""}
                             {integerSteps.map((reminder, index) => (
                               <div key={index} className="inline-block">
                                 {` ${parseInt(reminder, inputBase)
                                   .toString(tergetedBase)
                                   .toUpperCase()}`}
-                                {index == integerSteps.length - 1 && (
-                                  <sub>{tergetedBase}</sub>
-                                )}
+                                {tempFractionalPart != 0 && index == integerSteps.length - 1 ? '.....' : ''}
                               </div>
                             ))}
+                            )<sub>{tergetedBase}</sub>
                           </p>
                         </div>
                         <div className="flex mt-16">
