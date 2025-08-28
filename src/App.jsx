@@ -73,13 +73,20 @@ function App() {
       console.log("Set whiteboard container height to:", scrollHeight);
     }
   }, [whiteboardOpen]); // Run when whiteboard is opened
-  const sectionRef = useRef();
-  const handlePrint = useReactToPrint({
+  const [isPrinting, setIsPrinting] = useState(false);
+  const handlePrint = async () => {
+    setIsPrinting(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    console.log("Printing started");
+    print();
+    setIsPrinting(false);
+    console.log("Printing finished");
+  };
+  const print = useReactToPrint({
     // content: () => sectionRef.current,
     contentRef: outerRef,
     documentTitle: "RARe Academy - ",
   });
-  console.log(handlePrint);
 
   return (
     <div className="min-h-screen flex flex-col ">
@@ -106,8 +113,8 @@ function App() {
         ></img>
         <div
           ref={outerRef}
-          className="flex-1 fixed left-16 md:left-24 lg:left-40 top-0 bottom-12 right-0 overflow-y-auto h-full
-          bg-[url('/images/logo.png')] bg-no-repeat bg-contain bg-center"
+          className="flex-1 absolute left-16 md:left-24 lg:left-40 top-0 bottom-12 right-0 min-h-screen
+          bg-[url('/images/logo.png')] bg-no-repeat bg-contain bg-center bg-scroll"
         >
           <Router>
             <main
@@ -138,7 +145,7 @@ function App() {
         </div>
       </div>
       <footer
-        className="h-auto w-[calc(100%-60px)] mx-auto px-12 flex items-center justify-center text-center font-sans
+        className="h-auto w-[calc(100%-60px)] fixed bottom-0 left-0 right-0 mx-auto px-12 flex items-center justify-center text-center font-sans
         text-[#555] border-t border-[#eaeaea] text-base rounded-lg block z-10"
       >
         তত্ত্বাবধায়ক :&nbsp; 
