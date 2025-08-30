@@ -56,7 +56,7 @@ export default function Unit3({ topic, selectedColor }) {
               Select target base:
             </label> */}
 
-          <span className="text-3xl">{'=>(?)'}</span>
+          <span className="text-3xl">{"=>(?)"}</span>
           <sub>
             <select
               className={`inline-block bg-white/10 w-[40px] border-gray-300 rounded-md shadow-sm p-1 
@@ -153,7 +153,7 @@ export default function Unit3({ topic, selectedColor }) {
                           )<sub>{tergetedBase}</sub>
                         </p>
                       </div>
-                      <div className="flex mt-16">
+                      <div className="flex mt-16 print:flex-col print:text-left">
                         <div className="w-1/2 mx-auto mt-12">
                           <table className="border-collapse font-bangla mx-auto">
                             <tr className="w-full ">
@@ -210,60 +210,65 @@ export default function Unit3({ topic, selectedColor }) {
                             ))}
                           </table>
                         </div>
-                        <div className="w-1/4 mx-auto mt-4">
-                          {/* ------------------- */}
-                          <button
-                            className="bg-blue-500 text-white px-4 py-2 rounded inline-block"
-                            onClick={() => {
-                              setStepCount(stepCount + 1);
-                            }}
-                          >
-                            +
-                          </button>
-                          <button
-                            className="bg-red-500 text-white px-4 py-2 rounded ml-2 inline-block"
-                            onClick={() => {
-                              if (stepCount > 1) {
-                                setStepCount(stepCount - 1);
-                              }
-                            }}
-                          >
-                            -
-                          </button>
-                          <br />
-                          <table className="border-collapse font-bangla mx-auto">
-                            <tr className="w-full ">
-                              <td className="font-semibold text-right ">
-                                <div className=" inline-block">&nbsp;</div>
-                                <div className=" inline-block border-l border-b border-gray-900">
-                                  &nbsp;
-                                  {`${(
-                                    fractionalPart /
-                                    10 ** fractionalPart.length
-                                  ).toFixed(3)}`}
-                                  <br />x {tergetedBase}
-                                </div>
-                              </td>
-                            </tr>
-                            {fractionalSteps.map((step, index) => (
-                              <tr key={index} className="w-full">
-                                <td className="font-semibold text-right ">
-                                  <div className=" inline-block">
-                                    {integerSteps[index]}
-                                  </div>
+                        <hr className="hidden border-gray-900 print:block"/>
+                        {/* ------------------- */}
+                        {fractionalPart !== 0 && (
+                          <div className="w-1/4 mx-auto mt-4">
+                            {/* ------------------- */}
+                            <button
+                              className="bg-blue-500 text-white px-4 py-2 rounded inline-block print:hidden"
+                              onClick={() => {
+                                setStepCount(stepCount + 1);
+                              }}
+                            >
+                              +
+                            </button>
+                            <button
+                              className="bg-red-500 text-white px-4 py-2 rounded ml-2 inline-block print:hidden"
+                              onClick={() => {
+                                if (stepCount > 1) {
+                                  setStepCount(stepCount - 1);
+                                }
+                              }}
+                            >
+                              -
+                            </button>
+                            <br />
 
-                                  <div
-                                    className={`inline-block border-l border-b border-gray-900`}
-                                  >
-                                    &nbsp;{step}
-                                    <br />
-                                    {`x ${tergetedBase}`}
+                            <table className="border-collapse font-bangla mx-auto">
+                              <tr className="w-full ">
+                                <td className="font-semibold text-right ">
+                                  <div className=" inline-block">&nbsp;</div>
+                                  <div className=" inline-block border-l border-b border-gray-900">
+                                    &nbsp;
+                                    {`${(
+                                      fractionalPart /
+                                      10 ** fractionalPart.length
+                                    ).toFixed(3)}`}
+                                    <br />x {tergetedBase}
                                   </div>
                                 </td>
                               </tr>
-                            ))}
-                          </table>
-                        </div>
+                              {fractionalSteps.map((step, index) => (
+                                <tr key={index} className="w-full">
+                                  <td className="font-semibold text-right ">
+                                    <div className=" inline-block">
+                                      {integerSteps[index]}
+                                    </div>
+
+                                    <div
+                                      className={`inline-block border-l border-b border-gray-900`}
+                                    >
+                                      &nbsp;{step}
+                                      <br />
+                                      {`x ${tergetedBase}`}
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </table>
+                          </div>
+                        )}
                       </div>
                       {/* ---------------------- */}
                     </div>
