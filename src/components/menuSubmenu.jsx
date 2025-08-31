@@ -85,6 +85,20 @@ function Submenu({
         <br />
         <hr />
       </li>
+      <li key={"z0"} className="">
+        <hr />
+        <br />
+        <br />
+        {/* Category Name */}
+        <a
+          className="block px-1 py-2 rounded hover:bg-blue-700 focus:bg-red-200 transition duration-1000"
+          href={"https://growwithquran.xyz/"}
+        >
+          Quran
+        </a>
+        <br />
+        <hr />
+      </li>
       <li key={"1"} className="">
         <hr />
         <br />
