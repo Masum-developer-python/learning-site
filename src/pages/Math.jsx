@@ -1,35 +1,31 @@
 import React, { useState, useRef } from "react";
 
-import AE from "../components/AlgebraicExpression";
+import AE from "../components/math/AlgebraicExpression";
 
 export default function Math({ selectedColor }) {
   const mathTopics = {
-    realNumber: "সাধারণ গণিত ১ম অধ্যায় - বাস্তব সংখ্যা",
-    setFunction: "সাধারণ গণিত ২য় & উচ্চতর গণিত ১ম অধ্যায় - সেট ও ফাংশন",
-    algebraicExpression:
-      "সাধারণ গণিত ৩য় & উচ্চতর গণিত ২য় অধ্যায় - বীজগাণিতিক রাশি",
-    exponentLogarithm:
-      "সাধারণ গণিত ৪র্থ অধ্যায়  & উচ্চতর গণিত ৯ম অধ্যায় - সূচক ও লগারিদম (সূচকীয় ও লগারিদমিক ফাংশনসহ)",
-    equation:
-      "সাধারণ গণিত ৫ম অধ্যায় & উচ্চতর গণিত ৫ম অধ্যায় - সমীকরণ (এক চলক ও দুই চলক বিশিষ্ট)",
-    seriesSequence:
-      "সাধারণ গণিত ১৩শ অধ্যায়  & উচ্চতর গণিত ৭ম অধ্যায় - সসীম ধারা ও অসীম ধারা",
-    // inequality: "সাধারণ গণিত ১ম অধ্যায় - অসমতা",
-    // ratioProportion: "সাধারণ গণিত ১ম অধ্যায় - অনুপাত ও সমানুপাত (বীজগাণিতিক অনুপাত-সমানুপাতসহ)",
-    // binomialExpansion: "দ্বিপদী বিস্তৃতি (Binomial expansion)",
-    // areaTheoremProblem: "ক্ষেত্রফল সম্পর্কিত উপপাদ্য ও সমস্যা",
-    // mensuration: "পরিচিতি",
-    // coordinateGeometry: "স্থানাঙ্ক জ্যামিতি",
-    // practicalGeometry: "ব্যবহারিক/প্রয়োগমূলক জ্যামিতি",
-    // lineAngleTriangle: "রেখা, কোণ ও ত্রিভুজ",
-    // circle: "বৃত্ত",
-    // geometricConstruction: "জ্যামিতিক আকারণ",
-    // solidGeometry: "ঘন জ্যামিতি",
-    // trigonometry: "ত্রিকোণমিতি (অনুপাত, দূরত্ব ও উচ্চতাসহ)",
-    // vector: "ভেক্টর (সমতলীয় ও ত্রিমাত্রিক ভেক্টর)",
-    // similaritySymmetry: "অনুপাত, সদৃশতা ও প্রতিসমতা",
-    // statistics: "পরিসংখ্যান",
-    // probability: "সম্ভাবনা",
+    algebraicExpression: "বীজগাণিতিক রাশি",
+    realNumber: "বাস্তব সংখ্যা",
+    setFunction: "সেট ও ফাংশন",
+    exponentLogarithm: "সূচক ও লগারিদম (সূচকীয় ও লগারিদমিক ফাংশনসহ)",
+    equation: "সমীকরণ (এক চলক ও দুই চলক বিশিষ্ট)",
+    seriesSequence: "সসীম ধারা ও অসীম ধারা",
+    inequality: "অসমতা",
+    ratioProportion: "অনুপাত ও সমানুপাত (বীজগাণিতিক অনুপাত-সমানুপাতসহ)",
+    binomialExpansion: "দ্বিপদী বিস্তৃতি (Binomial expansion)",
+    areaTheoremProblem: "ক্ষেত্রফল সম্পর্কিত উপপাদ্য ও সমস্যা",
+    mensuration: "পরিচিতি",
+    coordinateGeometry: "স্থানাঙ্ক জ্যামিতি",
+    practicalGeometry: "ব্যবহারিক/প্রয়োগমূলক জ্যামিতি",
+    lineAngleTriangle: "রেখা, কোণ ও ত্রিভুজ",
+    circle: "বৃত্ত",
+    geometricConstruction: "জ্যামিতিক আকারণ",
+    solidGeometry: "ঘন জ্যামিতি",
+    trigonometry: "ত্রিকোণমিতি (অনুপাত, দূরত্ব ও উচ্চতাসহ)",
+    vector: "ভেক্টর (সমতলীয় ও ত্রিমাত্রিক ভেক্টর)",
+    similaritySymmetry: "অনুপাত, সদৃশতা ও প্রতিসমতা",
+    statistics: "পরিসংখ্যান",
+    probability: "সম্ভাবনা",
   };
   const mathTopicsList = Object.entries(mathTopics).map(([key, value]) => (
     <option key={key} value={key} className={`text-center w-full ${selectedColor.textColor} ${selectedColor.backgroundColor}`}>
@@ -44,7 +40,7 @@ export default function Math({ selectedColor }) {
   return (
     <div className="mx-auto w-[100%]">
       <select
-        className={`p-2 border rounded w-full ${selectedColor.textColor} ${selectedColor.backgroundColor}`}
+        className={`p-2 print:hidden border rounded w-full ${selectedColor.textColor} ${selectedColor.backgroundColor}`}
         onChange={handleChange}
       >
         <option value="cover" selected className={`text-center ${selectedColor.textColor} ${selectedColor.backgroundColor}`}>
@@ -54,8 +50,8 @@ export default function Math({ selectedColor }) {
       </select>
 
       {unit === "algebraicExpression" && (
-        <div>
-          <AE />
+        <div className="w-full">
+          <AE  selectedColor={selectedColor}/>
         </div>
       )}
 

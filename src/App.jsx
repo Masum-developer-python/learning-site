@@ -114,17 +114,19 @@ function App() {
         <div
           ref={outerRef}
           className="flex-1 absolute left-16 md:left-24 lg:left-40 top-0 bottom-12 right-0
-          before:absolute before:content-[''] before:inset-0 before:bg-[url('/images/logo.png')] 
-          before:bg-[length:auto_100%] before:bg-center before:bg-repeat-y before:opacity-60 before:-z-10 
-           print:left-0 print:text-2xl print:before:bg-[length:80%_auto] print:before:mt-10
+          before:fixed before:content-[''] before:inset-0 before:bg-[url('/images/logo.png')] 
+          before:bg-[length:auto_100%] before:bg-center before:bg-repeat-y before:opacity-30 before:-z-10 
+          print:left-0 print:text-2xl print:before:bg-[length:80%_auto] print:before:mt-10 print:before:opacity-50
           print:before:left-16 print:before:bg-no-repeat print:before:bg-center print:before:fixed
+          print:p-4
           "
         >
           <Router>
             <main
-              className={` ${selectedColor.textColor} flex w-[calc(100%-0px)] min-h-screen pb-16 sm:pb-4 md:pb-4
-              before:content-['01521454171'] before:fixed
-              before:bottom-10 before:left-4
+              className={` ${selectedColor.textColor} flex w-[calc(100%)] min-h-screen pb-16 sm:pb-4 md:pb-4
+              before:content-['01521454171'] before:fixed 
+              before:w-full before:text-center
+              before:bottom-10 
               before:text-blue-500 before:opacity-60 
               before:text-[110px] before:font-bold before:tracking-widest 
               before:pointer-events-none before:select-none
