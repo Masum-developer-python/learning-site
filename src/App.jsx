@@ -115,22 +115,35 @@ function App() {
           ref={outerRef}
           className="flex-1 absolute left-16 md:left-24 lg:left-40 top-0 bottom-12 right-0
           before:fixed before:content-[''] before:inset-0 before:bg-[url('/images/logo.png')] 
-          before:bg-[length:auto_100%] before:bg-center before:bg-repeat-y before:opacity-30 before:-z-10 
-          print:left-0 print:text-2xl print:before:bg-[length:80%_auto] print:before:mt-10 print:before:opacity-50
-          print:before:left-16 print:before:bg-no-repeat print:before:bg-center print:before:fixed
-          print:p-4
+          before:bg-[length:auto_100%] before:bg-center before:bg-repeat-y before:opacity-60 before:-z-10 
+          print:left-0 print:right-0 print:text-2xl print:before:bg-[length:80%_auto] print:before:mt-10 
+          print:before:bg-no-repeat print:before:bg-center print:before:fixed print:before:opacity-40
+          print:p-8 print:before:content-[''] 
+          print:before:text-[60px] print:before:text-gray-900
+          print:before:font-bold print:before:tracking-widest print:before:text-center
+          
           "
         >
           <Router>
             <main
-              className={` ${selectedColor.textColor} flex w-[calc(100%)] min-h-screen pb-16 sm:pb-4 md:pb-4
-              before:content-['01521454171'] before:fixed 
-              before:w-full before:text-center
+              className={` ${selectedColor.textColor} flex w-[calc(100%)] min-h-screen 
+              pb-16 sm:pb-4 md:pb-4 print:pb-0
+              before:content-['01907656585'] before:fixed
+              before:w-full before:text-left
               before:bottom-10 
               before:text-blue-500 before:opacity-60 
-              before:text-[110px] before:font-bold before:tracking-widest 
+              before:text-[50px] before:font-bold before:tracking-widest 
+              
               before:pointer-events-none before:select-none
-              print:before:block before:hidden
+              print:before:block before:hidden 
+
+              after:content-['01521454171'] after:fixed
+              after:w-full after:text-right
+              after:bottom-10 after:right-2
+              after:text-red-500 after:opacity-60 
+              after:text-[50px] after:font-bold after:tracking-widest 
+              after:pointer-events-none after:select-none
+              print:after:block after:hidden
               `}
             >
               {whiteboardOpen && (

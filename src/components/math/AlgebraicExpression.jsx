@@ -1,10 +1,12 @@
 export default function AE({ selectedColor }) {
   return (
     <div
-      className={`w-full print:text-xl ${selectedColor.textColor} ${selectedColor.backgroundColor}`}
+      className={`mx-auto print:text-xl ${selectedColor.textColor} ${selectedColor.backgroundColor} print:text-black
+      print:bg-transparent print:bg-opacity-0
+      `}
     >
       <tcaption className="text-center print:flex print:justify-center text-3xl md:text-5xl mb-4 mt-2">
-        বীজগাণিতিক রাশির মূল সূত্রাবলী
+        বীজগাণিতিক রাশির সূত্রাবলী
       </tcaption>
       <table
         className="border border-collapse w-full border-gray-900 
@@ -97,7 +99,7 @@ export default function AE({ selectedColor }) {
               a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>+2ab+2bc+2ca
             </td>
           </tr>
-          <tr className="break-inside-avoid break-after-page">
+          <tr className="break-inside-avoid">
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>+2(ab+bc+ca)
             </td>
@@ -165,7 +167,7 @@ export default function AE({ selectedColor }) {
           {/* a3+b3+c3 -3abc */}
           <tr className="break-inside-avoid">
             <td className="border overflow-x-auto border-gray-900 p-2 py-3" rowSpan={2}>
-              a<sup>3</sup>+b<sup>3</sup>+c<sup>3</sup>-3abc
+              a<sup>3</sup>+b<sup>3</sup>+c<sup>3</sup><br/>-3abc
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               (a+b+c)(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>-ab-bc-ca)
