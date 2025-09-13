@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 export default function Whiteboard({
   whiteboardOpen = false,
   height = "100%",
+  selectedColor,
 }) {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
@@ -538,7 +539,7 @@ export default function Whiteboard({
     "#ff0000",
     "#00ff00",
     "#0000ff",
-    "#ffff00",
+    "#8f8f00",
     "#ff00ff",
     "#00ffff",
     "#ffa500",
@@ -555,9 +556,10 @@ export default function Whiteboard({
       canvasRef.current.style.height = '100%';
     }
   }, [whiteboardOpen]);
+  console.log(selectedColor)
   return (
     <div
-      className={`flex flex-col w-[calc(100%-10px)] h-[${height}] absolute z-10 pb-16 sm:pb-4 md:pb-4 pr-6`}
+      className={`flex flex-col w-[calc(100%-10px)] h-[${height}] ${selectedColor.backgroundColor} absolute z-10 pb-16 sm:pb-4 md:pb-4 pr-6`}
     >
       {/* Header Toolbar */}
       {!whiteboardOpen && (
@@ -654,7 +656,7 @@ export default function Whiteboard({
             </div>
 
             {/* Color Picker */}
-            <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-2">
+            <div className="flex items-center gap-2 rounded-lg p-2">
               <input
                 type="color"
                 value={color}

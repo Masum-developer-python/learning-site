@@ -113,8 +113,8 @@ function App() {
         ></img>
         <div
           ref={outerRef}
-          className="flex-1 absolute left-16 md:left-24 lg:left-40 top-0 bottom-12 right-0
-          before:fixed before:content-[''] before:inset-0 before:bg-[url('/images/logo.png')] 
+          className="flex-1 absolute left-20 md:left-24 lg:left-40 top-0 bottom-12 right-0
+          before:fixed before:left-20 before:md:left-24 before:lg:left-40 before:content-[''] before:inset-0 before:bg-[url('/images/logo.png')] 
           before:bg-[length:auto_100%] before:bg-center before:bg-repeat-y before:opacity-60 before:-z-10 
           print:left-0 print:right-0 print:text-2xl print:before:bg-[length:80%_auto] print:before:mt-10 
           print:before:bg-no-repeat print:before:bg-center print:before:fixed print:before:opacity-40
@@ -154,6 +154,7 @@ function App() {
                   <Whiteboard
                     whiteboardOpen={whiteboardOpen}
                     height={`${outerRef.current.scrollHeight}px`}
+                    selectedColor=""
                   />
                 </div>
               )}
@@ -170,7 +171,15 @@ function App() {
                   path="/math"
                   element={<Math selectedColor={selectedColor} />}
                 />
-                <Route path="/whiteboard" element={<Whiteboard />} />
+                <Route
+                  path="/whiteboard"
+                  element={
+                    <Whiteboard
+                      selectedColor={selectedColor}
+                      height={`1000px`}
+                    />
+                  }
+                />
               </Routes>
             </main>
           </Router>

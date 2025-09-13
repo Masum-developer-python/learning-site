@@ -1,4 +1,21 @@
+import React from "react";
+import MathJax from "react-mathjax2";
+
 export default function AE({ selectedColor }) {
+  
+  // প্রতিটি প্রশ্নের জন্য LaTeX অংশ আলাদা করে রাখতে পারি (optional)
+  const questionsLatex = [
+    "a - b = 4, \\ ab = 60\\Rightarrow a + b = ?",
+    "a + b = 9m, \\ ab = 18m^2\\Rightarrow a - b = ?",
+    "x - \\frac{1}{x} = 4 \\Rightarrow x^4 + \\frac{1}{x^4} = 322",
+    "2x + \\frac{2}{x} = 3 \\Rightarrow x^2 + \\frac{1}{x^2} = ?",
+    "a + \\frac{1}{a} = 2 \\Rightarrow a^2 + \\frac{1}{a^2} = a^4 + \\frac{1}{a^4}",
+    "a + b = \\sqrt{7}, a - b = \\sqrt{5} \\Rightarrow 8ab(a^2 + b^2) = 24",
+    "a + b + c = 9,  ab + bc + ca = 31 \\Rightarrow a^2 + b^2 + c^2 = ?",
+    "a^2 + b^2 + c^2 = 9, \\ ab + bc + ca = 8 \\Rightarrow (a+b+c)^2 = ?",
+    "a + b + c = 6, \\  (a^2+b^2+c^2)  = 14 \\Rightarrow (a-b)^2 + (b-c)^2 + (c-a)^2 = ?",
+    "x=3, y=4, z=5 \\Rightarrow 9x^2 + 16y^2 + 4z^2 - 24xy - 16yz + 12zx = ?",
+  ];
   return (
     <div
       className={`mx-auto print:text-xl ${selectedColor.textColor} ${selectedColor.backgroundColor} print:text-black
@@ -10,7 +27,7 @@ export default function AE({ selectedColor }) {
       </tcaption>
       <table
         className="border border-collapse w-full border-gray-900 
-        mx-auto md:text-5xl overflow-x-auto break-after-page
+        mx-auto md:text-5xl overflow-x-auto
       "
       >
         <thead className="text-center">
@@ -22,7 +39,10 @@ export default function AE({ selectedColor }) {
         <tbody>
           {/* a+b 2*/}
           <tr className="break-inside-avoid">
-            <td className="border overflow-x-auto border-gray-900 p-2 py-3" rowSpan={2}>
+            <td
+              className="border overflow-x-auto border-gray-900 p-2 py-3"
+              rowSpan={2}
+            >
               (a+b)<sup>2</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
@@ -36,7 +56,10 @@ export default function AE({ selectedColor }) {
           </tr>
           {/* a-b 2*/}
           <tr className="break-inside-avoid">
-            <td className="border overflow-x-auto border-gray-900 p-2 py-3" rowSpan={2}>
+            <td
+              className="border overflow-x-auto border-gray-900 p-2 py-3"
+              rowSpan={2}
+            >
               (a-b)<sup>2</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
@@ -51,7 +74,10 @@ export default function AE({ selectedColor }) {
 
           {/* a2+b2 */}
           <tr className="break-inside-avoid">
-            <td className="border overflow-x-auto border-gray-900 p-2 py-3" rowSpan={2}>
+            <td
+              className="border overflow-x-auto border-gray-900 p-2 py-3"
+              rowSpan={2}
+            >
               a<sup>2</sup>+b<sup>2</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
@@ -76,7 +102,9 @@ export default function AE({ selectedColor }) {
 
           {/*4 ab */}
           <tr className="break-inside-avoid">
-            <td className="border overflow-x-auto border-gray-900 p-2 py-3">4ab</td>
+            <td className="border overflow-x-auto border-gray-900 p-2 py-3">
+              4ab
+            </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               (a+b)<sup>2</sup>-(a-b)<sup>2</sup>
             </td>
@@ -87,12 +115,17 @@ export default function AE({ selectedColor }) {
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               a<sup>2</sup>-b<sup>2</sup>
             </td>
-            <td className="border overflow-x-auto border-gray-900 p-2 py-3">(a+b)(a-b)</td>
+            <td className="border overflow-x-auto border-gray-900 p-2 py-3">
+              (a+b)(a-b)
+            </td>
           </tr>
 
           {/* a+b+c */}
           <tr className="break-inside-avoid">
-            <td className="border overflow-x-auto border-gray-900 p-2 py-3" rowSpan={2}>
+            <td
+              className="border overflow-x-auto border-gray-900 p-2 py-3"
+              rowSpan={2}
+            >
               (a+b+c)<sup>2</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
@@ -107,7 +140,10 @@ export default function AE({ selectedColor }) {
 
           {/* a+b 3*/}
           <tr className="break-inside-avoid">
-            <td className="border overflow-x-auto border-gray-900 p-2 py-3" rowSpan={2}>
+            <td
+              className="border overflow-x-auto border-gray-900 p-2 py-3"
+              rowSpan={2}
+            >
               (a+b)<sup>3</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
@@ -121,7 +157,10 @@ export default function AE({ selectedColor }) {
           </tr>
           {/* a+b 3*/}
           <tr className="break-inside-avoid">
-            <td className="border overflow-x-auto border-gray-900 p-2 py-3" rowSpan={2}>
+            <td
+              className="border overflow-x-auto border-gray-900 p-2 py-3"
+              rowSpan={2}
+            >
               (a-b)<sup>3</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
@@ -136,7 +175,10 @@ export default function AE({ selectedColor }) {
 
           {/* a3+b3 */}
           <tr className="break-inside-avoid">
-            <td className="border overflow-x-auto border-gray-900 p-2 py-3" rowSpan={2}>
+            <td
+              className="border overflow-x-auto border-gray-900 p-2 py-3"
+              rowSpan={2}
+            >
               a<sup>3</sup>+b<sup>3</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
@@ -151,7 +193,10 @@ export default function AE({ selectedColor }) {
 
           {/* a3-b3 */}
           <tr className="break-inside-avoid">
-            <td className="border overflow-x-auto border-gray-900 p-2 py-3" rowSpan={2}>
+            <td
+              className="border overflow-x-auto border-gray-900 p-2 py-3"
+              rowSpan={2}
+            >
               a<sup>3</sup>-b<sup>3</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
@@ -166,8 +211,13 @@ export default function AE({ selectedColor }) {
 
           {/* a3+b3+c3 -3abc */}
           <tr className="break-inside-avoid">
-            <td className="border overflow-x-auto border-gray-900 p-2 py-3" rowSpan={2}>
-              a<sup>3</sup>+b<sup>3</sup>+c<sup>3</sup><br/>-3abc
+            <td
+              className="border overflow-x-auto border-gray-900 p-2 py-3"
+              rowSpan={2}
+            >
+              a<sup>3</sup>+b<sup>3</sup>+c<sup>3</sup>
+              <br />
+              -3abc
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               (a+b+c)(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>-ab-bc-ca)
@@ -184,27 +234,27 @@ export default function AE({ selectedColor }) {
       </table>
 
       <div
-        className={`h-16 ${selectedColor.textColor} ${selectedColor.backgroundColor}`}
+        className={` ${selectedColor.textColor}`}
       >
         <pre
-          className={`overflow-x-auto whitespace-pre-wrap break-words p-4 md:text-2xl ${selectedColor.textColor} ${selectedColor.backgroundColor}`}
+          className={`overflow-x-hidden text-left break-words p-4 print:p-0 md:text-2xl ${selectedColor.textColor}`}
         >
           {`
 =================================================================
      সমস্যা সমাধান এর বিস্তারিত ব্যাখ্যা
 =================================================================
 
-প্রশ্ন: a - b = 4 এবং ab = 60 হলে, a + b এর মান কত?
+  প্রশ্ন: a - b = 4 এবং ab = 60 হলে, a + b এর মান কত?
 
 -----------------------------------------------------------------
-ধাপ ১: কী কী তথ্য দেওয়া আছে?
+    ধাপ ১: কী কী তথ্য দেওয়া আছে?
 -----------------------------------------------------------------
-✓ দেওয়া আছে: a - b = 4
-✓ দেওয়া আছে: ab = 60  
-? খুঁজতে হবে: a + b = ?
+  ✓ দেওয়া আছে: a - b = 4
+  ✓ দেওয়া আছে: ab = 60  
+  ? খুঁজতে হবে: a + b = ?
 
 -----------------------------------------------------------------
-ধাপ ২: কোন সূত্র ব্যবহার করব?
+    ধাপ ২: কোন সূত্র ব্যবহার করব?
 -----------------------------------------------------------------
 
 পদ্ধতি ১: (a + b)² = a² + 2ab + b² ❌
@@ -228,71 +278,48 @@ export default function AE({ selectedColor }) {
     সুবিধা: সব তথ্য জানা আছে!
 
 -----------------------------------------------------------------
-ধাপ ৩: সূত্রটি কোথা থেকে এলো?
+    ধাপ ৩: সমাধান প্রক্রিয়া
 -----------------------------------------------------------------
 
-গাণিতিক প্রমাণ:
-    (a + b)² = a² + 2ab + b²  ... (১)
-    (a - b)² = a² - 2ab + b²  ... (২)
-
-    (১) - (২) করলে:
-    (a + b)² - (a - b)² = 4ab
-    
-    ∴ (a + b)² = (a - b)² + 4ab
-
------------------------------------------------------------------
-ধাপ ৪: সমাধান প্রক্রিয়া
------------------------------------------------------------------
-
-দেওয়া: a - b = 4, ab = 60
-
-সূত্র প্রয়োগ: (a + b)² = (a - b)² + 4ab
-
-মান বসানো:
-    (a + b)² = (4)² + 4(60)
-    (a + b)² = 16 + 240  
-    (a + b)² = 256
-
-বর্গমূল নেওয়া:
-    a + b = ±√256 = ±16
-
------------------------------------------------------------------
-ধাপ ৫: কেন দুটি উত্তর (+16 এবং -16)?
------------------------------------------------------------------
-
-গাণিতিক কারণ:
-    √256 = +16 অথবা -16
-    কারণ: (+16)² = 256 এবং (-16)² = 256
-
-যাচাই:
-    ক্ষেত্রে ১: a = 10, b = 6
-    • a - b = 10 - 6 = 4 ✅
-    • ab = 10 × 6 = 60 ✅  
-    • a + b = 10 + 6 = 16 ✅
+দেওয়া আছে ,
+    a - b = 4
+ এবং ab = 60
+  জানি, 
+    (a + b)² = (a - b)² + 4ab
+  বা,(a + b)² = (4)² + 4(60)
+  বা,(a + b)² = 16 + 240  
+  বা,(a + b)² = 256
+  বা, a + b   = √256 
+  ∴  a + b   = 16
 
 =================================================================
-মূল শিক্ষা
+    মূল শিক্ষা
 =================================================================
 
 🎯 সূত্র নির্বাচনের নীতি:
    1. দেওয়া তথ্য চিহ্নিত করুন
    2. কোন সূত্রে সেই তথ্যগুলো আছে খুঁজুন  
    3. যে সূত্রে সব জানা রাশি আছে, সেটাই ব্যবহার করুন
-
-📝 মনে রাখার কৌশল:
-   • a - b এবং ab দেওয়া → (a + b)² = (a - b)² + 4ab
-   • a + b এবং ab দেওয়া → (a - b)² = (a + b)² - 4ab  
-   • a + b এবং a - b দেওয়া → ab = [(a+b)² - (a-b)²]/4
-
-=================================================================
-অনুশীলনী প্রশ্ন
-=================================================================
-
-1. a + b = 8 এবং ab = 15 হলে, a - b = ?
-2. a - b = 6 এবং ab = 27 হলে, a + b = ?  
-3. a + b = 12 এবং a - b = 4 হলে, ab = ?
 `}
         </pre>
+      </div>
+
+      <div className="relative max-w-4xl mx-auto p-6  shadow-lg rounded-xl z-0">
+        <h1 className="text-2xl font-bold text-blue-300/35 mb-6 text-center">
+          গণিত প্রশ্ন
+        </h1>
+        <MathJax.Context input="tex">
+          <ol className="space-y-4 text-2xl md:text-4xl">
+            {questionsLatex.map((q, i) => (
+              <li
+                key={i}
+                className="bg-blue-100/35 p-3 rounded-lg shadow-sm hover:bg-blue-300/35 print:bg-blue-100/10 transition"
+              >
+                <MathJax.Node>{q}</MathJax.Node>
+              </li>
+            ))}
+          </ol>
+        </MathJax.Context>
       </div>
     </div>
   );

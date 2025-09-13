@@ -88,6 +88,95 @@ export const alphabetColorCombinations = [
   },
 ];
 
+export const whiteboardColorCombinations = [
+  {
+    theme: "Calm Learning",
+    combinations: [
+      {
+        backgroundColor: "bg-blue-50/85",
+        textColor: "text-blue-800",
+        boardColor: "bg-blue-100", // soft neutral blue board
+      },
+      {
+        backgroundColor: "bg-orange-50/85",
+        textColor: "text-orange-900",
+        boardColor: "bg-orange-100", // pale orange board
+      },
+      {
+        backgroundColor: "bg-yellow-100/85",
+        textColor: "text-gray-900",
+        boardColor: "bg-yellow-50", // faint yellow board
+      },
+      {
+        backgroundColor: "bg-teal-50/85",
+        textColor: "text-teal-900",
+        boardColor: "bg-teal-100", // soft teal board
+      },
+    ],
+  },
+  {
+    theme: "High Contrast",
+    combinations: [
+      {
+        backgroundColor: "bg-white/85",
+        textColor: "text-black",
+        boardColor: "bg-gray-50", // clean whiteboard
+      },
+      {
+        backgroundColor: "bg-gray-100/85",
+        textColor: "text-indigo-800",
+        boardColor: "bg-gray-200", // subtle light gray
+      },
+      {
+        backgroundColor: "bg-yellow-50/85",
+        textColor: "text-purple-900",
+        boardColor: "bg-yellow-100", // soft yellow canvas
+      },
+    ],
+  },
+  {
+    theme: "Pastel Soft",
+    combinations: [
+      {
+        backgroundColor: "bg-pink-50/85",
+        textColor: "text-pink-900",
+        boardColor: "bg-pink-100", // pastel pink
+      },
+      {
+        backgroundColor: "bg-blue-100/85",
+        textColor: "text-blue-900",
+        boardColor: "bg-blue-50", // gentle light blue
+      },
+      {
+        backgroundColor: "bg-green-50/85",
+        textColor: "text-green-900",
+        boardColor: "bg-green-100", // pale green
+      },
+    ],
+  },
+  {
+    theme: "Night Study",
+    combinations: [
+      {
+        backgroundColor: "bg-gray-900/85",
+        textColor: "text-yellow-100",
+        boardColor: "bg-gray-800", // deep gray
+      },
+      {
+        backgroundColor: "bg-black/85",
+        textColor: "text-green-200",
+        boardColor: "bg-gray-900", // almost black board
+      },
+      {
+        backgroundColor: "bg-gray-800/85",
+        textColor: "text-purple-200",
+        boardColor: "bg-gray-700", // soft dark board
+      },
+    ],
+  },
+];
+
+
 
 export const classes = [
   {

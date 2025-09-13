@@ -1,7 +1,7 @@
 const Blog = ({ selectedColor }) => {
   return (
     <div
-      className={`w-full border border-red-900 flex flex-col min-h-screen  px-4 py-8 space-y-10
+      className={`w-full flex flex-col min-h-screen  px-4 py-8 space-y-10
     ${selectedColor.backgroundColor} ${selectedColor.textColor} 
     `}
     >
