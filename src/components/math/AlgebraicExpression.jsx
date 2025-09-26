@@ -2,7 +2,6 @@ import React from "react";
 import MathJax from "react-mathjax2";
 
 export default function AE({ selectedColor }) {
-  
   // প্রতিটি প্রশ্নের জন্য LaTeX অংশ আলাদা করে রাখতে পারি (optional)
   const questionsLatex = [
     "a - b = 4, \\ ab = 60\\Rightarrow a + b = ?",
@@ -16,6 +15,80 @@ export default function AE({ selectedColor }) {
     "a + b + c = 6, \\  (a^2+b^2+c^2)  = 14 \\Rightarrow (a-b)^2 + (b-c)^2 + (c-a)^2 = ?",
     "x=3, y=4, z=5 \\Rightarrow 9x^2 + 16y^2 + 4z^2 - 24xy - 16yz + 12zx = ?",
   ];
+
+  const answerLatex = [
+    [
+      "given\\ that ,",
+      "a - b = 4, \\ ab = 60",
+      "we\\ know\\ that,",
+      "(a + b)^2 = (a - b)^2 + 4ab",
+      "\\Rightarrow (a + b)^2 = (4)^2 + 4(60)",
+      "\\Rightarrow (a + b)^2 = 16 + 240",
+      "\\Rightarrow (a + b)^2 = 256",
+      "\\Rightarrow a + b   = \\sqrt{256} ",
+      "\\therefore  a + b   = 16",
+    ],
+    [
+      "given\\ that ,",
+      "a + b = 9m, \\ ab = 18m^2",
+      "we\\ know\\ that,",
+      "(a - b)^2 = (a+b)^2 - 4ab",
+      "\\Rightarrow (a - b)^2 = (9m)^2 - 4(18m^2)",
+      "\\Rightarrow (a - b)^2 = 81m^2 - 72m^2",
+      "\\Rightarrow (a - b)^2 = 9m^2",
+      "\\Rightarrow a - b   = 3m",
+      "\\therefore  a - b   = 3m",
+    ],
+    [
+      "given\\ that,",
+      "x - \\frac{1}{x} = 4",
+      "\\Rightarrow (x - \\frac{1}{x})^2 = 4^2",
+      "\\Rightarrow x^2 - 2x\\frac{1}{x} + \\frac{1}{x^2} = 16",
+      "\\Rightarrow x^2 + \\frac{1}{x^2} = 16 + 2",
+      "\\Rightarrow x^2 + \\frac{1}{x^2} = 18",
+      "\\Rightarrow (x^2 + \\frac{1}{x^2})^2 = 18^2",
+      "\\Rightarrow (x^2)^2 + 2x^2\\frac{1}{x^2} + (\\frac{1}{x^2})^2 = 324",
+      "\\Rightarrow x^4 + 2 + \\frac{1}{x^4} = 324",
+      "\\Rightarrow x^4 + \\frac{1}{x^4} = 324 - 2",
+      "\\therefore x^4 + \\frac{1}{x^4} = 322",
+    ],
+    [
+      "given\\ that,",
+      "2x + \\frac{2}{x} = 3",
+      "\\Rightarrow 2\\left(x + \\frac{1}{x}\\right) = 3",
+      "\\Rightarrow x + \\frac{1}{x} = \\frac{3}{2}",
+      "\\Rightarrow \\left(x + \\frac{1}{x}\\right)^2 = \\left(\\frac{3}{2}\\right)^2",
+      "\\Rightarrow x^2 + 2 + \\frac{1}{x^2} = \\frac{9}{4}",
+      "\\Rightarrow x^2 + \\frac{1}{x^2} = \\frac{9}{4} - 2",
+      "\\Rightarrow x^2 + \\frac{1}{x^2} = \\frac{9 - 8}{4}",
+      "\\therefore x^2 + \\frac{1}{x^2} = \\frac{1}{4}",
+    ],
+    [
+      "given\\ that ,",
+      "a + \\frac{1}{a} = 2 ",
+      "we\\ know\\ that,",
+      "(a + \\frac{1}{a})^2 = 2^2",
+      "\\Rightarrow (a + \\frac{1}{a})^2 = 4",
+      "\\Rightarrow a^2 + \\frac{1}{a^2} + 2 = 4",
+      "\\Rightarrow a^2 + \\frac{1}{a^2} = 2",
+      "\\therefore  a^2 + \\frac{1}{a^2} = 2",
+    ],
+    [
+      "given\\ that ,",
+      "a + b = \\sqrt{7}, a - b = \\sqrt{5} ",
+      "we\\ know\\ that,",
+      "(a + b)^2 = 7",
+      "\\Rightarrow (a - b)^2 = 5",
+      "\\Rightarrow 2(a^2 + b^2) = 12",
+      "\\Rightarrow a^2 + b^2 = 6",
+      "\\therefore  8ab(a^2 + b^2) = 24",
+    ],
+    ["given\\\\ that ,", "a + b + c = 9,  ab + bc + ca = 31 "],
+    ["given\\ that ,", "a^2 + b^2 + c^2 = 9, \\ ab + bc + ca = 8 "],
+    ["given\\ that ,", "a + b + c = 6, \\  (a^2+b^2+c^2)  = 14 "],
+    ["given\\ that ,", "x=3, y=4, z=5 "],
+  ];
+
   return (
     <div
       className={`mx-auto print:text-xl ${selectedColor.textColor} ${selectedColor.backgroundColor} print:text-black
@@ -233,9 +306,7 @@ export default function AE({ selectedColor }) {
         </tbody>
       </table>
 
-      <div
-        className={` ${selectedColor.textColor}`}
-      >
+      <div className={` ${selectedColor.textColor}`}>
         <pre
           className={`overflow-x-hidden text-left break-words p-4 print:p-0 md:text-2xl ${selectedColor.textColor}`}
         >
@@ -286,11 +357,11 @@ export default function AE({ selectedColor }) {
  এবং ab = 60
   জানি, 
     (a + b)² = (a - b)² + 4ab
-  বা,(a + b)² = (4)² + 4(60)
-  বা,(a + b)² = 16 + 240  
-  বা,(a + b)² = 256
-  বা, a + b   = √256 
-  ∴  a + b   = 16
+  =>(a + b)² = (4)² + 4(60)
+  =>(a + b)² = 16 + 240  
+  =>(a + b)² = 256
+  => a + b   = √256 
+  \\therefore  a + b   = 16
 
 =================================================================
     মূল শিক্ষা
@@ -305,17 +376,31 @@ export default function AE({ selectedColor }) {
       </div>
 
       <div className="relative max-w-4xl mx-auto p-6  shadow-lg rounded-xl z-0">
-        <h1 className="text-2xl font-bold text-blue-300/35 mb-6 text-center">
-          গণিত প্রশ্ন
+        <h1 className="text-2xl font-bold text-blue-900 mb-6 text-center">
+          কিছু প্রশ্ন
         </h1>
         <MathJax.Context input="tex">
-          <ol className="space-y-4 text-2xl md:text-4xl">
+          <ol className="space-y-4 text-2xl lg:text-4xl">
             {questionsLatex.map((q, i) => (
               <li
                 key={i}
-                className="bg-blue-100/35 p-3 rounded-lg shadow-sm hover:bg-blue-300/35 print:bg-blue-100/10 transition"
+                className="bg-blue-100/35 p-3 rounded-lg shadow-sm hover:bg-blue-300/35 
+                print:bg-blue-100/10 transition"
               >
                 <MathJax.Node>{q}</MathJax.Node>
+
+                <div className="mt-2 text-lg lg:text-xl">
+                  <details>
+                    <summary className="cursor-pointer underline decoration-dotted">
+                      উত্তর দেখুন
+                    </summary>
+                    <div className="mt-2 text-left">
+                      {answerLatex[i].map((step, j) => (
+                        <MathJax.Node key={j}>{step}</MathJax.Node>
+                      ))}
+                    </div>
+                  </details>
+                </div>
               </li>
             ))}
           </ol>

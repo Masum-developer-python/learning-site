@@ -9,6 +9,8 @@ import Math from "./pages/Math";
 import Whiteboard from "./components/Whiteboard";
 import OverlayWhiteboard from "./components/OverlayWhiteboard";
 import Blog from "./pages/Blog";
+import CoachingAccountingSystem from "./pages/CoachingAccountingSystem";
+import ClassRoutineGenerator from "./pages/ClassRoutineGenerator";
 
 function App() {
   console.log("App.jsx");
@@ -179,6 +181,14 @@ function App() {
                       height={`1000px`}
                     />
                   }
+                />
+                <Route
+                  path="/hisab"
+                  element={<CoachingAccountingSystem />}
+                />
+                <Route
+                  path="/routine"
+                  element={<ClassRoutineGenerator />}
                 />
               </Routes>
             </main>
