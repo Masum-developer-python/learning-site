@@ -16,19 +16,34 @@ function ClassRoutineGenerator() {
     "১১শ শ্রেণী",
     "১০ম শ্রেণী",
     "৯ম শ্রেণী",
+    "৮ম শ্রেণী",
     "৭ম শ্রেণী",
   ]);
   const [newClass, setNewClass] = useState("");
   // ADDED: Subject management state
   const [subjects, setSubjects] = useState([
-    "Mathematics",
-    "English",
-    "Science",
-    "History",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "Geography",
+    'কুরআন',
+    'হাদিস',
+    'ফিকহ১ম',
+    'ফিকহ২য়',
+    'আরবি১ম',
+    'আরবি২য়',
+    "গণিত",
+    "বাংলা",
+    "ইংরেজি",
+    "বিজ্ঞান",
+    "পদার্থবিজ্ঞান",
+    "রসায়ন",
+    "জীববিজ্ঞান",
+    "উচ্চতর গণিত",
+    "তথ্য ও যোগাযোগ প্রযুক্তি",
+    "শারীরিক শিক্ষা",
+    "ইতিহাস",
+    "ভূগোল",
+    "অর্থনীতি",
+    "বাংলাদেশ ও বিশ্বপরিচয়",
+    "অর্থনীতি",
+    "কৃষি শিক্ষা",
   ]);
   const [newSubject, setNewSubject] = useState("");
   const [daysCount, setDaysCount] = useState(6);
@@ -141,9 +156,13 @@ function ClassRoutineGenerator() {
 
   const updateRoutine = (className, day, period, teacher, subject) => {
     const key = `${className}-${day}-${period}`;
+    const key1 = `${className}-${day + 2 < 6 ? day + 2 : day - 4}-${period}`;
+    const key2 = `${className}-${day + 4 < 6 ? day + 4 : day - 2}-${period}`;
     setRoutine((prev) => ({
       ...prev,
       [key]: { teacher, subject },
+      [key1]: { teacher, subject },
+      [key2]: { teacher, subject },
     }));
     console.log("Updated Routine:", routine);
   };
@@ -243,7 +262,7 @@ function ClassRoutineGenerator() {
             ))}
           </div>
         </div>
-
+        {/* Subject Management */}
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
             📚 Subject Management
@@ -392,92 +411,27 @@ function ClassRoutineGenerator() {
         </div>
 
         {/* Routine Tables */}
-        <div className="space-y-8">
+        <div className="flex flex-row flex-0 flex-wrap">
           {classes.map((className, classIndex) => (
             <div
               key={classIndex}
-              className="bg-white rounded-lg shadow-lg overflow-hidden"
+              className="bg-white w-1/2 p-10 rounded-lg shadow-lg flex-grow basis-[30%]"
             >
-              <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-4">
+              <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-4 w-full">
                 <h3 className="text-xl font-bold">
                   {className} - Class Routine
                 </h3>
               </div>
 
-              {/* <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-                      <th className="px-4 py-3 text-left font-semibold">Time</th>
-                      {Array.from({ length: daysCount }, (_, i) => (
-                        <th key={i} className="px-4 py-3 text-center font-semibold">
-                          {days[i]}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Array.from({ length: periodsCount }, (_, period) => (
-                      <tr key={period} className="border-b border-gray-200 hover:bg-gray-50">
-                        <td className="px-4 py-3 bg-gray-100 font-medium">
-                          <div className="text-sm">
-                            <div className="font-bold text-blue-600">Period {period + 1}</div>
-                            <div className="text-xs text-gray-500">{calculateTimeSlot(period)}</div>
-                          </div>
-                        </td>
-                        {Array.from({ length: daysCount }, (_, day) => {
-                          const currentValue = routine[`${className}-${day}-${period}`] || '';
-                          const availableTeachers = getAvailableTeachers(day, period, className);
-                          const isConflicted = currentValue && !availableTeachers.includes(currentValue);
-                          
-                          return (
-                            <td key={day} className="px-2 py-2">
-                              <select
-                                value={currentValue}
-                                onChange={(e) => updateRoutine(className, day, period, e.target.value)}
-                                className={`w-full px-2 py-2 border rounded focus:outline-none focus:ring-2 text-sm ${
-                                  isConflicted 
-                                    ? 'border-red-500 bg-red-50 focus:ring-red-500' 
-                                    : 'border-gray-300 focus:ring-blue-500'
-                                }`}
-                                title={isConflicted ? 'Conflict: Teacher assigned to another class' : ''}
-                              >
-                                <option value="">Select Teacher</option>
-                                {teachers.map((teacher, index) => {
-                                  const isAvailable = availableTeachers.includes(teacher) || teacher === currentValue;
-                                  return (
-                                    <option 
-                                      key={index} 
-                                      value={teacher}
-                                      disabled={!isAvailable}
-                                      style={{ color: isAvailable ? 'black' : '#ccc' }}
-                                    >
-                                      {teacher} {!isAvailable ? '(Busy)' : ''}
-                                    </option>
-                                  );
-                                })}
-                              </select>
-                              {isConflicted && (
-                                <div className="text-xs text-red-500 mt-1">⚠️ Conflict</div>
-                              )}
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div> */}
-
-              <div className="overflow-x-auto">
-                <table className="w-full">
+              <div className="w-full">
+                <table className="">
                   <thead>
                     <tr className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
                       <th className="px-4 py-3 text-left font-semibold">Day</th>
                       {Array.from({ length: periodsCount }, (_, i) => (
                         <th
                           key={i}
-                          className="px-2 py-3 text-center font-semibold min-w-32"
+                          className="px-2 py-3 text-center font-semibold min-w-20"
                         >
                           <div className="text-xs">
                             <div>Period {i + 1}</div>
@@ -529,7 +483,7 @@ function ClassRoutineGenerator() {
                                     e.target.value
                                   )
                                 }
-                                className={`w-full px-1 py-2 border rounded focus:outline-none focus:ring-2 text-xs ${
+                                className={`w-[85%] px-1 py-2 border rounded focus:outline-none focus:ring-2 text-xs ${
                                   isConflicted
                                     ? "border-red-500 bg-red-50 focus:ring-red-500"
                                     : "border-gray-300 focus:ring-blue-500"
@@ -540,7 +494,7 @@ function ClassRoutineGenerator() {
                                     : ""
                                 }
                               >
-                                <option value="">Select</option>
+                                <option value="">H.Teachers</option>
                                 {teachers.map((teacher, index) => {
                                   const isAvailable =
                                     availableTeachers.includes(teacher) ||
@@ -559,6 +513,7 @@ function ClassRoutineGenerator() {
                                   );
                                 })}
                               </select>
+                              
                               <select
                                 value={currentSubject}
                                 onChange={(e) =>
@@ -570,7 +525,7 @@ function ClassRoutineGenerator() {
                                     e.target.value
                                   )
                                 }
-                                className="w-full px-1 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-green-500 text-xs bg-green-50"
+                                className="w-[85%] px-1 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-green-500 text-xs bg-green-50"
                               >
                                 <option value="">Subject</option>
                                 {subjects.map((subject, index) => (
@@ -579,6 +534,7 @@ function ClassRoutineGenerator() {
                                   </option>
                                 ))}
                               </select>
+                              
                               {isConflicted && (
                                 <div className="text-xs text-red-500 mt-1 text-center">
                                   ⚠️
