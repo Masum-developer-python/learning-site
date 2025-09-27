@@ -1,4 +1,6 @@
 import { useState } from "react";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 function ClassRoutineGenerator() {
   const [teachers, setTeachers] = useState([
@@ -22,12 +24,12 @@ function ClassRoutineGenerator() {
   const [newClass, setNewClass] = useState("");
   // ADDED: Subject management state
   const [subjects, setSubjects] = useState([
-    'কুরআন',
-    'হাদিস',
-    'ফিকহ১ম',
-    'ফিকহ২য়',
-    'আরবি১ম',
-    'আরবি২য়',
+    "কুরআন",
+    "হাদিস",
+    "ফিকহ১ম",
+    "ফিকহ২য়",
+    "আরবি১ম",
+    "আরবি২য়",
     "গণিত",
     "বাংলা",
     "ইংরেজি",
@@ -51,7 +53,6 @@ function ClassRoutineGenerator() {
   const [startTime, setStartTime] = useState("15:10");
   const [periodDuration, setPeriodDuration] = useState(30);
   const [routine, setRoutine] = useState({});
-  const [subjectsClass, setSubjectsClass] = useState({});
 
   const days = [
     "শনিবার",
@@ -62,7 +63,17 @@ function ClassRoutineGenerator() {
     "বৃহস্পতিবার",
     "শুক্রবার",
   ];
-
+  const [countSubjects, setCountSubjects] = useState(
+    classes.map((_, clsIndex) =>
+      Array.from({ length: daysCount }, (_, day) =>
+        Array.from(
+          { length: periodsCount },
+          (_, period) => 1 // Initialize first class with 1 subject, others with 0
+        )
+      )
+    )
+  );
+  console.log("Count Subjects:", countSubjects);
   const addTeacher = () => {
     if (newTeacher.trim() && !teachers.includes(newTeacher.trim())) {
       setTeachers([...teachers, newTeacher.trim()]);
@@ -161,46 +172,104 @@ function ClassRoutineGenerator() {
     setRoutine((prev) => ({
       ...prev,
       [key]: { teacher, subject },
-      [key1]: { teacher, subject },
-      [key2]: { teacher, subject },
+      [key1]: { ...prev[key1], teacher }, // keep old subject, update teacher
+      [key2]: { ...prev[key2], teacher },
     }));
     console.log("Updated Routine:", routine);
   };
+  const exportToPDF = () => {
+    const doc = new jsPDF();
 
-  const exportToCSV = () => {
-    let csv = "";
-
+    // 1️⃣ Subjects timetable
     classes.forEach((className, classIndex) => {
-      if (classIndex > 0) csv += "\n\n";
-      csv += `${className}\n`;
-      csv += "Time";
-      for (let i = 0; i < daysCount; i++) {
-        csv += `,${days[i]}`;
-      }
-      csv += "\n";
+      if (classIndex > 0) doc.addPage();
+
+      doc.setFontSize(14);
+      doc.text(`${className} - Subjects`, 14, 20);
+
+      const head = [["Time", ...days.slice(0, daysCount)]];
+      const body = [];
 
       for (let period = 0; period < periodsCount; period++) {
         const timeSlot = calculateTimeSlot(period);
-        csv += `"Period ${period + 1}. ${timeSlot}"`;
+        const row = [`Period ${period + 1}. ${timeSlot}`];
 
         for (let day = 0; day < daysCount; day++) {
           const key = `${className}-${day}-${period}`;
-          const teacherName = routine[key] ? `"${routine[key]}"` : "";
-          csv += `,${teacherName}`;
+          row.push(routine[key] ? routine[key].subject : "");
         }
-        csv += "\n";
+        body.push(row);
       }
+
+      autoTable(doc, { head, body, startY: 30, styles: { halign: "center" } });
     });
 
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "class_routines.csv";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
+    // 2️⃣ Teachers timetable
+    doc.addPage();
+    classes.forEach((className, classIndex) => {
+      if (classIndex > 0) doc.addPage();
+
+      doc.setFontSize(14);
+      doc.text(`${className} - Teachers`, 14, 20);
+
+      const head = [["Time", ...days.slice(0, daysCount)]];
+      const body = [];
+
+      for (let period = 0; period < periodsCount; period++) {
+        const timeSlot = calculateTimeSlot(period);
+        const row = [`Period ${period + 1}. ${timeSlot}`];
+
+        for (let day = 0; day < daysCount; day++) {
+          const key = `${className}-${day}-${period}`;
+          row.push(routine[key] ? routine[key].teacher : "");
+        }
+        body.push(row);
+      }
+
+      autoTable(doc, { head, body, startY: 30, styles: { halign: "center" } });
+    });
+
+    // 3️⃣ Teacher-wise routine
+    const teacherMap = {};
+
+    // Build teacher mapping
+    Object.entries(routine).forEach(([key, { teacher, subject }]) => {
+      const [className, day, period] = key.split("-");
+      if (!teacherMap[teacher]) teacherMap[teacher] = [];
+      teacherMap[teacher].push({
+        className,
+        day: days[+day],
+        period: +period + 1,
+        timeSlot: calculateTimeSlot(+period),
+        subject,
+      });
+    });
+
+    Object.entries(teacherMap).forEach(([teacher, entries], idx) => {
+      doc.addPage();
+      doc.setFontSize(14);
+      doc.text(`Teacher: ${teacher}`, 14, 20);
+
+      const head = [["Class", "Day", "Period", "Time", "Subject"]];
+      const body = entries.map((e) => [
+        e.className,
+        e.day,
+        `Period ${e.period}`,
+        e.timeSlot,
+        e.subject,
+      ]);
+
+      autoTable(doc, {
+        head,
+        body,
+        startY: 30,
+        styles: { halign: "center" },
+        headStyles: { fillColor: [100, 100, 200] },
+      });
+    });
+
+    // Save file
+    doc.save("class_routine.pdf");
   };
 
   const clearRoutine = () => {
@@ -415,7 +484,7 @@ function ClassRoutineGenerator() {
           {classes.map((className, classIndex) => (
             <div
               key={classIndex}
-              className="bg-white w-1/2 p-10 rounded-lg shadow-lg flex-grow basis-[30%]"
+              className="bg-white lg:w-1/2 md:w-[100%] p-10 rounded-lg shadow-lg flex-grow basis-[30%]"
             >
               <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-4 w-full">
                 <h3 className="text-xl font-bold">
@@ -423,8 +492,8 @@ function ClassRoutineGenerator() {
                 </h3>
               </div>
 
-              <div className="w-full">
-                <table className="">
+              <div className="w-[100%]">
+                <table className="w-full">
                   <thead>
                     <tr className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
                       <th className="px-4 py-3 text-left font-semibold">Day</th>
@@ -458,10 +527,11 @@ function ClassRoutineGenerator() {
                           const currentValue =
                             routine[`${className}-${day}-${period}`]?.teacher ||
                             "";
-                          console.log("Current Value:", currentValue);
+                          // console.log("Current Value:", currentValue);
                           const currentSubject =
                             routine[`${className}-${day}-${period}`]?.subject ||
                             "";
+                          // console.log("Current Subject:", currentSubject);
                           const availableTeachers = getAvailableTeachers(
                             day,
                             period,
@@ -483,7 +553,7 @@ function ClassRoutineGenerator() {
                                     e.target.value
                                   )
                                 }
-                                className={`w-[85%] px-1 py-2 border rounded focus:outline-none focus:ring-2 text-xs ${
+                                className={`w-[80%] px-1 py-2 border rounded focus:outline-none focus:ring-2 text-xs ${
                                   isConflicted
                                     ? "border-red-500 bg-red-50 focus:ring-red-500"
                                     : "border-gray-300 focus:ring-blue-500"
@@ -513,28 +583,92 @@ function ClassRoutineGenerator() {
                                   );
                                 })}
                               </select>
-                              
-                              <select
-                                value={currentSubject}
-                                onChange={(e) =>
-                                  updateRoutine(
-                                    className,
-                                    day,
-                                    period,
-                                    currentValue,
-                                    e.target.value
+                              {Array.from(
+                                {
+                                  length:
+                                    countSubjects[classIndex][day][period],
+                                },
+                                (_, idx) => (
+                                  <div key={idx} className="mt-1">
+                                    <select
+                                      value={
+                                        currentSubject.split("  ")[idx] || ""
+                                      }
+                                      onChange={(e) => {
+                                        const updatedSubjects = [
+                                          ...currentSubject.split("  "),
+                                        ];
+                                        updatedSubjects[idx] = e.target.value;
+                                        updateRoutine(
+                                          className,
+                                          day,
+                                          period,
+                                          currentValue,
+                                          updatedSubjects.join("  ")
+                                        );
+                                      }}
+                                      className="w-[80%] px-1 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-green-500 text-xs bg-green-50"
+                                    >
+                                      <option value="">Subject</option>
+                                      {subjects.map((subject, index) => (
+                                        <option key={index} value={subject}>
+                                          {subject}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )
+                              )}
+
+                              <br />
+                              <button
+                                className="w-6 h-6 bg-green-500 text-white rounded-full hover:bg-green-600  text-xs transition-colors"
+                                onClick={() => {
+                                  console.log(
+                                    "Before Increment:",
+                                    countSubjects[classIndex][day][period]
+                                  );
+                                  setCountSubjects((prev) =>
+                                    prev.map((days, c) =>
+                                      days.map((periods, d) =>
+                                        periods.map(
+                                          (val, p) =>
+                                            c === classIndex &&
+                                            d === day &&
+                                            p === period
+                                              ? val + 1 // increment this cell
+                                              : val // leave others as is
+                                        )
+                                      )
+                                    )
+                                  );
+                                }}
+                              >
+                                +
+                              </button>
+
+                              <button
+                                className="w-6 h-6 bg-red-500 text-white rounded-full hover:bg-red-600 text-xs transition-colors"
+                                onClick={() =>
+                                  setCountSubjects((prev) =>
+                                    prev.map((days, c) =>
+                                      days.map((periods, d) =>
+                                        periods.map(
+                                          (val, p) =>
+                                            c === classIndex &&
+                                            d === day &&
+                                            p === period
+                                              ? val - 1 // decrement this cell
+                                              : val // leave others as is
+                                        )
+                                      )
+                                    )
                                   )
                                 }
-                                className="w-[85%] px-1 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-green-500 text-xs bg-green-50"
                               >
-                                <option value="">Subject</option>
-                                {subjects.map((subject, index) => (
-                                  <option key={index} value={subject}>
-                                    {subject}
-                                  </option>
-                                ))}
-                              </select>
-                              
+                                -
+                              </button>
+
                               {isConflicted && (
                                 <div className="text-xs text-red-500 mt-1 text-center">
                                   ⚠️
@@ -555,10 +689,10 @@ function ClassRoutineGenerator() {
         {/* Export Buttons */}
         <div className="flex gap-4 justify-center mt-8">
           <button
-            onClick={exportToCSV}
+            onClick={exportToPDF}
             className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 font-medium"
           >
-            📥 Export All Classes to CSV
+            📥 Export All Classes to PDF
           </button>
           <button
             onClick={clearRoutine}
