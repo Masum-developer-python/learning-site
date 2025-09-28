@@ -1,6 +1,7 @@
 import { useState } from "react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { addBanglaFont } from "../components/Bengali";
 
 function ClassRoutineGenerator() {
   const [teachers, setTeachers] = useState([
@@ -40,12 +41,14 @@ function ClassRoutineGenerator() {
     "উচ্চতর গণিত",
     "তথ্য ও যোগাযোগ প্রযুক্তি",
     "শারীরিক শিক্ষা",
-    "ইতিহাস",
+    "ইসলামের ইতিহাস",
+    "পৌরনীতি",
     "ভূগোল",
     "অর্থনীতি",
     "বাংলাদেশ ও বিশ্বপরিচয়",
     "অর্থনীতি",
     "কৃষি শিক্ষা",
+    "বালাগাত",
   ]);
   const [newSubject, setNewSubject] = useState("");
   const [daysCount, setDaysCount] = useState(6);
@@ -177,9 +180,11 @@ function ClassRoutineGenerator() {
     }));
     console.log("Updated Routine:", routine);
   };
+
+  // Export routine to PDF
   const exportToPDF = () => {
     const doc = new jsPDF();
-
+    addBanglaFont(doc);
     // 1️⃣ Subjects timetable
     classes.forEach((className, classIndex) => {
       if (classIndex > 0) doc.addPage();
@@ -201,7 +206,13 @@ function ClassRoutineGenerator() {
         body.push(row);
       }
 
-      autoTable(doc, { head, body, startY: 30, styles: { halign: "center" } });
+      autoTable(doc, {
+        head,
+        body,
+        startY: 30,
+        styles: { halign: "center", font: "NotoSansBengali" },
+        headStyles: { font: "NotoSansBengali" },
+      });
     });
 
     // 2️⃣ Teachers timetable
@@ -226,7 +237,13 @@ function ClassRoutineGenerator() {
         body.push(row);
       }
 
-      autoTable(doc, { head, body, startY: 30, styles: { halign: "center" } });
+      autoTable(doc, {
+        head,
+        body,
+        startY: 30,
+        styles: { halign: "center", font: "NotoSansBengali" },
+        headStyles: { font: "NotoSansBengali" },
+      });
     });
 
     // 3️⃣ Teacher-wise routine
@@ -263,8 +280,8 @@ function ClassRoutineGenerator() {
         head,
         body,
         startY: 30,
-        styles: { halign: "center" },
-        headStyles: { fillColor: [100, 100, 200] },
+        styles: { halign: "center", font: "NotoSansBengali" },
+        headStyles: { fillColor: [100, 100, 200], font: "NotoSansBengali" },
       });
     });
 
@@ -550,7 +567,8 @@ function ClassRoutineGenerator() {
                                     className,
                                     day,
                                     period,
-                                    e.target.value
+                                    e.target.value,
+                                    currentSubject
                                   )
                                 }
                                 className={`w-[80%] px-1 py-2 border rounded focus:outline-none focus:ring-2 text-xs ${
@@ -636,7 +654,9 @@ function ClassRoutineGenerator() {
                                             c === classIndex &&
                                             d === day &&
                                             p === period
-                                              ? val + 1 // increment this cell
+                                              ? val + 1 > 3
+                                                ? 3
+                                                : val + 1 // increment this cell
                                               : val // leave others as is
                                         )
                                       )
@@ -658,7 +678,9 @@ function ClassRoutineGenerator() {
                                             c === classIndex &&
                                             d === day &&
                                             p === period
-                                              ? val - 1 // decrement this cell
+                                              ? val - 1 < 0
+                                                ? 0
+                                                : val - 1 // decrement this cell
                                               : val // leave others as is
                                         )
                                       )
@@ -686,19 +708,310 @@ function ClassRoutineGenerator() {
           ))}
         </div>
 
+        {/* Teacher Schedule Tables */}
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            শিক্ষক-ভিত্তিক রুটিন সারাংশ
+          </h2>
+          {Object.keys(routine).length === 0 ? (
+            <p className="text-gray-500 text-center py-8">
+              রুটিন তৈরি করুন তারপর এখানে শিক্ষক-ভিত্তিক সারাংশ দেখা যাবে
+            </p>
+          ) : (
+            <div className="grid gap-6">
+              {teachers.map((teacher) => {
+                // Create teacher schedule matrix
+                const teacherSchedule = Array.from({ length: daysCount }, () =>
+                  Array.from({ length: periodsCount }, () => ({
+                    class: "",
+                    subject: "",
+                  }))
+                );
+
+                // Populate the schedule matrix
+                Object.entries(routine).forEach(([key, value]) => {
+                  if (value && value.teacher === teacher) {
+                    const [className, day, period] = key.split("-");
+                    const dayIdx = parseInt(day);
+                    const periodIdx = parseInt(period);
+                    if (dayIdx < daysCount && periodIdx < periodsCount) {
+                      teacherSchedule[dayIdx][periodIdx] = {
+                        class: className,
+                        subject: value.subject || "",
+                      };
+                    }
+                  }
+                });
+
+                // Check if teacher has any classes
+                const hasClasses = teacherSchedule.some((day) =>
+                  day.some((period) => period.class)
+                );
+
+                if (hasClasses) {
+                  return (
+                    <div
+                      key={teacher}
+                      className="border border-gray-200 rounded-lg overflow-hidden"
+                    >
+                      <div className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-4">
+                        <h3 className="text-xl font-bold">শিক্ষক: {teacher}</h3>
+                      </div>
+
+                      <div className="overflow-x-auto">
+                        <table className="w-full">
+                          <thead>
+                            <tr className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+                              <th className="px-2 py-3 text-left font-semibold min-w-20">
+                                দিন
+                              </th>
+                              {Array.from({ length: periodsCount }, (_, i) => (
+                                <th
+                                  key={i}
+                                  className="px-2 py-3 text-center font-semibold min-w-32"
+                                >
+                                  <div className="text-xs">
+                                    <div>পিরিয়ড {i + 1}</div>
+                                    <div className="text-xs opacity-80">
+                                      {calculateTimeSlot(i)}
+                                    </div>
+                                  </div>
+                                </th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {Array.from({ length: daysCount }, (_, day) => (
+                              <tr
+                                key={day}
+                                className="border-b border-gray-200 hover:bg-gray-50"
+                              >
+                                <td className="px-2 py-3 bg-gray-100 font-medium">
+                                  <div className="font-bold text-purple-600 text-sm">
+                                    {days[day]}
+                                  </div>
+                                </td>
+                                {Array.from(
+                                  { length: periodsCount },
+                                  (_, period) => {
+                                    const cellData =
+                                      teacherSchedule[day][period];
+                                    return (
+                                      <td
+                                        key={period}
+                                        className="px-2 py-3 text-center"
+                                      >
+                                        {cellData.class ? (
+                                          <div className="bg-blue-50 p-2 rounded border">
+                                            <div className="font-medium text-blue-800 text-sm">
+                                              {cellData.class}
+                                            </div>
+                                            {cellData.subject && (
+                                              <div className="text-xs text-green-600 mt-1">
+                                                {cellData.subject
+                                                  .split("  ")
+                                                  .join(", ")}
+                                              </div>
+                                            )}
+                                          </div>
+                                        ) : (
+                                          <div className="text-gray-300 text-xs">
+                                            ফাঁকা
+                                          </div>
+                                        )}
+                                      </td>
+                                    );
+                                  }
+                                )}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  );
+                }
+                return null;
+              })}
+              {teachers.every((teacher) => {
+                const hasSchedule = Object.entries(routine).some(
+                  ([key, value]) => value && value.teacher === teacher
+                );
+                return !hasSchedule;
+              }) && (
+                <p className="text-gray-500 text-center py-4">
+                  কোনো শিক্ষকের রুটিন নির্ধারণ করা হয়নি
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Routine Tables subject wise */}
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            শ্রেণী-ভিত্তিক বিষয় রুটিন সারাংশ
+          </h2>
+          {Object.keys(routine).length === 0 ? (
+            <p className="text-gray-500 text-center py-8">
+              রুটিন তৈরি করুন তারপর এখানে শ্রেণী-ভিত্তিক বিষয়ের সারাংশ দেখা যাবে
+            </p>
+          ) : (
+        <div className="flex flex-row flex-0 flex-wrap">
+          {classes.map((className, classIndex) => (
+            <div
+              key={classIndex}
+              className="bg-white lg:w-1/2 md:w-[100%] p-10 rounded-lg shadow-lg flex-grow basis-[30%]"
+            >
+              <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-4 w-full">
+                <h3 className="text-xl font-bold">
+                  {className} - Class Routine
+                </h3>
+              </div>
+
+              <div className="w-[100%]">
+                <table className="w-full">
+                  <thead>
+                    <tr className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+                      <th className="px-4 py-3 text-left font-semibold">Day</th>
+                      {Array.from({ length: periodsCount }, (_, i) => (
+                        <th
+                          key={i}
+                          className="px-2 py-3 text-center font-semibold min-w-20"
+                        >
+                          <div className="text-xs">
+                            <div>Period {i + 1}</div>
+                            <div className="text-xs opacity-80">
+                              {calculateTimeSlot(i)}
+                            </div>
+                          </div>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Array.from({ length: daysCount }, (_, day) => (
+                      <tr
+                        key={day}
+                        className="border-b border-gray-200 hover:bg-gray-50"
+                      >
+                        <td className="px-4 py-3 bg-gray-100 font-medium">
+                          <div className="font-bold text-purple-600">
+                            {days[day]}
+                          </div>
+                        </td>
+                        {Array.from({ length: periodsCount }, (_, period) => {
+                          
+                          // console.log("Current Value:", currentValue);
+                          let currentSubject =
+                            routine[`${className}-${day}-${period}`]?.subject ||
+                            "";
+                          currentSubject = currentSubject != '' ? currentSubject.replace("  ", " + ") : currentSubject;
+                          // console.log("Current Subject:", currentSubject);
+
+                          return (
+                            <td key={period} className="px-1 py-2">
+                              {currentSubject || "x"}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))}
+        </div>
+        )}
+        </div>
+        
+        {/* Routine Tables teacher wise */}
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            শ্রেনী-ভিত্তিক শিক্ষক রুটিন সারাংশ
+          </h2>
+          {Object.keys(routine).length === 0 ? (
+            <p className="text-gray-500 text-center py-8">
+              রুটিন তৈরি করুন তারপর এখানে শ্রেনী-ভিত্তিক শিক্ষকগনের সারাংশ দেখা যাবে
+            </p>
+          ) : (
+        <div className="flex flex-row flex-0 flex-wrap">
+          {classes.map((className, classIndex) => (
+            <div
+              key={classIndex}
+              className="bg-white lg:w-1/2 md:w-[100%] p-10 rounded-lg shadow-lg flex-grow basis-[30%]"
+            >
+              <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-4 w-full">
+                <h3 className="text-xl font-bold">
+                  {className} - Class Routine
+                </h3>
+              </div>
+
+              <div className="w-[100%]">
+                <table className="w-full">
+                  <thead>
+                    <tr className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+                      <th className="px-4 py-3 text-left font-semibold">Day</th>
+                      {Array.from({ length: periodsCount }, (_, i) => (
+                        <th
+                          key={i}
+                          className="px-2 py-3 text-center font-semibold min-w-20"
+                        >
+                          <div className="text-xs">
+                            <div>Period {i + 1}</div>
+                            <div className="text-xs opacity-80">
+                              {calculateTimeSlot(i)}
+                            </div>
+                          </div>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Array.from({ length: daysCount }, (_, day) => (
+                      <tr
+                        key={day}
+                        className="border-b border-gray-200 hover:bg-gray-50"
+                      >
+                        <td className="px-4 py-3 bg-gray-100 font-medium">
+                          <div className="font-bold text-purple-600">
+                            {days[day]}
+                          </div>
+                        </td>
+                        {Array.from({ length: periodsCount }, (_, period) => {
+                          const currentValue =
+                            routine[`${className}-${day}-${period}`]?.teacher ||
+                            "";
+                          // console.log("Current Value:", currentValue);
+                          const currentSubject =
+                            routine[`${className}-${day}-${period}`]?.subject ||
+                            "";
+                          // console.log("Current Subject:", currentSubject);
+
+                          return (
+                            <td key={period} className="px-1 py-2">
+                              {currentValue || "x"}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))}
+        </div>
+        )}
+        </div>
         {/* Export Buttons */}
-        <div className="flex gap-4 justify-center mt-8">
-          <button
-            onClick={exportToPDF}
-            className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 font-medium"
-          >
-            📥 Export All Classes to PDF
-          </button>
+        <div className="flex gap-4 justify-center">
           <button
             onClick={clearRoutine}
             className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 font-medium"
           >
-            🗑️ Clear All Routines
+            সব রুটিন মুছুন
           </button>
         </div>
       </div>
