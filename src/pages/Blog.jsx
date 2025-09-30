@@ -11,6 +11,11 @@ const Blog = ({ selectedColor }) => {
           alt="RARe Academy Logo"
           className="mx-auto"
         />
+        <img
+          src="images/leflet.jpg"
+          alt="RARe Academy Logo"
+          className="mx-auto p-4 transform rotate-90 translate-y-28 lg:translate-y-60 lg:w-[1935px]"
+        />
       </div>
       {/* <div className="w-[100%] mx-auto text-9xl max-w-2xl flex flex-row">
         <div className="w-2/3 text-9xl">

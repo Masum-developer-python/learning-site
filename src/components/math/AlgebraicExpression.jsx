@@ -64,25 +64,40 @@ export default function AE({ selectedColor }) {
       "\\therefore x^2 + \\frac{1}{x^2} = \\frac{1}{4}",
     ],
     [
-      "given\\ that ,",
-      "a + \\frac{1}{a} = 2 ",
-      "we\\ know\\ that,",
-      "(a + \\frac{1}{a})^2 = 2^2",
-      "\\Rightarrow (a + \\frac{1}{a})^2 = 4",
-      "\\Rightarrow a^2 + \\frac{1}{a^2} + 2 = 4",
-      "\\Rightarrow a^2 + \\frac{1}{a^2} = 2",
-      "\\therefore  a^2 + \\frac{1}{a^2} = 2",
+      "given\\ that,",
+      "a + \\frac{1}{a} = 2",
+
+      "\\text{L.H.S.} = a^2 + \\frac{1}{a^2}",
+      "= \\left(a + \\frac{1}{a}\\right)^2 - 2",
+      "= (2)^2 - 2",
+      "= 4 - 2",
+      "= 2",
+
+      "\\text{R.H.S.} = a^4 + \\frac{1}{a^4}",
+      "= (a^2)^2 + \\left(\\tfrac{1}{a^2}\\right)^2",
+      "= (a^2 + \\tfrac{1}{a^2})^2 - 2a^2\\cdot\\tfrac{1}{a^2}",
+      "= (a^2 + \\tfrac{1}{a^2})^2 - 2",
+      "= \\{(a + \\tfrac{1}{a})^2 - 2\\}^2 - 2",
+      "= (2^2 - 2)^2 - 2",
+      "= (4 - 2)^2 - 2",
+      "= 2^2 - 2",
+      "= 4 - 2",
+      "= 2",
+      "\\therefore \\text{L.H.S.} = \\text{R.H.S.}",
     ],
     [
       "given\\ that ,",
       "a + b = \\sqrt{7}, a - b = \\sqrt{5} ",
-      "we\\ know\\ that,",
-      "(a + b)^2 = 7",
-      "\\Rightarrow (a - b)^2 = 5",
-      "\\Rightarrow 2(a^2 + b^2) = 12",
-      "\\Rightarrow a^2 + b^2 = 6",
-      "\\therefore  8ab(a^2 + b^2) = 24",
+      "\\text{L.H.S.} = 8ab(a^2+b^2)",
+      "= 4ab \\times 2(a^2+b^2)",
+      "= \\{(a+b)^2 - (a-b)^2\\}\\{(a+b)^2 + (a-b)^2\\}",
+      "= \\{(\\sqrt{7})^2 - (\\sqrt{5})^2 \\} \\; \\times \\; \\{(\\sqrt{7})^2 + (\\sqrt{5})^2\\}",
+      "= (7 - 5)(7 + 5)",
+      "= 2 \\times 12",
+      "= 24",
+      "\\therefore \\text{L.H.S.} = \\text{R.H.S.}",
     ],
+
     ["given\\\\ that ,", "a + b + c = 9,  ab + bc + ca = 31 "],
     ["given\\ that ,", "a^2 + b^2 + c^2 = 9, \\ ab + bc + ca = 8 "],
     ["given\\ that ,", "a + b + c = 6, \\  (a^2+b^2+c^2)  = 14 "],
@@ -361,7 +376,7 @@ export default function AE({ selectedColor }) {
   =>(a + b)² = 16 + 240  
   =>(a + b)² = 256
   => a + b   = √256 
-  \\therefore  a + b   = 16
+  ∴ a + b   = 16
 
 =================================================================
     মূল শিক্ষা
