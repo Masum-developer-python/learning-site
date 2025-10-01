@@ -76,6 +76,9 @@ function App() {
     }
   }, [whiteboardOpen]); // Run when whiteboard is opened
   const [isPrinting, setIsPrinting] = useState(false);
+
+
+
   const handlePrint = async () => {
     setIsPrinting(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -87,7 +90,7 @@ function App() {
   const print = useReactToPrint({
     // content: () => sectionRef.current,
     contentRef: outerRef,
-    documentTitle: "RARe Academy - ",
+    documentTitle: `RARe Academy - ${new Date().toLocaleDateString()}`, // Dynamic title with current date"`,
   });
 
   return (
@@ -119,11 +122,11 @@ function App() {
           before:fixed before:left-20 before:md:left-24 before:lg:left-40 before:content-[''] before:inset-0 before:bg-[url('/images/logo.png')] 
           before:bg-[length:auto_100%] before:bg-center before:bg-repeat-y before:opacity-60 before:-z-10 
           print:left-0 print:right-0 print:text-2xl print:before:bg-[length:80%_auto] print:before:mt-10 
-          print:before:bg-no-repeat print:before:bg-center print:before:fixed print:before:opacity-40
+          print:before:bg-no-repeat print:before:bg-center print:before:fixed print:before:opacity-10
           print:p-8 print:before:content-[''] 
           print:before:text-[60px] print:before:text-gray-900
           print:before:font-bold print:before:tracking-widest print:before:text-center
-          
+          print:before:bg-[length:auto_60%]
           "
         >
           <Router>
@@ -132,7 +135,7 @@ function App() {
               pb-16 sm:pb-4 md:pb-4 print:pb-0
               before:content-['01907656585'] before:fixed
               before:w-full before:text-left
-              before:bottom-10 
+              before:bottom-10 print:before:left-4
               before:text-blue-500 before:opacity-60 
               before:text-[50px] before:font-bold before:tracking-widest 
               
@@ -141,7 +144,7 @@ function App() {
 
               after:content-['01521454171'] after:fixed
               after:w-full after:text-right
-              after:bottom-10 after:right-2
+              after:bottom-10 after:right-4
               after:text-red-500 after:opacity-60 
               after:text-[50px] after:font-bold after:tracking-widest 
               after:pointer-events-none after:select-none

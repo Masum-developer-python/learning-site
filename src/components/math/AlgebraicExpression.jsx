@@ -114,14 +114,15 @@ export default function AE({ selectedColor }) {
         বীজগাণিতিক রাশির সূত্রাবলী
       </tcaption>
       <table
-        className="border border-collapse w-full border-gray-900 
-        mx-auto md:text-5xl overflow-x-auto
+        className="border border-collapse w-[90%] border-gray-900 
+        mx-auto md:text-5xl overflow-x-auto 
       "
       >
-        <thead className="text-center">
+        <thead className="text-center text-2xl">
           <tr className="break-inside-avoid">
-            <th className="border border-gray-900">বামপক্ষ</th>
-            <th className="border border-gray-900">ডানপক্ষ</th>
+            <th className="border border-gray-900">রাশি (Expressions)</th>
+            <th className="border border-gray-900">বিস্তৃত রূপ (Expanded Form)</th>
+            <th className="border border-gray-900">বিকল্প রূপ (Alternative Form)</th>
           </tr>
         </thead>
         <tbody>
@@ -129,15 +130,15 @@ export default function AE({ selectedColor }) {
           <tr className="break-inside-avoid">
             <td
               className="border overflow-x-auto border-gray-900 p-2 py-3"
-              rowSpan={2}
+              // rowSpan={2}
             >
               (a+b)<sup>2</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               a<sup>2</sup>+2ab+b<sup>2</sup>
             </td>
-          </tr>
-          <tr className="break-inside-avoid">
+            {/* </tr> */}
+            {/* <tr className="break-inside-avoid"> */}
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               (a-b)<sup>2</sup>+4ab
             </td>
@@ -146,15 +147,15 @@ export default function AE({ selectedColor }) {
           <tr className="break-inside-avoid">
             <td
               className="border overflow-x-auto border-gray-900 p-2 py-3"
-              rowSpan={2}
+              // rowSpan={2}
             >
               (a-b)<sup>2</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               a<sup>2</sup>-2ab+b<sup>2</sup>
             </td>
-          </tr>
-          <tr className="break-inside-avoid">
+            {/* </tr>
+          <tr className="break-inside-avoid"> */}
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               (a+b)<sup>2</sup>-4ab
             </td>
@@ -164,15 +165,15 @@ export default function AE({ selectedColor }) {
           <tr className="break-inside-avoid">
             <td
               className="border overflow-x-auto border-gray-900 p-2 py-3"
-              rowSpan={2}
+              // rowSpan={2}
             >
               a<sup>2</sup>+b<sup>2</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               (a+b)<sup>2</sup>-2ab
             </td>
-          </tr>
-          <tr className="break-inside-avoid">
+            {/* </tr>
+          <tr className="break-inside-avoid"> */}
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               (a-b)<sup>2</sup>+2ab
             </td>
@@ -183,7 +184,10 @@ export default function AE({ selectedColor }) {
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               2(a<sup>2</sup>+b<sup>2</sup>)
             </td>
-            <td className="border overflow-x-auto border-gray-900 p-2 py-3">
+            <td
+              className="border overflow-x-auto border-gray-900 p-2 py-3"
+              colSpan={2}
+            >
               (a+b)<sup>2</sup>+(a-b)<sup>2</sup>
             </td>
           </tr>
@@ -193,7 +197,10 @@ export default function AE({ selectedColor }) {
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               4ab
             </td>
-            <td className="border overflow-x-auto border-gray-900 p-2 py-3">
+            <td
+              className="border overflow-x-auto border-gray-900 p-2 py-3"
+              colSpan={2}
+            >
               (a+b)<sup>2</sup>-(a-b)<sup>2</sup>
             </td>
           </tr>
@@ -203,7 +210,10 @@ export default function AE({ selectedColor }) {
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               a<sup>2</sup>-b<sup>2</sup>
             </td>
-            <td className="border overflow-x-auto border-gray-900 p-2 py-3">
+            <td
+              className="border overflow-x-auto border-gray-900 p-2 py-3"
+              colSpan={2}
+            >
               (a+b)(a-b)
             </td>
           </tr>
@@ -212,17 +222,17 @@ export default function AE({ selectedColor }) {
           <tr className="break-inside-avoid">
             <td
               className="border overflow-x-auto border-gray-900 p-2 py-3"
-              rowSpan={2}
+              // rowSpan={2}
             >
               (a+b+c)<sup>2</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
-              a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>+2ab+2bc+2ca
+              a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>+ 2ab+2bc+2ca
             </td>
-          </tr>
-          <tr className="break-inside-avoid">
+            {/* </tr>
+          <tr className="break-inside-avoid"> */}
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
-              a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>+2(ab+bc+ca)
+              a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup> + 2(ab+bc+ca)
             </td>
           </tr>
 
@@ -230,15 +240,15 @@ export default function AE({ selectedColor }) {
           <tr className="break-inside-avoid">
             <td
               className="border overflow-x-auto border-gray-900 p-2 py-3"
-              rowSpan={2}
+              // rowSpan={2}
             >
               (a+b)<sup>3</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               a<sup>3</sup>+3a<sup>2</sup>b+3ab<sup>2</sup>+b<sup>3</sup>
             </td>
-          </tr>
-          <tr className="break-inside-avoid">
+            {/* </tr>
+          <tr className="break-inside-avoid"> */}
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               a<sup>3</sup>+b<sup>3</sup>+3ab(a+b)
             </td>
@@ -247,15 +257,15 @@ export default function AE({ selectedColor }) {
           <tr className="break-inside-avoid">
             <td
               className="border overflow-x-auto border-gray-900 p-2 py-3"
-              rowSpan={2}
+              // rowSpan={2}
             >
               (a-b)<sup>3</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               a<sup>3</sup>-3a<sup>2</sup>b+3ab<sup>2</sup>-b<sup>3</sup>
             </td>
-          </tr>
-          <tr className="break-inside-avoid">
+            {/* </tr>
+          <tr className="break-inside-avoid"> */}
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               a<sup>3</sup>-b<sup>3</sup>-3ab(a-b)
             </td>
@@ -265,15 +275,15 @@ export default function AE({ selectedColor }) {
           <tr className="break-inside-avoid">
             <td
               className="border overflow-x-auto border-gray-900 p-2 py-3"
-              rowSpan={2}
+              // rowSpan={2}
             >
               a<sup>3</sup>+b<sup>3</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               (a+b)<sup>3</sup>-3ab(a+b)
             </td>
-          </tr>
-          <tr className="break-inside-avoid">
+            {/* </tr>
+          <tr className="break-inside-avoid"> */}
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               (a+b)(a<sup>2</sup>-ab+b<sup>2</sup>)
             </td>
@@ -283,15 +293,15 @@ export default function AE({ selectedColor }) {
           <tr className="break-inside-avoid">
             <td
               className="border overflow-x-auto border-gray-900 p-2 py-3"
-              rowSpan={2}
+              // rowSpan={2}
             >
               a<sup>3</sup>-b<sup>3</sup>
             </td>
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               (a-b)<sup>3</sup>+3ab(a-b)
             </td>
-          </tr>
-          <tr className="break-inside-avoid">
+            {/* </tr>
+          <tr className="break-inside-avoid"> */}
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               (a-b)(a<sup>2</sup>+ab+b<sup>2</sup>)
             </td>
@@ -301,7 +311,7 @@ export default function AE({ selectedColor }) {
           <tr className="break-inside-avoid">
             <td
               className="border overflow-x-auto border-gray-900 p-2 py-3"
-              rowSpan={2}
+              // rowSpan={2}
             >
               a<sup>3</sup>+b<sup>3</sup>+c<sup>3</sup>
               <br />
@@ -310,10 +320,10 @@ export default function AE({ selectedColor }) {
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
               (a+b+c)(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>-ab-bc-ca)
             </td>
-          </tr>
-          <tr className="break-inside-avoid">
+            {/* </tr>
+          <tr className="break-inside-avoid"> */}
             <td className="border overflow-x-auto border-gray-900 p-2 py-3">
-              1/2(a+b+c){`{`}(a-b)<sup>2</sup>+(b-c)<sup>2</sup>+(c-a)
+              1/2(a+b+c) {`{`}(a-b)<sup>2</sup> + (b-c)<sup>2</sup> + (c-a)
               <sup>2</sup>
               {`}`}
             </td>
@@ -403,8 +413,14 @@ export default function AE({ selectedColor }) {
                 print:bg-blue-100/10 transition"
               >
                 <MathJax.Node>{q}</MathJax.Node>
+                
+                <div className="mt-2 text-left text-3xl hidden print:block">
+                  {answerLatex[i].map((step, j) => (
+                    <MathJax.Node key={j}>{step}</MathJax.Node>
+                  ))}
+                </div>
 
-                <div className="mt-2 text-lg lg:text-xl">
+                <div className="mt-2 text-lg lg:text-4xl print:hidden">
                   <details>
                     <summary className="cursor-pointer underline decoration-dotted">
                       উত্তর দেখুন
