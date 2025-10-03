@@ -11,6 +11,8 @@ import OverlayWhiteboard from "./components/OverlayWhiteboard";
 import Blog from "./pages/Blog";
 import CoachingAccountingSystem from "./pages/CoachingAccountingSystem";
 import ClassRoutineGenerator from "./pages/ClassRoutineGenerator";
+import UsePageTitle from "./components/TitleManager";
+
 
 function App() {
   console.log("App.jsx");
@@ -77,7 +79,7 @@ function App() {
   }, [whiteboardOpen]); // Run when whiteboard is opened
   const [isPrinting, setIsPrinting] = useState(false);
 
-
+  
 
   const handlePrint = async () => {
     setIsPrinting(true);
@@ -93,6 +95,26 @@ function App() {
     documentTitle: `RARe Academy - ${new Date().toLocaleDateString()}`, // Dynamic title with current date"`,
   });
 
+  
+  // const location = useLocation();
+  
+  // if (location.pathname === "/") {
+  //   title = "Blog - RARe Academy";
+  // } else if (location.pathname === "/ict") {
+  //   title = "ICT - RARe Academy";
+  // } else if (location.pathname === "/math") {
+  //   title = "Math - RARe Academy";
+  // } else if (location.pathname === "/hisab") {
+  //   title = "Coaching Accounting System - RARe Academy";
+  // } else if (location.pathname === "/routine") {
+  //   title = "Class Routine Generator - RARe Academy";
+  // } else if (location.pathname === "/whiteboard") {
+  //   title = "Whiteboard - RARe Academy";
+  // } else {
+  //   title = "RARe Academy";
+  // } 
+
+  
   return (
     <div className="min-h-screen flex flex-col ">
       <div className="flex flex-1 w-[100%] h-full ">
@@ -130,6 +152,7 @@ function App() {
           "
         >
           <Router>
+            <UsePageTitle />
             <main
               className={` ${selectedColor.textColor} flex w-[calc(100%)] min-h-screen 
               pb-16 sm:pb-4 md:pb-4 print:pb-0
@@ -164,6 +187,7 @@ function App() {
                 </div>
               )}
               <Routes>
+                
                 <Route
                   path="/"
                   element={<Blog selectedColor={selectedColor} />}
@@ -220,5 +244,7 @@ function App() {
     </div>
   );
 }
+
+
 
 export default App;
