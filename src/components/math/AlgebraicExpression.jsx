@@ -1,5 +1,109 @@
-import React from "react";
+import React, { useState } from "react";
 import MathJax from "react-mathjax2";
+
+function QuadraticGenerator() {
+  const [num, setNum] = useState("");
+  const [expressions, setExpressions] = useState([]);
+
+  const generateExpressions = () => {
+    const n = parseInt(num);
+    if (isNaN(n) || n <= 0) {
+      alert("দয়া করে একটি ধনাত্মক সংখ্যা লিখুন");
+      return;
+    }
+
+    const results = [];
+
+    // সব divisor pair এর sum বের করা
+    for (let i = 1; i * i <= n; i++) {
+      if (n % i === 0) {
+        let b1 = i + Math.floor(n / i),  b2 = Math.floor(n / i) - i; // এই pair এর sum
+
+        // এই b এর জন্য সব (a, c) pair
+        for (let j = 1; j * j <= n; j++) {
+          if (n % j === 0) {
+            const a = j;
+            const c = Math.floor(n / j);
+
+            results.push(`${a !== 1 ? a : ''}x^2 + ${b1 !== 1 ? b1 : ''}x + ${c}`);
+            results.push(`${a !== 1 ? a : ''}x^2 - ${b1 !== 1 ? b1 : ''}x + ${c}`);
+            {b2 && results.push(`${a !== 1 ? a : ''}x^2 + ${b2 !== 1 ? b2 : ''}x - ${c}`);}
+            {b2 && results.push(`${a !== 1 ? a : ''}x^2 - ${b2 !== 1 ? b2 : ''}x - ${c}`);}
+
+            if (a !== c) {
+              results.push(`${c !== 1 ? c : ''}x^2 + ${b1 !== 1 ? b1 : ''}x + ${a}`);
+              results.push(`${c !== 1 ? c : ''}x^2 - ${b1 !== 1 ? b1 : ''}x + ${a}`);
+              {b2 && results.push(`${c !== 1 ? c : ''}x^2 + ${b2 !== 1 ? b2 : ''}x - ${a}`);}
+              {b2 && results.push(`${c !== 1 ? c : ''}x^2 - ${b2 !== 1 ? b2 : ''}x - ${a}`);}
+            }
+          }
+        }
+      }
+    }
+
+    setExpressions(results);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+            দ্বিঘাত রাশি জেনারেটর
+          </h1>
+          <p className="text-gray-600 mb-6">
+            Quadratic Expression Generator (a×c ভিত্তিক)
+          </p>
+
+          <div className="flex gap-4 items-end mb-6">
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                a×c এর মান লিখুন:
+              </label>
+              <input
+                type="number"
+                value={num}
+                onChange={(e) => setNum(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                placeholder="যেমন: 6, 12, 24"
+                min="1"
+              />
+            </div>
+            <button
+              onClick={generateExpressions}
+              
+              className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
+            >
+              তৈরি করুন
+            </button>
+          </div>
+        </div>
+
+        {expressions.length > 0 && (
+          <div className="bg-white rounded-lg shadow-lg p-8">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+              সব সম্ভাব্য দ্বিঘাত রাশি ({expressions.length}টি):
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {expressions.map((expr, index) => (
+                <MathJax.Context input="tex">
+                  <div
+                    key={index}
+                    className="bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-200"
+                  >
+                    <div className="text-lg font-mono text-gray-800">
+                      <MathJax.Node>{expr}</MathJax.Node>
+                    </div>
+                  </div>
+                </MathJax.Context>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function AE({ selectedColor }) {
   // প্রতিটি প্রশ্নের জন্য LaTeX অংশ আলাদা করে রাখতে পারি (optional)
@@ -115,14 +219,18 @@ export default function AE({ selectedColor }) {
       </tcaption>
       <table
         className="border border-collapse w-[90%] border-gray-900 
-        mx-auto md:text-5xl overflow-x-auto 
+        mx-auto md:text-5xl overflow-x-auto break-after-page
       "
       >
         <thead className="text-center text-2xl">
           <tr className="break-inside-avoid">
             <th className="border border-gray-900">রাশি (Expressions)</th>
-            <th className="border border-gray-900">বিস্তৃত রূপ (Expanded Form)</th>
-            <th className="border border-gray-900">বিকল্প রূপ (Alternative Form)</th>
+            <th className="border border-gray-900">
+              বিস্তৃত রূপ (Expanded Form)
+            </th>
+            <th className="border border-gray-900">
+              বিকল্প রূপ (Alternative Form)
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -413,7 +521,7 @@ export default function AE({ selectedColor }) {
                 print:bg-blue-100/10 transition"
               >
                 <MathJax.Node>{q}</MathJax.Node>
-                
+
                 <div className="mt-2 text-left text-3xl hidden print:block">
                   {answerLatex[i].map((step, j) => (
                     <MathJax.Node key={j}>{step}</MathJax.Node>
@@ -437,6 +545,7 @@ export default function AE({ selectedColor }) {
           </ol>
         </MathJax.Context>
       </div>
+      {QuadraticGenerator()}
     </div>
   );
 }
