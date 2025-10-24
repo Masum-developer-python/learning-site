@@ -169,20 +169,20 @@ function App() {
             <main
               className={` ${selectedColor.textColor} ${selectedColor.backgroundColor} flex w-[calc(100%)] min-h-screen 
               pb-16 sm:pb-4 md:pb-4 print:pb-0
-              before:content-['01907656585'] before:fixed
+              before:content-['01907656585*'] before:fixed
               before:w-full before:text-left
               before:bottom-10 print:before:left-4
               before:text-blue-500 before:opacity-60 
-              before:text-[50px] before:font-bold before:tracking-widest 
+              before:text-[45px] before:font-bold before:tracking-widest 
               
               before:pointer-events-none before:select-none
               print:before:block before:hidden 
 
-              after:content-['01521454171'] after:fixed
+              after:content-['*01521454171'] after:fixed
               after:w-full after:text-right
               after:bottom-10 after:right-4
               after:text-red-500 after:opacity-60 
-              after:text-[50px] after:font-bold after:tracking-widest 
+              after:text-[45px] after:font-bold after:tracking-widest 
               after:pointer-events-none after:select-none
               print:after:block after:hidden
               `}
