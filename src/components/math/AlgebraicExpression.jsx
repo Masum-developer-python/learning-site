@@ -45,7 +45,7 @@ function QuadraticGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8 break-before-page print:mr-0">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8 break-before-page print:mr-0 print:bg-opacity-0 print:bg-transparent">
       <div className="max-w-4xl mx-auto print:mr-0">
         <div className="bg-white rounded-lg shadow-lg p-8 mb-6  block print:hidden">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
@@ -72,7 +72,7 @@ function QuadraticGenerator() {
             <button
               onClick={generateExpressions}
               
-              className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
+              className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors print:bg-opacity-0 print:bg-transparent"
             >
               তৈরি করুন
             </button>
@@ -80,7 +80,7 @@ function QuadraticGenerator() {
         </div>
 
         {expressions.length > 0 && (
-          <div className="bg-white rounded-lg shadow-lg p-8 print:mr-0">
+          <div className="bg-white rounded-lg shadow-lg p-8 print:mr-0 print:bg-opacity-0 print:bg-transparent">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
               সব সম্ভাব্য দ্বিঘাত রাশি ({expressions.length}টি):
             </h2>
@@ -89,7 +89,7 @@ function QuadraticGenerator() {
                 <MathJax.Context input="tex">
                   <div
                     key={index}
-                    className="bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-200 print:w-1/5 print:mx-auto print:p-0"
+                    className="bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-200 print:w-1/5 print:mx-auto print:p-0 print:bg-opacity-0 print:bg-transparent"
                   >
                     <div className="text-lg font-mono text-gray-800">
                       <MathJax.Node>{(index + 1).toString() + ")" + expr}</MathJax.Node>
@@ -519,7 +519,7 @@ export default function AE({ selectedColor }) {
               <li
                 key={i}
                 className="bg-blue-100/35 p-3 rounded-lg shadow-sm hover:bg-blue-300/35 
-                print:bg-blue-100/10 transition"
+                print:bg-blue-100/10 transition print:bg-opacity-0 print:bg-transparent"
               >
                 <MathJax.Node>{q}</MathJax.Node>
 
