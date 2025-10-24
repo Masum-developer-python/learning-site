@@ -45,9 +45,9 @@ function QuadraticGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8 break-before-page print:mr-0">
+      <div className="max-w-4xl mx-auto print:mr-0">
+        <div className="bg-white rounded-lg shadow-lg p-8 mb-6  block print:hidden">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
             দ্বিঘাত রাশি জেনারেটর
           </h1>
@@ -80,19 +80,19 @@ function QuadraticGenerator() {
         </div>
 
         {expressions.length > 0 && (
-          <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="bg-white rounded-lg shadow-lg p-8 print:mr-0">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
               সব সম্ভাব্য দ্বিঘাত রাশি ({expressions.length}টি):
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 print:flex print:flex-row print:flex-wrap print:gap-4">
               {expressions.map((expr, index) => (
                 <MathJax.Context input="tex">
                   <div
                     key={index}
-                    className="bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-200"
+                    className="bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-200 print:w-1/5 print:mx-auto print:p-0"
                   >
                     <div className="text-lg font-mono text-gray-800">
-                      <MathJax.Node>{expr}</MathJax.Node>
+                      <MathJax.Node>{(index + 1).toString() + ")" + expr}</MathJax.Node>
                     </div>
                   </div>
                 </MathJax.Context>
@@ -214,6 +214,7 @@ export default function AE({ selectedColor }) {
       print:bg-transparent print:bg-opacity-0
       `}
     >
+      
       <tcaption className="text-center print:flex print:justify-center text-3xl md:text-5xl mb-4 mt-2">
         বীজগাণিতিক রাশির সূত্রাবলী
       </tcaption>
@@ -222,7 +223,7 @@ export default function AE({ selectedColor }) {
         mx-auto md:text-5xl overflow-x-auto break-after-page
       "
       >
-        <thead className="text-center text-2xl">
+        <thead className="text-center text-4xl">
           <tr className="break-inside-avoid">
             <th className="border border-gray-900">রাশি (Expressions)</th>
             <th className="border border-gray-900">
@@ -508,7 +509,7 @@ export default function AE({ selectedColor }) {
         </pre>
       </div>
 
-      <div className="relative max-w-4xl mx-auto p-6  shadow-lg rounded-xl z-0">
+      <div className="relative max-w-4xl mx-auto p-6  shadow-lg rounded-xl z-0 break-before-page">
         <h1 className="text-2xl font-bold text-blue-900 mb-6 text-center">
           কিছু প্রশ্ন
         </h1>
@@ -524,7 +525,9 @@ export default function AE({ selectedColor }) {
 
                 <div className="mt-2 text-left text-3xl hidden print:block">
                   {answerLatex[i].map((step, j) => (
-                    <MathJax.Node key={j}>{step}</MathJax.Node>
+                    <div key={j} className="break-inside-avoid">
+                      <MathJax.Node>{step}</MathJax.Node>
+                    </div>
                   ))}
                 </div>
 

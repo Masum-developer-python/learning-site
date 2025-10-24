@@ -13,7 +13,6 @@ import CoachingAccountingSystem from "./pages/CoachingAccountingSystem";
 import ClassRoutineGenerator from "./pages/ClassRoutineGenerator";
 import UsePageTitle from "./components/TitleManager";
 
-
 function App() {
   console.log("App.jsx");
   const [whiteboardOpen, setWhiteboardOpen] = useState(false);
@@ -79,8 +78,6 @@ function App() {
   }, [whiteboardOpen]); // Run when whiteboard is opened
   const [isPrinting, setIsPrinting] = useState(false);
 
-  
-
   const handlePrint = async () => {
     setIsPrinting(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -95,9 +92,8 @@ function App() {
     documentTitle: `RARe Academy - ${new Date().toLocaleDateString()}`, // Dynamic title with current date"`,
   });
 
-  
   // const location = useLocation();
-  
+
   // if (location.pathname === "/") {
   //   title = "Blog - RARe Academy";
   // } else if (location.pathname === "/ict") {
@@ -112,9 +108,8 @@ function App() {
   //   title = "Whiteboard - RARe Academy";
   // } else {
   //   title = "RARe Academy";
-  // } 
+  // }
 
-  
   return (
     <div className="min-h-screen flex flex-col ">
       <div className="flex flex-1 w-[100%] h-full ">
@@ -138,6 +133,7 @@ function App() {
           title="প্রিন্ট"
           alt="print_btn"
         ></img>
+
         <div
           ref={outerRef}
           className="flex-1 absolute left-20 md:left-24 lg:left-40 top-0 bottom-12 right-0
@@ -151,6 +147,23 @@ function App() {
           print:before:bg-[length:auto_60%]
           "
         >
+          <style>
+            {`
+              @media print {
+                @page {
+                  size: A4 portrait;
+                  margin-top: 2mm;
+                  margin-bottom: 5mm;
+                  margin-left: 10mm;
+                  margin-right: 0.5mm;
+              }
+            `}
+          </style>
+          <img
+            src="/images/Cover.svg"
+            className=" h-[98%] hidden mx-auto mr-0 print:block break-after-page"
+            alt="logo"
+          />
           <Router>
             <UsePageTitle />
             <main
@@ -187,7 +200,6 @@ function App() {
                 </div>
               )}
               <Routes>
-                
                 <Route
                   path="/"
                   element={<Blog selectedColor={selectedColor} />}
@@ -209,14 +221,8 @@ function App() {
                     />
                   }
                 />
-                <Route
-                  path="/hisab"
-                  element={<CoachingAccountingSystem />}
-                />
-                <Route
-                  path="/routine"
-                  element={<ClassRoutineGenerator />}
-                />
+                <Route path="/hisab" element={<CoachingAccountingSystem />} />
+                <Route path="/routine" element={<ClassRoutineGenerator />} />
               </Routes>
             </main>
           </Router>
@@ -244,7 +250,5 @@ function App() {
     </div>
   );
 }
-
-
 
 export default App;
