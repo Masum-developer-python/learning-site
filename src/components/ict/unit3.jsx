@@ -10,7 +10,7 @@ export default function Unit3({ topic, selectedColor }) {
   return (
     <>
       {topic === "numbersystem" && (
-        <div className={`mt-4 ${selectedColor.textColor} ${selectedColor.backgroundColor} mx-auto`}>
+        <div className={`mt-4 ${selectedColor.textColor} mx-auto`}>
           {/* <label className="block text-sm font-medium text-gray-700">
               Select Input base:
             </label> */}
