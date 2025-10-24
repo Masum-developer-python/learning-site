@@ -10,7 +10,7 @@ export default function Unit3({ topic, selectedColor }) {
   return (
     <>
       {topic === "numbersystem" && (
-        <div className={`mt-4 ${selectedColor.textColor} mx-auto`}>
+        <div className={`mt-4 ${selectedColor.textColor} ${selectedColor.backgroundColor} mx-auto`}>
           {/* <label className="block text-sm font-medium text-gray-700">
               Select Input base:
             </label> */}
@@ -119,7 +119,7 @@ export default function Unit3({ topic, selectedColor }) {
                     console.log(tempFractionalPart, integerSteps);
 
                     tempFractionalPart -= Math.floor(tempFractionalPart);
-                    fractionalSteps.push(tempFractionalPart.toFixed(3));
+                    fractionalSteps.push(tempFractionalPart.toFixed(6));
                     count++;
                   }
                   console.log(integerSteps);
@@ -244,7 +244,7 @@ export default function Unit3({ topic, selectedColor }) {
                                     {`${(
                                       fractionalPart /
                                       10 ** fractionalPart.length
-                                    ).toFixed(3)}`}
+                                    ).toFixed(6)}`}
                                     <br />x {tergetedBase}
                                   </div>
                                 </td>
