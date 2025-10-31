@@ -17,7 +17,8 @@ function QuadraticGenerator() {
     // সব divisor pair এর sum বের করা
     for (let i = 1; i * i <= n; i++) {
       if (n % i === 0) {
-        let b1 = i + Math.floor(n / i),  b2 = Math.floor(n / i) - i; // এই pair এর sum
+        let b1 = i + Math.floor(n / i),
+          b2 = Math.floor(n / i) - i; // এই pair এর sum
 
         // এই b এর জন্য সব (a, c) pair
         for (let j = 1; j * j <= n; j++) {
@@ -25,16 +26,44 @@ function QuadraticGenerator() {
             const a = j;
             const c = Math.floor(n / j);
 
-            results.push(`${a !== 1 ? a : ''}x^2 + ${b1 !== 1 ? b1 : ''}x + ${c}`);
-            results.push(`${a !== 1 ? a : ''}x^2 - ${b1 !== 1 ? b1 : ''}x + ${c}`);
-            {b2 && results.push(`${a !== 1 ? a : ''}x^2 + ${b2 !== 1 ? b2 : ''}x - ${c}`);}
-            {b2 && results.push(`${a !== 1 ? a : ''}x^2 - ${b2 !== 1 ? b2 : ''}x - ${c}`);}
+            results.push(
+              `${a !== 1 ? a : ""}x^2 + ${b1 !== 1 ? b1 : ""}x + ${c}`
+            );
+            results.push(
+              `${a !== 1 ? a : ""}x^2 - ${b1 !== 1 ? b1 : ""}x + ${c}`
+            );
+            {
+              b2 &&
+                results.push(
+                  `${a !== 1 ? a : ""}x^2 + ${b2 !== 1 ? b2 : ""}x - ${c}`
+                );
+            }
+            {
+              b2 &&
+                results.push(
+                  `${a !== 1 ? a : ""}x^2 - ${b2 !== 1 ? b2 : ""}x - ${c}`
+                );
+            }
 
             if (a !== c) {
-              results.push(`${c !== 1 ? c : ''}x^2 + ${b1 !== 1 ? b1 : ''}x + ${a}`);
-              results.push(`${c !== 1 ? c : ''}x^2 - ${b1 !== 1 ? b1 : ''}x + ${a}`);
-              {b2 && results.push(`${c !== 1 ? c : ''}x^2 + ${b2 !== 1 ? b2 : ''}x - ${a}`);}
-              {b2 && results.push(`${c !== 1 ? c : ''}x^2 - ${b2 !== 1 ? b2 : ''}x - ${a}`);}
+              results.push(
+                `${c !== 1 ? c : ""}x^2 + ${b1 !== 1 ? b1 : ""}x + ${a}`
+              );
+              results.push(
+                `${c !== 1 ? c : ""}x^2 - ${b1 !== 1 ? b1 : ""}x + ${a}`
+              );
+              {
+                b2 &&
+                  results.push(
+                    `${c !== 1 ? c : ""}x^2 + ${b2 !== 1 ? b2 : ""}x - ${a}`
+                  );
+              }
+              {
+                b2 &&
+                  results.push(
+                    `${c !== 1 ? c : ""}x^2 - ${b2 !== 1 ? b2 : ""}x - ${a}`
+                  );
+              }
             }
           }
         }
@@ -45,9 +74,26 @@ function QuadraticGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8 break-before-page print:mr-0 print:bg-opacity-0 print:bg-transparent">
-      <div className="max-w-4xl mx-auto print:mr-0">
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-6  block print:hidden">
+    <div className="print:p-1 break-before-page print:mr-0">
+      <div className="hidden print:block print:flex print:flex-row print:flex-wrap print:gap-4">
+        <h1>মধ্যপদ বিশ্লেষণের জন্য প্রশ্ন</h1>
+        {expressions.map((expr, index) => (
+          <MathJax.Context input="tex">
+            <div
+              key={index}
+              className=" print:w-1/5 print:mx-auto print:p-0  print:bg-white/20 print:shadow-none"
+            >
+              <div className="text-lg font-mono text-gray-800">
+                <MathJax.Node>
+                  {"(" +(index + 1).toString() + ")" + expr}
+                </MathJax.Node>
+              </div>
+            </div>
+          </MathJax.Context>
+        ))}
+      </div>
+      <div className="max-w-4xl mx-auto print:mr-0 print:bg-white/20 print:hidden">
+        <div className="bg-white rounded-lg shadow-lg p-8 mb-6  block print:hidden print:bg-white/20 print:shadow-none">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
             দ্বিঘাত রাশি জেনারেটর
           </h1>
@@ -71,7 +117,6 @@ function QuadraticGenerator() {
             </div>
             <button
               onClick={generateExpressions}
-              
               className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors print:bg-opacity-0 print:bg-transparent"
             >
               তৈরি করুন
@@ -80,19 +125,21 @@ function QuadraticGenerator() {
         </div>
 
         {expressions.length > 0 && (
-          <div className="bg-white rounded-lg shadow-lg p-8 print:mr-0 print:bg-opacity-0 print:bg-transparent">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          <div className="bg-white/100 rounded-lg shadow-lg p-8 print:p-0 print:bg-white/20 print:shadow-none">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4 ">
               সব সম্ভাব্য দ্বিঘাত রাশি ({expressions.length}টি):
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 print:flex print:flex-row print:flex-wrap print:gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
               {expressions.map((expr, index) => (
                 <MathJax.Context input="tex">
                   <div
                     key={index}
-                    className="bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-200 print:w-1/5 print:mx-auto print:p-0 print:bg-opacity-0 print:bg-transparent"
+                    className="bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-200 print:w-1/5 print:mx-auto print:p-0  print:bg-white/20 print:shadow-none"
                   >
                     <div className="text-lg font-mono text-gray-800">
-                      <MathJax.Node>{(index + 1).toString() + ")" + expr}</MathJax.Node>
+                      <MathJax.Node>
+                        {(index + 1).toString() + ")" + expr}
+                      </MathJax.Node>
                     </div>
                   </div>
                 </MathJax.Context>
@@ -114,10 +161,10 @@ export default function AE({ selectedColor }) {
     "2x + \\frac{2}{x} = 3 \\Rightarrow x^2 + \\frac{1}{x^2} = ?",
     "a + \\frac{1}{a} = 2 \\Rightarrow a^2 + \\frac{1}{a^2} = a^4 + \\frac{1}{a^4}",
     "a + b = \\sqrt{7}, a - b = \\sqrt{5} \\Rightarrow 8ab(a^2 + b^2) = 24",
-    "a + b + c = 9,  ab + bc + ca = 31 \\Rightarrow a^2 + b^2 + c^2 = ?",
-    "a^2 + b^2 + c^2 = 9, \\ ab + bc + ca = 8 \\Rightarrow (a+b+c)^2 = ?",
-    "a + b + c = 6, \\  (a^2+b^2+c^2)  = 14 \\Rightarrow (a-b)^2 + (b-c)^2 + (c-a)^2 = ?",
-    "x=3, y=4, z=5 \\Rightarrow 9x^2 + 16y^2 + 4z^2 - 24xy - 16yz + 12zx = ?",
+    // "a + b + c = 9,  ab + bc + ca = 31 \\Rightarrow a^2 + b^2 + c^2 = ?",
+    // "a^2 + b^2 + c^2 = 9, \\ ab + bc + ca = 8 \\Rightarrow (a+b+c)^2 = ?",
+    // "a + b + c = 6, \\  (a^2+b^2+c^2)  = 14 \\Rightarrow (a-b)^2 + (b-c)^2 + (c-a)^2 = ?",
+    // "x=3, y=4, z=5 \\Rightarrow 9x^2 + 16y^2 + 4z^2 - 24xy - 16yz + 12zx = ?",
   ];
 
   const answerLatex = [
@@ -214,12 +261,11 @@ export default function AE({ selectedColor }) {
       print:bg-transparent print:bg-opacity-0
       `}
     >
-      
-      <tcaption className="text-center print:flex print:justify-center text-3xl md:text-5xl mb-4 mt-2">
+      <tcaption className="text-center print:flex print:justify-center mb-4 mt-2">
         বীজগাণিতিক রাশির সূত্রাবলী
       </tcaption>
       <table
-        className="border border-collapse w-[90%] border-gray-900 
+        className="border border-collapse border-gray-900 w-[100%]
         mx-auto md:text-5xl overflow-x-auto break-after-page
       "
       >
@@ -446,7 +492,7 @@ export default function AE({ selectedColor }) {
         >
           {`
 =================================================================
-     সমস্যা সমাধান এর বিস্তারিত ব্যাখ্যা
+                      সূত্র নির্বাচন কৌশল
 =================================================================
 
   প্রশ্ন: a - b = 4 এবং ab = 60 হলে, a + b এর মান কত?
@@ -509,7 +555,7 @@ export default function AE({ selectedColor }) {
         </pre>
       </div>
 
-      <div className="relative max-w-4xl mx-auto p-6  shadow-lg rounded-xl z-0 break-before-page">
+      <div className="relative max-w-[100%] mx-auto p-1  shadow-lg rounded-xl z-0 break-before-page">
         <h1 className="text-2xl font-bold text-blue-900 mb-6 text-center">
           কিছু প্রশ্ন
         </h1>
@@ -548,7 +594,7 @@ export default function AE({ selectedColor }) {
           </ol>
         </MathJax.Context>
       </div>
-      {QuadraticGenerator()}
+      <QuadraticGenerator />
     </div>
   );
 }

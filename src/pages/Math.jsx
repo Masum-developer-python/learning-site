@@ -50,7 +50,7 @@ export default function Math({ selectedColor }) {
       </select>
 
       {unit === "algebraicExpression" && (
-        <div className="w-full">
+        <div className="w-full print:bg-white/10">
           <AE  selectedColor={selectedColor}/>
         </div>
       )}

@@ -152,7 +152,7 @@ function App() {
               @media print {
                 @page {
                   size: A4 portrait;
-                  margin-top: 2mm;
+                  margin-top: 5mm;
                   margin-bottom: 5mm;
                   margin-left: 10mm;
                   margin-right: 0.5mm;
