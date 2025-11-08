@@ -183,6 +183,31 @@ function App() {
                     background-position: center;
                     background-size: contain;
                     }
+                    body::after {
+                    content: "RARe Academy - Rufaidah Ataullah Rukaiyah educational Academy 2025";
+                    position: fixed;
+                    font-family: Algerian;
+                    top: 50px;                /* span full height */
+                    bottom: 50px;
+                    right: 3mm;
+                    writing-mode: vertical-rl; /* rotate text vertically (bottom to top) */
+                    text-orientation: mixed;
+                    font-size: 14px;
+                    color: rgb(12, 0, 187);
+                    letter-spacing: 5px;
+                    font-weight: 600;
+                    z-index: -1;           /* keep behind content */
+                    display: flex;
+                    align-items: center;       /* center vertically */
+                    justify-content: flex-start;
+                    opacity: 1;          /* subtle watermark effect */
+                    transform: rotate(0deg); /* flip text to read top to bottom */
+                    background: transparent;
+                    background-image: url('/images/seal.svg');
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: contain;
+                    }
 
               }
             `}
