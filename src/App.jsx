@@ -156,6 +156,34 @@ function App() {
                   margin-bottom: 5mm;
                   margin-left: 10mm;
                   margin-right: 0.5mm;
+                  
+                  }
+                  body::before {
+                    content: "Rufaidah Ataullah Rukaiyah --- educational Academy 2025";
+                    position: fixed;
+                    font-family: Algerian;
+                    top: 10px;                /* span full height */
+                    bottom: 0;
+                    left: 3mm;
+                    writing-mode: vertical-rl; /* rotate text vertically (bottom to top) */
+                    text-orientation: mixed;
+                    font-size: 14px;
+                    color: rgba(0, 0, 0, 0.6);
+                    letter-spacing: 10px;
+                    font-weight: 600;
+                    z-index: -1;           /* keep behind content */
+                    display: flex;
+                    align-items: center;       /* center vertically */
+                    justify-content: flex-start;
+                    opacity: 0.4;          /* subtle watermark effect */
+                    transform: rotate(180deg); /* flip text to read top to bottom */
+                    background: transparent;
+                    background-image: url('/images/seal.svg');
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: contain;
+                    }
+
               }
             `}
           </style>
@@ -171,18 +199,18 @@ function App() {
               pb-16 sm:pb-4 md:pb-4 print:pb-0
               before:content-['01907656585*'] before:fixed
               before:w-full before:text-left
-              before:bottom-10 print:before:left-4
+              before:bottom-10 print:before:left-20
               before:text-blue-500 before:opacity-60 
-              before:text-[45px] before:font-bold before:tracking-widest 
+              before:text-[35px] before:font-bold before:tracking-widest 
               
               before:pointer-events-none before:select-none
               print:before:block before:hidden 
 
               after:content-['*01521454171'] after:fixed
               after:w-full after:text-right
-              after:bottom-10 after:right-4
+              after:bottom-10 after:right-20
               after:text-red-500 after:opacity-60 
-              after:text-[45px] after:font-bold after:tracking-widest 
+              after:text-[35px] after:font-bold after:tracking-widest 
               after:pointer-events-none after:select-none
               print:after:block after:hidden
               `}
