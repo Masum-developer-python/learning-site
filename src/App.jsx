@@ -145,6 +145,14 @@ function App() {
           print:before:text-[60px] print:before:text-gray-900
           print:before:font-bold print:before:tracking-widest print:before:text-center
           print:before:bg-[length:auto_60%]
+
+          after:fixed  print:after:block after:content-[''] after:inset-0 after:bg-[url('/images/sealnew.png')] 
+          after:opacity-0 after:z-10 
+          after:bg-[length:8%_auto] after:bg-left after:bottom-4
+          after:bg-no-repeat print:after:opacity-100
+          print:after:content-[''] 
+          print:after:tracking-widest
+          
           "
         >
           <style>
@@ -152,18 +160,19 @@ function App() {
               @media print {
                 @page {
                   size: A4 portrait;
-                  margin-top: 5mm;
-                  margin-bottom: 5mm;
+                  margin-top: 10mm;
+                  margin-bottom: 1.5mm;
                   margin-left: 10mm;
                   margin-right: 0.5mm;
                   
                   }
+
                   body::before {
                     content: "Rufaidah Ataullah Rukaiyah --- educational Academy 2025";
                     position: fixed;
                     font-family: Algerian;
                     top: 10px;                /* span full height */
-                    bottom: 0;
+                    bottom: 5px;
                     left: 3mm;
                     writing-mode: vertical-rl; /* rotate text vertically (bottom to top) */
                     text-orientation: mixed;
@@ -171,30 +180,27 @@ function App() {
                     color: rgba(0, 0, 0, 0.6);
                     letter-spacing: 10px;
                     font-weight: 600;
-                    z-index: -1;           /* keep behind content */
+                    z-index: 10;           /* keep behind content */
                     display: flex;
                     align-items: center;       /* center vertically */
                     justify-content: flex-start;
                     opacity: 0.4;          /* subtle watermark effect */
                     transform: rotate(180deg); /* flip text to read top to bottom */
-                    background: transparent;
-                    background-image: url('/images/seal.svg');
-                    background-repeat: no-repeat;
-                    background-position: center;
-                    background-size: contain;
+                    
                     }
+                    
                     body::after {
                     content: "RARe Academy - Rufaidah Ataullah Rukaiyah educational Academy 2025";
                     position: fixed;
                     font-family: Algerian;
-                    top: 50px;                /* span full height */
-                    bottom: 50px;
+                    top: 0px;                /* span full height */
+                    bottom: 0px;
                     right: 3mm;
                     writing-mode: vertical-rl; /* rotate text vertically (bottom to top) */
                     text-orientation: mixed;
                     font-size: 14px;
                     color: rgb(12, 0, 187);
-                    letter-spacing: 5px;
+                    letter-spacing: 8px;
                     font-weight: 600;
                     z-index: -1;           /* keep behind content */
                     display: flex;
@@ -202,11 +208,7 @@ function App() {
                     justify-content: flex-start;
                     opacity: 1;          /* subtle watermark effect */
                     transform: rotate(0deg); /* flip text to read top to bottom */
-                    background: transparent;
-                    background-image: url('/images/seal.svg');
-                    background-repeat: no-repeat;
-                    background-position: center;
-                    background-size: contain;
+                    
                     }
 
               }
@@ -220,11 +222,11 @@ function App() {
           <Router>
             <UsePageTitle />
             <main
-              className={` ${selectedColor.textColor} ${selectedColor.backgroundColor} flex w-[calc(100%)] min-h-screen 
+              className={` ${selectedColor.textColor} ${selectedColor.backgroundColor} print:bg-opacity-0 flex w-[calc(100%)] min-h-screen 
               pb-16 sm:pb-4 md:pb-4 print:pb-0
               before:content-['01907656585*'] before:fixed
               before:w-full before:text-left
-              before:bottom-10 print:before:left-20
+              before:bottom-1 print:before:left-20
               before:text-blue-500 before:opacity-60 
               before:text-[35px] before:font-bold before:tracking-widest 
               
@@ -233,7 +235,7 @@ function App() {
 
               after:content-['*01521454171'] after:fixed
               after:w-full after:text-right
-              after:bottom-10 after:right-20
+              after:bottom-1 after:right-20
               after:text-red-500 after:opacity-60 
               after:text-[35px] after:font-bold after:tracking-widest 
               after:pointer-events-none after:select-none

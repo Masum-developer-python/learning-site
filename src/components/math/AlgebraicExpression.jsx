@@ -81,19 +81,19 @@ function QuadraticGenerator() {
           <MathJax.Context input="tex">
             <div
               key={index}
-              className=" print:w-1/5 print:mx-auto print:p-0  print:bg-white/20 print:shadow-none"
+              className=" print:w-1/5 print:mx-auto print:p-0  print:shadow-none"
             >
               <div className="text-lg font-mono text-gray-800">
                 <MathJax.Node>
-                  {"(" +(index + 1).toString() + ")" + expr}
+                  {"(" + (index + 1).toString() + ")" + expr}
                 </MathJax.Node>
               </div>
             </div>
           </MathJax.Context>
         ))}
       </div>
-      <div className="max-w-4xl mx-auto print:mr-0 print:bg-white/20 print:hidden">
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-6  block print:hidden print:bg-white/20 print:shadow-none">
+      <div className="max-w-4xl mx-auto print:mr-0     print:hidden">
+        <div className="   rounded-lg shadow-lg p-8 mb-6  block print:hidden     print:shadow-none">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
             দ্বিঘাত রাশি জেনারেটর
           </h1>
@@ -125,7 +125,7 @@ function QuadraticGenerator() {
         </div>
 
         {expressions.length > 0 && (
-          <div className="bg-white/100 rounded-lg shadow-lg p-8 print:p-0 print:bg-white/20 print:shadow-none">
+          <div className="rounded-lg shadow-lg p-8 print:p-0 print:shadow-none">
             <h2 className="text-2xl font-bold text-gray-800 mb-4 ">
               সব সম্ভাব্য দ্বিঘাত রাশি ({expressions.length}টি):
             </h2>
@@ -134,7 +134,7 @@ function QuadraticGenerator() {
                 <MathJax.Context input="tex">
                   <div
                     key={index}
-                    className="bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-200 print:w-1/5 print:mx-auto print:p-0  print:bg-white/20 print:shadow-none"
+                    className="bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-200 print:w-1/5 print:mx-auto print:p-0      print:shadow-none"
                   >
                     <div className="text-lg font-mono text-gray-800">
                       <MathJax.Node>
@@ -257,8 +257,8 @@ export default function AE({ selectedColor }) {
 
   return (
     <div
-      className={`mx-auto print:text-xl ${selectedColor.textColor} ${selectedColor.backgroundColor} print:text-black
-      print:bg-transparent print:bg-opacity-0
+      className={`mx-auto print:text-xl ${selectedColor.textColor} print:text-black
+      
       `}
     >
       <tcaption className="text-center print:flex print:justify-center mb-4 mt-2">
