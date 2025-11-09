@@ -146,9 +146,11 @@ function App() {
           print:before:font-bold print:before:tracking-widest print:before:text-center
           print:before:bg-[length:auto_60%]
 
-          after:fixed  print:after:block after:content-[''] after:inset-0 after:bg-[url('/images/sealnew.png')] 
-          after:opacity-0 after:-z-10 
-          after:bg-[length:8%_auto] after:bg-left after:bottom-4
+          after:fixed  print:after:block after:content-[''] after:inset-0 
+          after:bg-[url('/images/sealnew.png')] 
+          after:opacity-0 after:-z-10 print:after:z-1
+          after:bg-[length:8%_auto] after:bg-[position:calc(100%-2rem)_calc(100%-2rem)]
+          after:bg-no-repeat
           after:bg-no-repeat print:after:opacity-100
           print:after:content-[''] 
           print:after:tracking-widest
@@ -164,11 +166,12 @@ function App() {
                   margin-bottom: 1.5mm;
                   margin-left: 10mm;
                   margin-right: 0.5mm;
+                  background-color: white;
                   
                   }
 
                   body::before {
-                    content: "Rufaidah Ataullah Rukaiyah --- educational Academy 2025";
+                    content: "Rufaidah,Ataullah,Rukaiyah --- educational Academy 2025";
                     position: fixed;
                     font-family: Algerian;
                     top: 10px;                /* span full height */
@@ -176,7 +179,7 @@ function App() {
                     left: 3mm;
                     writing-mode: vertical-rl; /* rotate text vertically (bottom to top) */
                     text-orientation: mixed;
-                    font-size: 14px;
+                    font-size: 16px;
                     color: rgba(0, 0, 0, 0.6);
                     letter-spacing: 10px;
                     font-weight: 600;
@@ -281,6 +284,11 @@ function App() {
               </Routes>
             </main>
           </Router>
+          {/* <img
+            src="/images/A4page.png"
+            className=" h-[100%] print:fixed print:left-0 hidden w-[100%] print:z-5 mr-0 print:block break-after-page"
+            alt="logo"
+          /> */}
         </div>
       </div>
       <footer
