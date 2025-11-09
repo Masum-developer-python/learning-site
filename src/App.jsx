@@ -147,7 +147,7 @@ function App() {
           print:before:bg-[length:auto_60%]
 
           after:fixed  print:after:block after:content-[''] after:inset-0 after:bg-[url('/images/sealnew.png')] 
-          after:opacity-0 after:z-10 
+          after:opacity-0 after:-z-10 
           after:bg-[length:8%_auto] after:bg-left after:bottom-4
           after:bg-no-repeat print:after:opacity-100
           print:after:content-[''] 
