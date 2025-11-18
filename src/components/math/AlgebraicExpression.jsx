@@ -117,7 +117,8 @@ function QuadraticGenerator() {
             </div>
             <button
               onClick={generateExpressions}
-              className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors print:bg-opacity-0 print:bg-transparent"
+              className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 
+              transition-colors print:bg-opacity-0 print:bg-transparent"
             >
               তৈরি করুন
             </button>
@@ -565,7 +566,7 @@ export default function AE({ selectedColor }) {
               <li
                 key={i}
                 className="bg-blue-100/35 p-3 rounded-lg shadow-sm hover:bg-blue-300/35 
-                print:bg-blue-100/10 transition print:bg-opacity-0 print:bg-transparent"
+                print:bg-white/0 print:shadow-none"
               >
                 <MathJax.Node>{q}</MathJax.Node>
 

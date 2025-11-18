@@ -137,7 +137,8 @@ function App() {
         <div
           ref={outerRef}
           className="flex-1 absolute left-20 md:left-24 lg:left-40 top-0 bottom-12 right-0
-          before:fixed before:left-20 before:md:left-24 before:lg:left-40 before:content-[''] before:inset-0 before:bg-[url('/images/logo.png')] 
+          before:fixed before:left-20 before:md:left-24 before:lg:left-40 before:content-[''] before:inset-0 
+          before:bg-[url('/images/logo.png')] 
           before:bg-[length:auto_100%] before:bg-center before:bg-repeat-y before:opacity-60 before:-z-10 
           print:left-0 print:right-0 print:text-2xl print:before:bg-[length:80%_auto] print:before:mt-10 
           print:before:bg-no-repeat print:before:bg-center print:before:fixed print:before:opacity-10
@@ -148,7 +149,7 @@ function App() {
 
           after:fixed  print:after:block after:content-[''] after:inset-0 
           after:bg-[url('/images/sealnew.png')] 
-          after:opacity-0 after:-z-10 print:after:z-1
+          after:opacity-0 after:-z-10 print:after:z-10
           after:bg-[length:8%_auto] after:bg-[position:calc(100%-2rem)_calc(100%-2rem)]
           after:bg-no-repeat
           after:bg-no-repeat print:after:opacity-100
@@ -163,10 +164,10 @@ function App() {
                 @page {
                   size: A4 portrait;
                   margin-top: 10mm;
-                  margin-bottom: 1.5mm;
+                  margin-bottom: 5mm;
                   margin-left: 10mm;
                   margin-right: 0.5mm;
-                  background-color: white;
+                  
                   
                   }
 
