@@ -57,7 +57,7 @@ const ICT = ({selectedColor}) => {
 
       <div className={`mt-4 ${selectedColor.textColor} `}>
         <select
-          className={`mt-1 block w-full bg-white/10 border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500 ${selectedColor.textColor} `}
+          className={`mt-1 block w-full p-2 ${selectedColor.textColor} `}
           onChange={(e) => {
             const Topic = e.target.value;
             console.log(` topic: ${Topic}`);

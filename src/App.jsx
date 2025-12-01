@@ -141,16 +141,16 @@ function App() {
           before:bg-[url('/images/logo.png')] 
           before:bg-[length:auto_100%] before:bg-center before:bg-repeat-y before:opacity-60 before:-z-10 
           print:left-0 print:right-0 print:text-2xl print:before:bg-[length:80%_auto] print:before:mt-10 
-          print:before:bg-no-repeat print:before:bg-center print:before:fixed print:before:opacity-10
+          print:before:bg-no-repeat print:before:bg-center print:before:fixed print:before:opacity-0
           print:p-8 print:before:content-[''] 
           print:before:text-[60px] print:before:text-gray-900
           print:before:font-bold print:before:tracking-widest print:before:text-center
           print:before:bg-[length:auto_60%]
 
           after:fixed  print:after:block after:content-[''] after:inset-0 
-          after:bg-[url('/images/sealnew.png')] 
-          after:opacity-0 after:-z-10 print:after:z-10
-          after:bg-[length:8%_auto] after:bg-[position:calc(100%-2rem)_calc(100%-2rem)]
+          after:bg-[url('/images/A4newpage.png')] 
+          after:opacity-0 after:-z-10 print:after:-z-10
+          after:bg-[length:100%_auto] after:bg-[position:calc(0%)_calc(0%)]
           after:bg-no-repeat
           after:bg-no-repeat print:after:opacity-100
           print:after:content-[''] 
@@ -159,65 +159,68 @@ function App() {
           "
         >
           <style>
-            {`
-              @media print {
-                @page {
-                  size: A4 portrait;
-                  margin-top: 10mm;
-                  margin-bottom: 5mm;
-                  margin-left: 10mm;
-                  margin-right: 0.5mm;
-                  
-                  
-                  }
+{`
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin-top: 0mm;
+      margin-bottom: 0mm;
+      margin-left: 0mm;
+      margin-right: 0mm;
+     
+    }
 
-                  body::before {
-                    content: "Rufaidah,Ataullah,Rukaiyah --- educational Academy 2025";
-                    position: fixed;
-                    font-family: Algerian;
-                    top: 10px;                /* span full height */
-                    bottom: 5px;
-                    left: 3mm;
-                    writing-mode: vertical-rl; /* rotate text vertically (bottom to top) */
-                    text-orientation: mixed;
-                    font-size: 16px;
-                    color: rgba(0, 0, 0, 0.6);
-                    letter-spacing: 10px;
-                    font-weight: 600;
-                    z-index: 10;           /* keep behind content */
-                    display: flex;
-                    align-items: center;       /* center vertically */
-                    justify-content: flex-start;
-                    opacity: 0.4;          /* subtle watermark effect */
-                    transform: rotate(180deg); /* flip text to read top to bottom */
-                    
-                    }
-                    
-                    body::after {
-                    content: "RARe Academy - Rufaidah Ataullah Rukaiyah educational Academy 2025";
-                    position: fixed;
-                    font-family: Algerian;
-                    top: 0px;                /* span full height */
-                    bottom: 0px;
-                    right: 3mm;
-                    writing-mode: vertical-rl; /* rotate text vertically (bottom to top) */
-                    text-orientation: mixed;
-                    font-size: 14px;
-                    color: rgb(12, 0, 187);
-                    letter-spacing: 8px;
-                    font-weight: 600;
-                    z-index: -1;           /* keep behind content */
-                    display: flex;
-                    align-items: center;       /* center vertically */
-                    justify-content: flex-start;
-                    opacity: 1;          /* subtle watermark effect */
-                    transform: rotate(0deg); /* flip text to read top to bottom */
-                    
-                    }
+    // body::before {
+    //   content: "Rufaidah,Ataullah,Rukaiyah --- educational Academy 2025";
+    //   position: fixed;
+    //   top: 5px;
+    //   bottom: 5px;
+    //   left: 0mm;
+    //   width: 10mm;
+    //   height: 100%;
+    //   writing-mode: vertical-rl;
+    //   text-orientation: mixed;
+    //   transform: rotate(-180deg);
 
-              }
-            `}
-          </style>
+    //   font-family: Algerian;
+    //   font-size: 16px;
+    //   font-weight: 600;
+    //   letter-spacing: 10px;
+
+    //   color: rgba(0,0,0,0.6);
+    //   opacity: 0.4;
+
+    //   display: flex;
+    //   align-items: center;
+
+    //   z-index: 1;
+
+    //   -webkit-print-color-adjust: exact !important;
+    //   print-color-adjust: exact !important;
+     }
+
+    // body::after {
+    //   content: "";
+    //   position: fixed;
+    //   top: 0;
+    //   left: 0;
+    //   height: 150px;
+    //   width: 100%;
+
+    //   background-image: url('images/header.png');
+    //   background-repeat: no-repeat;
+    //   background-size: contain;
+    //   background-position: top center;
+
+    //   z-index: -1;
+
+    //   -webkit-print-color-adjust: exact !important;
+    //   print-color-adjust: exact !important;
+    // }
+  }
+`}
+</style>
+
           <img
             src="/images/Cover.svg"
             className=" h-[98%] hidden mx-auto mr-0 print:block break-after-page"
@@ -226,24 +229,20 @@ function App() {
           <Router>
             <UsePageTitle />
             <main
-              className={` ${selectedColor.textColor} ${selectedColor.backgroundColor} print:bg-opacity-0 flex w-[calc(100%)] min-h-screen 
+              className={` ${selectedColor.textColor} ${selectedColor.backgroundColor}  print:bg-transparent flex w-[calc(100%)] min-h-screen 
               pb-16 sm:pb-4 md:pb-4 print:pb-0
-              before:content-['01907656585*'] before:fixed
-              before:w-full before:text-left
-              before:bottom-1 print:before:left-20
-              before:text-blue-500 before:opacity-60 
-              before:text-[35px] before:font-bold before:tracking-widest 
-              
-              before:pointer-events-none before:select-none
-              print:before:block before:hidden 
+              left-10
 
-              after:content-['*01521454171'] after:fixed
-              after:w-full after:text-right
-              after:bottom-1 after:right-20
-              after:text-red-500 after:opacity-60 
-              after:text-[35px] after:font-bold after:tracking-widest 
+              before:content-[''] before:fixed
+              before:w-[100%] before:h-[25mm] before:top-0 before:left-0
+              before:pointer-events-none before:select-none before:hidden 
+              print:before:block print:before:opacity-10
+
+              
+              after:content-[''] after:fixed
+              after:w-full after:bottom-0 after:left-0 after:h-[25mm]
               after:pointer-events-none after:select-none
-              print:after:block after:hidden
+              print:after:block 
               `}
             >
               {whiteboardOpen && (

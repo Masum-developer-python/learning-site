@@ -18,7 +18,7 @@ export default function Unit3({ topic, selectedColor }) {
           <input
             type="text"
             className={` ${selectedColor.textColor} text-right   m-1 inline-block  text-3xl
-             w-fit border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500`}
+             w-fit p-2`}
             placeholder="Enter a number"
             onChange={(e) => {
               let input = e.target.value;
@@ -38,8 +38,8 @@ export default function Unit3({ topic, selectedColor }) {
           />
           <sub>
             <select
-              className={`inline-block   w-[40px] border-gray-300 rounded-md shadow-sm p-1 
-                 focus:ring-blue-500 focus:border-blue-500 ${selectedColor.textColor} `}
+              className={`inline-block   w-[40px] p-1 
+               ${selectedColor.textColor} `}
               onChange={(e) => {
                 setInputBase(e.target.value);
 
@@ -59,8 +59,8 @@ export default function Unit3({ topic, selectedColor }) {
           <span className="text-3xl">{"=>(?)"}</span>
           <sub>
             <select
-              className={`inline-block   w-[40px] border-gray-300 rounded-md shadow-sm p-1 
-                focus:ring-blue-500 focus:border-blue-500 ${selectedColor.textColor} `}
+              className={`inline-block   w-[40px] p-1 
+               ${selectedColor.textColor} `}
               onChange={(e) => {
                 setTergetedBase(e.target.value);
 
