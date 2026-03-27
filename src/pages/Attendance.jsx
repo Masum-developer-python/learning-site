@@ -272,7 +272,7 @@ export default function Attendance() {
               const percent =
                 activeCount === 0
                   ? 0
-                  : ((presentCount / activeCount) * 100).toFixed(1);
+                  : ((presentCount / activeCount) * 100).toFixed(0);
 
               return (
                 <td
@@ -280,6 +280,107 @@ export default function Attendance() {
                   className="border p-2 text-center font-bold bg-blue-100"
                 >
                   {percent}%
+                </td>
+              );
+            })}
+
+            <td colSpan="2"></td>
+          </tr>
+          {/* Absolute present count row */}
+          <tr>
+            <td className="border p-2 font-bold">Day Present</td>
+
+            {Array.from({ length: daysInMonth }, (_, dayIndex) => {
+              let presentCount = 0;
+              let activeCount = 0;
+
+              students.forEach((student) => {
+                const value = data[student]?.[dayIndex];
+
+                if (value !== "L") {
+                  activeCount++; // exclude leave
+                  if (value === "P") presentCount++;
+                }
+              });
+
+              const percent =
+                activeCount === 0
+                  ? 0
+                  : (presentCount );
+
+              return (
+                <td
+                  key={dayIndex}
+                  className="border p-2 text-center font-bold bg-blue-400"
+                >
+                  {percent}
+                </td>
+              );
+            })}
+
+            <td colSpan="2"></td>
+          </tr>
+            {/* Absolute absent count row */}
+            <tr>
+            <td className="border p-2 font-bold">Day %</td>
+
+            {Array.from({ length: daysInMonth }, (_, dayIndex) => {
+              let presentCount = 0;
+              let activeCount = 0;
+
+              students.forEach((student) => {
+                const value = data[student]?.[dayIndex];
+
+                if (value !== "L") {
+                  activeCount++; // exclude leave
+                  if (value === "A") presentCount++;
+                }
+              });
+
+              const percent =
+                activeCount === 0
+                  ? 0
+                  : ((presentCount / activeCount) * 100).toFixed(0);
+
+              return (
+                <td
+                  key={dayIndex}
+                  className="border p-2 text-center font-bold bg-blue-100"
+                >
+                  {percent}%
+                </td>
+              );
+            })}
+
+            <td colSpan="2"></td>
+          </tr>
+          <tr>
+            <td className="border p-2 font-bold">Day Absent</td>
+
+            {Array.from({ length: daysInMonth }, (_, dayIndex) => {
+              let absentCount = 0;
+              let activeCount = 0;
+
+              students.forEach((student) => {
+                const value = data[student]?.[dayIndex];
+
+                if (value !== "L") {
+                  activeCount++; // exclude leave
+                  if (value === "A") absentCount++;
+                }
+              });
+
+              const percent =
+                activeCount === 0
+                  ? 0
+                  : (absentCount );
+
+              return (
+                <td
+                  key={dayIndex}
+                  className="border p-2 text-center font-bold bg-blue-400"
+                >
+                  {percent}
                 </td>
               );
             })}
