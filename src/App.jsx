@@ -11,6 +11,7 @@ import OverlayWhiteboard from "./components/OverlayWhiteboard";
 import Blog from "./pages/Blog";
 import CoachingAccountingSystem from "./pages/CoachingAccountingSystem";
 import ClassRoutineGenerator from "./pages/ClassRoutineGenerator";
+import Attendance from "./pages/Attendance";
 import UsePageTitle from "./components/TitleManager";
 
 function App() {
@@ -51,23 +52,6 @@ function App() {
   useEffect(() => {
     localStorage.setItem("arabic-app-color", JSON.stringify(selectedColor));
   }, [selectedColor]);
-
-  const reciterList = [
-    { name: "Shuraim", folder: "Shuraim" },
-    // Add more reciterList as needed
-  ];
-  const [selectedReciter, setSelectedReciter] = useState(() => {
-    const saved = localStorage.getItem("arabic-app-reciter");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        return parsed?.folder ? parsed : reciterList[0];
-      } catch {
-        return reciterList[0];
-      }
-    }
-    return reciterList[0];
-  });
 
   useEffect(() => {
     if (outerRef.current && whiteboardContainerRef.current) {
@@ -119,9 +103,7 @@ function App() {
           setSelectedTheme={setSelectedTheme}
           setSelectedColor={setSelectedColor}
           alphabetColorCombinations={alphabetColorCombinations}
-          selectedReciter={selectedReciter}
-          setSelectedReciter={setSelectedReciter}
-          reciterList={reciterList}
+          
           whiteboardOpen={whiteboardOpen}
           setWhiteboardOpen={setWhiteboardOpen}
         />
@@ -281,6 +263,7 @@ function App() {
                 />
                 <Route path="/hisab" element={<CoachingAccountingSystem />} />
                 <Route path="/routine" element={<ClassRoutineGenerator />} />
+                <Route path="/tuhm/attendance" element={<Attendance />} />
               </Routes>
             </main>
           </Router>
