@@ -27,10 +27,7 @@ export default function Attendance() {
 
   // Save to localStorage
   useEffect(() => {
-    localStorage.setItem(
-      "attendance",
-      JSON.stringify({ students, data })
-    );
+    localStorage.setItem("attendance", JSON.stringify({ students, data }));
   }, [students, data]);
 
   // Helper: parse leave input
@@ -77,9 +74,7 @@ export default function Attendance() {
       const next = current === "A" ? "P" : "A";
       return {
         ...prev,
-        [student]: prev[student].map((val, idx) =>
-          idx === i ? next : val
-        ),
+        [student]: prev[student].map((val, idx) => (idx === i ? next : val)),
       };
     });
   };
@@ -101,13 +96,15 @@ export default function Attendance() {
 
     setLeaveDays((prev) => {
       const combined = Array.from(new Set([...prev, ...newLeave])).sort(
-        (a, b) => a - b
+        (a, b) => a - b,
       );
 
       setData((prevData) => {
         const updated = { ...prevData };
         students.forEach((student) => {
-          const newDays = [...(updated[student] || Array(daysInMonth).fill("A"))];
+          const newDays = [
+            ...(updated[student] || Array(daysInMonth).fill("A")),
+          ];
           combined.forEach((d) => (newDays[d] = "L"));
           updated[student] = newDays;
         });
@@ -195,23 +192,25 @@ export default function Attendance() {
     link.download = filename;
     link.click();
   };
-
+  console.log(data[10]);
   return (
     <div className="p-5 overflow-x-auto">
       <h2 className="text-xl font-bold mb-4">Attendance Sheet</h2>
       <input
-          value={month}
-          onChange={(e) => setMonth(e.target.value)}
-          placeholder="Month (1-12)"
-          className="border p-2"
-        />
-        <input
-          value={year}
-          onChange={(e) => setYear(e.target.value)}
-          placeholder="Year (e.g. 2026)"
-          className="border p-2"
-        />
-      Total Days in {month}/{year}: {daysInMonth} # Leavedays in Month {leaveDays.length} # Working Days in Month {daysInMonth - leaveDays.length}
+        value={month}
+        onChange={(e) => setMonth(e.target.value)}
+        placeholder="Month (1-12)"
+        className="border p-2"
+      />
+      <input
+        value={year}
+        onChange={(e) => setYear(e.target.value)}
+        placeholder="Year (e.g. 2026)"
+        className="border p-2"
+      />
+      Total Days in {month}/{year}: {daysInMonth} # Leavedays in Month{" "}
+      {leaveDays.length} # Working Days in Month{" "}
+      {daysInMonth - leaveDays.length}
       {/* Add Student */}
       <div className="flex gap-2 mb-4">
         <input
@@ -220,14 +219,10 @@ export default function Attendance() {
           placeholder="Enter student name"
           className="border p-2"
         />
-        <button
-          onClick={addStudent}
-          className="bg-blue-500 text-white px-3"
-        >
+        <button onClick={addStudent} className="bg-blue-500 text-white px-3">
           Add
         </button>
       </div>
-
       {/* Leave Days Input */}
       <div className="flex gap-2 mb-4">
         <input
@@ -240,11 +235,9 @@ export default function Attendance() {
           onClick={applyLeaveDays}
           className="bg-yellow-500 text-white px-3"
         >
-          Apply Leave 
+          Apply Leave
         </button>
-        
       </div>
-
       {/* Attendance Table */}
       <table className="border-collapse border text-sm">
         <thead>
@@ -260,6 +253,39 @@ export default function Attendance() {
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td className="border p-2 font-bold">Day %</td>
+
+            {Array.from({ length: daysInMonth }, (_, dayIndex) => {
+              let presentCount = 0;
+              let activeCount = 0;
+
+              students.forEach((student) => {
+                const value = data[student]?.[dayIndex];
+
+                if (value !== "L") {
+                  activeCount++; // exclude leave
+                  if (value === "P") presentCount++;
+                }
+              });
+
+              const percent =
+                activeCount === 0
+                  ? 0
+                  : ((presentCount / activeCount) * 100).toFixed(1);
+
+              return (
+                <td
+                  key={dayIndex}
+                  className="border p-2 text-center font-bold bg-blue-100"
+                >
+                  {percent}%
+                </td>
+              );
+            })}
+
+            <td colSpan="2"></td>
+          </tr>
           {students.map((student) => (
             <tr key={student}>
               <td className="border p-2">{student}</td>
@@ -283,16 +309,15 @@ export default function Attendance() {
                 {data[student]
                   ? (
                       (data[student].filter((d) => d === "P").length /
-                        (daysInMonth - leaveDays.length) *
+                        (daysInMonth - leaveDays.length)) *
                       100
-                    ).toFixed(1) + "%")
+                    ).toFixed(1) + "%"
                   : "0%"}
-              </td> 
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
-
       {/* Actions */}
       <div className="mt-4 flex gap-3 flex-wrap">
         <button
