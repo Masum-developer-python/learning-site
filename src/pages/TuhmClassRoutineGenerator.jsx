@@ -1,13 +1,18 @@
-import { useState, useCallback, useRef } from "react";
-import Papa from "papaparse";
+import { useState, useCallback } from "react";
 
 // Days of the week (6-day week by default, Sat-Thu)
 const ALL_DAYS = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
 
-// Subjects are now just plain names. `parseSubject` still strips a
-// legacy "-N" suffix (e.g. "Math-3") for backward compatibility with
-// data exported before this change, but new subjects are never
-// suffixed — how many days a subject runs is chosen per slot instead.
+// Default days a subject runs based on its frequency number, used ONLY
+// the first time a subject is picked for an entry. After that, the days
+// are stored per-entry so different entries in the same slot can cover
+// different parts of the week.
+const getDefaultDaysForFrequency = (freq, daysCount) => {
+  const count = Math.min(freq, daysCount);
+  return Array.from({ length: count }, (_, i) => i);
+};
+
+// Parse "Bengali-3" → { name: "Bengali", freq: 3 }
 const parseSubject = (subjectStr) => {
   const match = subjectStr.match(/^(.+)-(\d+)$/);
   if (match) return { name: match[1].trim(), freq: parseInt(match[2]) };
@@ -28,14 +33,15 @@ export default function ClassRoutineGenerator() {
   ]);
   const [newTeacher, setNewTeacher] = useState("");
 
-  // Subjects are plain names — no day-count baked in, since days are
-  // chosen per slot. The same subject (e.g. "Math") can be used in as
-  // many slots as needed with different day selections each time.
+  // Subjects stored as "SubjectName-frequency", e.g. "Bengali-3", "Science-5"
   const [subjects, setSubjects] = useState([
-    "Bengali", "English", "Math", "Arabic", "Islamiat",
-    "Science", "Art", "Quran", "Culture",
+    "Bengali-3", "English-3", "Math-3", "Arabic-3", "Islamiat-3",
+    "Science-3", "Science-5", "Art-2", "Bengali-6", "English-6",
+    "Arabic-6", "Math-6", "Quran-3", "Culture-1",
+    "Math-2", "Science-2", "English-2",
   ]);
   const [newSubjectName, setNewSubjectName] = useState("");
+  const [newSubjectFreq, setNewSubjectFreq] = useState(3);
 
   const [classes, setClasses] = useState([
     "Play", "Nursery", "One", "Two Shams", "Two Qamar", "Two Nazm",
@@ -65,10 +71,6 @@ export default function ClassRoutineGenerator() {
 
   const [activeTab, setActiveTab] = useState("input");
   const [selectedClass, setSelectedClass] = useState(null);
-  const [importMessage, setImportMessage] = useState(null); // { type: "success"|"error", text }
-
-  const jsonFileInputRef = useRef(null);
-  const csvFileInputRef = useRef(null);
 
   // ── Helpers: entries for a class+period ────────────────────────────────
 
@@ -134,9 +136,8 @@ export default function ClassRoutineGenerator() {
         if (i !== idx) return entry;
         const nextEntry = { ...entry, [field]: value };
         if (field === "subject") {
-          // Changing the subject clears the day selection — pick days
-          // fresh for this slot instead of inheriting a default.
-          nextEntry.days = [];
+          const { freq } = parseSubject(value);
+          nextEntry.days = freq ? getDefaultDaysForFrequency(freq, daysCount) : [];
         }
         return nextEntry;
       });
@@ -209,68 +210,19 @@ export default function ClassRoutineGenerator() {
     });
   };
 
-  // Rename a teacher everywhere: the Teachers list AND every slot that
-  // has them as main teacher or assistant.
-  const renameTeacher = (oldName, newName) => {
-    const trimmed = newName.trim();
-    if (!trimmed || trimmed === oldName) return;
-    if (teachers.includes(trimmed)) {
-      alert(`"${trimmed}" already exists in Teachers.`);
-      return;
-    }
-    setTeachers((prev) => prev.map((t) => (t === oldName ? trimmed : t)));
-    setRoutine((prev) => {
-      const next = {};
-      Object.keys(prev).forEach((cls) => {
-        next[cls] = {};
-        Object.keys(prev[cls] || {}).forEach((period) => {
-          next[cls][period] = (prev[cls][period] || []).map((entry) => ({
-            ...entry,
-            mainTeacher: entry.mainTeacher === oldName ? trimmed : entry.mainTeacher,
-            assistant: entry.assistant === oldName ? trimmed : entry.assistant,
-          }));
-        });
-      });
-      return next;
-    });
-  };
-
   // ── Manage Subjects ──────────────────────────────────────────────────────
 
   const addSubject = () => {
     const name = newSubjectName.trim();
     if (!name) return;
-    if (!subjects.includes(name)) {
-      setSubjects([...subjects, name]);
+    const key = `${name}-${newSubjectFreq}`;
+    if (!subjects.includes(key)) {
+      setSubjects([...subjects, key]);
       setNewSubjectName("");
     }
   };
 
   const removeSubject = (s) => setSubjects(subjects.filter((x) => x !== s));
-
-  // Rename a subject everywhere: the Subjects list AND every slot using it.
-  const renameSubject = (oldValue, newName) => {
-    const trimmed = newName.trim();
-    if (!trimmed || trimmed === parseSubject(oldValue).name) return;
-    if (subjects.includes(trimmed)) {
-      alert(`"${trimmed}" already exists in Subjects.`);
-      return;
-    }
-    setSubjects((prev) => prev.map((s) => (s === oldValue ? trimmed : s)));
-    setRoutine((prev) => {
-      const next = {};
-      Object.keys(prev).forEach((cls) => {
-        next[cls] = {};
-        Object.keys(prev[cls] || {}).forEach((period) => {
-          next[cls][period] = (prev[cls][period] || []).map((entry) => ({
-            ...entry,
-            subject: entry.subject === oldValue ? trimmed : entry.subject,
-          }));
-        });
-      });
-      return next;
-    });
-  };
 
   // ── Manage Classes ───────────────────────────────────────────────────────
 
@@ -291,25 +243,6 @@ export default function ClassRoutineGenerator() {
     });
   };
 
-  // Rename a class everywhere: the Classes list AND its routine entry.
-  const renameClass = (oldName, newName) => {
-    const trimmed = newName.trim();
-    if (!trimmed || trimmed === oldName) return;
-    if (classes.includes(trimmed)) {
-      alert(`"${trimmed}" already exists in Classes.`);
-      return;
-    }
-    setClasses((prev) => prev.map((c) => (c === oldName ? trimmed : c)));
-    setRoutine((prev) => {
-      if (!prev[oldName]) return prev;
-      const next = { ...prev };
-      next[trimmed] = next[oldName];
-      delete next[oldName];
-      return next;
-    });
-    setSelectedClass((prev) => (prev === oldName ? trimmed : prev));
-  };
-
   const getPeriodLabel = (periodIdx) => {
     const t = periodTimes[periodIdx];
     if (!t) return `Period ${periodIdx + 1}`;
@@ -318,138 +251,6 @@ export default function ClassRoutineGenerator() {
 
   const clearRoutine = () => {
     if (window.confirm("Clear all routine data?")) setRoutine({});
-  };
-
-  // ── Import / Export ───────────────────────────────────────────────────
-  // JSON = full reusable backup (teachers, subjects, classes, times, routine).
-  // CSV  = just the routine grid, one row per subject-assignment, editable
-  //        in Excel/Sheets and re-importable.
-
-  const downloadFile = (filename, content, mime) => {
-    const blob = new Blob([content], { type: mime });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
-  const exportJSON = () => {
-    const payload = { teachers, subjects, classes, daysCount, periodsCount, periodTimes, routine };
-    downloadFile("class-routine.json", JSON.stringify(payload, null, 2), "application/json");
-  };
-
-  const handleImportJSONFile = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const data = JSON.parse(reader.result);
-        if (Array.isArray(data.teachers)) setTeachers(data.teachers);
-        if (Array.isArray(data.subjects)) setSubjects(data.subjects);
-        if (Array.isArray(data.classes)) setClasses(data.classes);
-        if (typeof data.daysCount === "number") setDaysCount(data.daysCount);
-        if (typeof data.periodsCount === "number") setPeriodsCount(data.periodsCount);
-        if (Array.isArray(data.periodTimes)) setPeriodTimes(data.periodTimes);
-        if (data.routine && typeof data.routine === "object") setRoutine(data.routine);
-        setImportMessage({ type: "success", text: "Routine imported from JSON." });
-      } catch (err) {
-        setImportMessage({ type: "error", text: "Couldn't read that JSON file. Make sure it was exported from this tool." });
-      }
-      e.target.value = "";
-    };
-    reader.readAsText(file);
-  };
-
-  const exportCSV = () => {
-    const rows = [];
-    classes.forEach((cls) => {
-      Array.from({ length: periodsCount }, (_, period) => {
-        const entries = getEntries(cls, period);
-        entries.forEach((entry) => {
-          const t = periodTimes[period] || {};
-          rows.push({
-            Class: cls,
-            Period: period + 1,
-            StartTime: t.start || "",
-            EndTime: t.end || "",
-            Subject: entry.subject || "",
-            MainTeacher: entry.mainTeacher || "",
-            Assistant: entry.assistant || "",
-            Days: (entry.days || []).map((d) => ALL_DAYS[d]).join("/"),
-          });
-        });
-      });
-    });
-    const csv = Papa.unparse(rows);
-    downloadFile("class-routine.csv", csv, "text/csv");
-  };
-
-  const handleImportCSVFile = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: (results) => {
-        try {
-          const newRoutine = {};
-          const newClasses = [...classes];
-          const newSubjects = [...subjects];
-          const newTeachers = [...teachers];
-          const newPeriodTimes = [...periodTimes];
-          let maxPeriod = periodsCount;
-
-          results.data.forEach((row) => {
-            const cls = (row.Class || "").trim();
-            const period = parseInt(row.Period, 10);
-            const subject = (row.Subject || "").trim();
-            if (!cls || !period || !subject) return;
-
-            if (!newClasses.includes(cls)) newClasses.push(cls);
-            if (!newSubjects.includes(subject)) newSubjects.push(subject);
-            const mainTeacher = (row.MainTeacher || "").trim();
-            const assistant = (row.Assistant || "").trim();
-            if (mainTeacher && !newTeachers.includes(mainTeacher)) newTeachers.push(mainTeacher);
-            if (assistant && !newTeachers.includes(assistant)) newTeachers.push(assistant);
-
-            const days = (row.Days || "")
-              .split("/")
-              .map((d) => ALL_DAYS.indexOf(d.trim()))
-              .filter((d) => d >= 0);
-
-            if (period > maxPeriod) maxPeriod = period;
-            const periodIdx = period - 1;
-            if (row.StartTime || row.EndTime) {
-              newPeriodTimes[periodIdx] = { start: row.StartTime || "", end: row.EndTime || "" };
-            }
-
-            if (!newRoutine[cls]) newRoutine[cls] = {};
-            if (!newRoutine[cls][periodIdx]) newRoutine[cls][periodIdx] = [];
-            newRoutine[cls][periodIdx].push({ subject, mainTeacher, assistant, days });
-          });
-
-          setClasses(newClasses);
-          setSubjects(newSubjects);
-          setTeachers(newTeachers);
-          setPeriodTimes(newPeriodTimes);
-          setPeriodsCount(maxPeriod);
-          setRoutine(newRoutine);
-          setImportMessage({ type: "success", text: `Routine imported from CSV (${results.data.length} rows).` });
-        } catch (err) {
-          setImportMessage({ type: "error", text: "Couldn't read that CSV file. Check it matches the exported format." });
-        }
-        e.target.value = "";
-      },
-      error: () => {
-        setImportMessage({ type: "error", text: "Couldn't parse that CSV file." });
-        e.target.value = "";
-      },
-    });
   };
 
   // ════════════════════════════════════════════════════════════════════════
@@ -472,7 +273,6 @@ export default function ClassRoutineGenerator() {
           color="blue"
           items={teachers}
           onRemove={removeTeacher}
-          onRename={renameTeacher}
           inputValue={newTeacher}
           onInputChange={setNewTeacher}
           onAdd={addTeacher}
@@ -489,6 +289,15 @@ export default function ClassRoutineGenerator() {
               onChange={(e) => setNewSubjectName(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && addSubject()}
             />
+            <select
+              className="px-2 py-1.5 border rounded-lg text-sm focus:outline-none"
+              value={newSubjectFreq}
+              onChange={(e) => setNewSubjectFreq(Number(e.target.value))}
+            >
+              {[1, 2, 3, 4, 5, 6, 7].map((n) => (
+                <option key={n} value={n}>{n} day{n > 1 ? "s" : ""}</option>
+              ))}
+            </select>
             <button
               onClick={addSubject}
               className="px-3 py-1.5 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600"
@@ -497,12 +306,15 @@ export default function ClassRoutineGenerator() {
             </button>
           </div>
           <p className="text-xs text-gray-400 mb-2">
-            Pick exact days per subject inside each period in the Input tab — the same subject can be added to a period more than once with different days each time. Click ✎ on a chip to rename it.
+            The number is just a default day-count — pick exact days per subject inside each period in the Input tab, and add several subjects to one period to fill the week.
           </p>
           <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto">
-            {subjects.map((s, i) => (
-              <Chip key={i} label={parseSubject(s).name} color="green" onRemove={() => removeSubject(s)} onRename={(next) => renameSubject(s, next)} />
-            ))}
+            {subjects.map((s, i) => {
+              const { name, freq } = parseSubject(s);
+              return (
+                <Chip key={i} label={name} badge={freq ? `${freq}d` : ""} color="green" onRemove={() => removeSubject(s)} />
+              );
+            })}
           </div>
         </div>
 
@@ -511,7 +323,6 @@ export default function ClassRoutineGenerator() {
           color="purple"
           items={classes}
           onRemove={removeClass}
-          onRename={renameClass}
           inputValue={newClass}
           onInputChange={setNewClass}
           onAdd={addClass}
@@ -589,68 +400,13 @@ export default function ClassRoutineGenerator() {
             {tab.label}
           </button>
         ))}
-        <div className="ml-auto flex flex-wrap gap-2">
-          <button
-            onClick={exportJSON}
-            className="px-3 py-2 rounded-lg text-sm font-medium bg-white text-gray-700 border hover:bg-gray-50"
-            title="Download everything (teachers, subjects, classes, times, routine) as JSON"
-          >
-            ⬇️ Export JSON
-          </button>
-          <button
-            onClick={() => jsonFileInputRef.current?.click()}
-            className="px-3 py-2 rounded-lg text-sm font-medium bg-white text-gray-700 border hover:bg-gray-50"
-            title="Load a previously exported JSON file"
-          >
-            ⬆️ Import JSON
-          </button>
-          <input
-            ref={jsonFileInputRef}
-            type="file"
-            accept=".json,application/json"
-            onChange={handleImportJSONFile}
-            className="hidden"
-          />
-          <button
-            onClick={exportCSV}
-            className="px-3 py-2 rounded-lg text-sm font-medium bg-white text-gray-700 border hover:bg-gray-50"
-            title="Download just the routine grid as a spreadsheet-friendly CSV"
-          >
-            ⬇️ Export CSV
-          </button>
-          <button
-            onClick={() => csvFileInputRef.current?.click()}
-            className="px-3 py-2 rounded-lg text-sm font-medium bg-white text-gray-700 border hover:bg-gray-50"
-            title="Load a routine CSV (Class, Period, StartTime, EndTime, Subject, MainTeacher, Assistant, Days)"
-          >
-            ⬆️ Import CSV
-          </button>
-          <input
-            ref={csvFileInputRef}
-            type="file"
-            accept=".csv,text/csv"
-            onChange={handleImportCSVFile}
-            className="hidden"
-          />
-          <button
-            onClick={clearRoutine}
-            className="px-4 py-2 rounded-lg text-sm font-medium bg-red-500 text-white hover:bg-red-600"
-          >
-            🗑 Clear All
-          </button>
-        </div>
-      </div>
-
-      {importMessage && (
-        <div
-          className={`mb-4 px-4 py-2 rounded-lg text-sm font-medium flex items-center justify-between ${
-            importMessage.type === "success" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-          }`}
+        <button
+          onClick={clearRoutine}
+          className="ml-auto px-4 py-2 rounded-lg text-sm font-medium bg-red-500 text-white hover:bg-red-600"
         >
-          <span>{importMessage.type === "success" ? "✅ " : "⚠️ "}{importMessage.text}</span>
-          <button onClick={() => setImportMessage(null)} className="ml-3 opacity-60 hover:opacity-100">✕</button>
-        </div>
-      )}
+          🗑 Clear All
+        </button>
+      </div>
 
       {activeTab === "input" && (
         <div>
@@ -850,9 +606,10 @@ function EntryRow({
         className="px-2 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-white min-w-[130px]"
       >
         <option value="">— Subject —</option>
-        {subjects.map((s, i) => (
-          <option key={i} value={s}>{parseSubject(s).name}</option>
-        ))}
+        {subjects.map((s, i) => {
+          const { name, freq } = parseSubject(s);
+          return <option key={i} value={s}>{name}{freq ? ` (${freq}d default)` : ""}</option>;
+        })}
       </select>
 
       {/* Main Teacher */}
@@ -1074,7 +831,7 @@ function TeacherViewTable({ teachers, classes, periodsCount, allDays, getEntries
 // Reusable ManagementPanel / Chip
 // ════════════════════════════════════════════════════════════════════════
 
-function ManagementPanel({ title, color, items, onRemove, onRename, inputValue, onInputChange, onAdd, placeholder }) {
+function ManagementPanel({ title, color, items, onRemove, inputValue, onInputChange, onAdd, placeholder }) {
   const colorMap = {
     blue: { btn: "bg-blue-500 hover:bg-blue-600", ring: "focus:ring-blue-400" },
     purple: { btn: "bg-purple-500 hover:bg-purple-600", ring: "focus:ring-purple-400" },
@@ -1097,60 +854,23 @@ function ManagementPanel({ title, color, items, onRemove, onRename, inputValue, 
       </div>
       <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto">
         {items.map((item, i) => (
-          <Chip key={i} label={item} color={color} onRemove={() => onRemove(item)} onRename={onRename ? (next) => onRename(item, next) : null} />
+          <Chip key={i} label={item} color={color} onRemove={() => onRemove(item)} />
         ))}
       </div>
     </div>
   );
 }
 
-function Chip({ label, badge, color, onRemove, onRename }) {
-  const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState(label);
-
+function Chip({ label, badge, color, onRemove }) {
   const colorMap = {
     blue: "bg-blue-100 text-blue-800",
     purple: "bg-purple-100 text-purple-800",
     green: "bg-green-100 text-green-800",
   };
-
-  const startEditing = () => {
-    setDraft(label);
-    setEditing(true);
-  };
-
-  const commit = () => {
-    const trimmed = draft.trim();
-    setEditing(false);
-    if (trimmed && trimmed !== label) onRename(trimmed);
-  };
-
-  if (editing) {
-    return (
-      <input
-        autoFocus
-        value={draft}
-        onChange={(e) => setDraft(e.target.value)}
-        onBlur={commit}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") commit();
-          if (e.key === "Escape") setEditing(false);
-        }}
-        className="px-2 py-0.5 rounded-full text-xs font-medium border border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
-        style={{ width: `${Math.max(draft.length, 4)}ch` }}
-      />
-    );
-  }
-
   return (
     <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${colorMap[color] || colorMap.blue}`}>
       <span>{label}</span>
       {badge && <span className="bg-white/60 px-1 rounded-full text-[10px]">{badge}</span>}
-      {onRename && (
-        <button onClick={startEditing} className="ml-0.5 w-3.5 h-3.5 bg-white/60 rounded-full flex items-center justify-center text-[10px] hover:bg-white" title="Rename">
-          ✎
-        </button>
-      )}
       <button onClick={onRemove} className="ml-0.5 w-3.5 h-3.5 bg-red-400 text-white rounded-full flex items-center justify-center text-[10px] hover:bg-red-500">×</button>
     </div>
   );

@@ -11,6 +11,7 @@ import OverlayWhiteboard from "./components/OverlayWhiteboard";
 import Blog from "./pages/Blog";
 import CoachingAccountingSystem from "./pages/CoachingAccountingSystem";
 import ClassRoutineGenerator from "./pages/ClassRoutineGenerator";
+import TuhmClassRoutineGenerator from "./pages/TuhmClassRoutineGenerator";
 import Attendance from "./pages/Attendance";
 import UsePageTitle from "./components/TitleManager";
 
@@ -263,6 +264,7 @@ function App() {
                 />
                 <Route path="/hisab" element={<CoachingAccountingSystem />} />
                 <Route path="/routine" element={<ClassRoutineGenerator />} />
+                <Route path="/tuhm/routine" element={<TuhmClassRoutineGenerator />} />
                 <Route path="/tuhm/attendance" element={<Attendance />} />
               </Routes>
             </main>
