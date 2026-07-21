@@ -18,13 +18,6 @@ const blankEntry = () => ({ subject: "", mainTeacher: "", assistant: "", days: [
 
 export default function ClassRoutineGenerator() {
   const [teachers, setTeachers] = useState([
-    "S Parvin", "Lina", "Fatima", "Mahmuda", "Sharin",
-    "J.Naime", "Rahmatullah", "Silve", "Rehena", "Nure Alam",
-    "Julkar Naime", "Muslima", "Ruhul Amin", "M A Salam",
-    "Humayun Kabir", "Kamal Uddin", "Muzzammil", "Rezaul Karim",
-    "Walullah", "Masud Rana", "Monjurul Haque", "Naimul Islam",
-    "Alamin Sheikh", "Abdus Shakur Badsha", "Alamgir Hossain",
-    "Rezaul Karim", "GM Rustom",
   ]);
   const [newTeacher, setNewTeacher] = useState("");
 
@@ -32,16 +25,10 @@ export default function ClassRoutineGenerator() {
   // chosen per slot. The same subject (e.g. "Math") can be used in as
   // many slots as needed with different day selections each time.
   const [subjects, setSubjects] = useState([
-    "Bengali", "English", "Math", "Arabic", "Islamiat",
-    "Science", "Art", "Quran", "Culture",
   ]);
   const [newSubjectName, setNewSubjectName] = useState("");
 
   const [classes, setClasses] = useState([
-    "Play", "Nursery", "One", "Two Shams", "Two Qamar", "Two Nazm",
-    "Three Shams", "Three Qamar", "Three Nazm", "Four Shams",
-    "Four Qamar", "Four Nazm", "Five Shams", "Five Qamar",
-    "Six Shams", "Six Qamar", "Seven", "Eight" 
   ]);
   const [newClass, setNewClass] = useState("");
 
@@ -69,6 +56,9 @@ export default function ClassRoutineGenerator() {
 
   const jsonFileInputRef = useRef(null);
   const csvFileInputRef = useRef(null);
+  const teachersFileInputRef = useRef(null);
+  const subjectsFileInputRef = useRef(null);
+  const classesFileInputRef = useRef(null);
 
   // ── Helpers: entries for a class+period ────────────────────────────────
 
@@ -83,12 +73,13 @@ export default function ClassRoutineGenerator() {
         getEntries(cls, period).forEach((entry, idx) => {
           if (cls === excludeClass && idx === excludeIdx) return;
           const entryDays = entry.days || [];
-          // If either side hasn't picked days yet, be conservative and
-          // treat it as a possible conflict.
-          const overlaps =
-            days.length === 0 ||
-            entryDays.length === 0 ||
-            entryDays.some((d) => days.includes(d));
+          // Only a real conflict if BOTH sides have actually picked days
+          // and those days overlap (e.g. both include "Sat"). If either
+          // side hasn't picked days yet, we can't know, so don't flag —
+          // this avoids marking a teacher "busy" on days they're
+          // actually free just because another entry in the same
+          // period exists on different days.
+          const overlaps = days.length > 0 && entryDays.length > 0 && entryDays.some((d) => days.includes(d));
           if (!overlaps) return;
           if (entry.mainTeacher) busy.add(entry.mainTeacher);
           if (entry.assistant) busy.add(entry.assistant);
@@ -365,6 +356,75 @@ export default function ClassRoutineGenerator() {
     reader.readAsText(file);
   };
 
+  // Per-item list export/import: Teachers, Subjects, and Classes each get
+  // their own JSON file. No routine data — just the reusable roster —
+  // so any of the three can be saved and reloaded independently. Import
+  // replaces the current list exactly as saved (including if it's empty).
+  const parseListPayload = (raw, key) => {
+    const data = JSON.parse(raw);
+    if (Array.isArray(data)) return data;
+    if (data && Array.isArray(data[key])) return data[key];
+    return null;
+  };
+
+  const exportTeachers = () => downloadFile("teachers.json", JSON.stringify(teachers, null, 2), "application/json");
+  const exportSubjects = () => downloadFile("subjects.json", JSON.stringify(subjects, null, 2), "application/json");
+  const exportClasses = () => downloadFile("classes.json", JSON.stringify(classes, null, 2), "application/json");
+
+  const handleImportTeachersFile = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const list = parseListPayload(reader.result, "teachers");
+        if (!list) throw new Error("not a list");
+        setTeachers(list);
+        setImportMessage({ type: "success", text: `Teachers imported (${list.length}).` });
+      } catch (err) {
+        setImportMessage({ type: "error", text: "Couldn't read that Teachers file." });
+      }
+      e.target.value = "";
+    };
+    reader.readAsText(file);
+  };
+
+  const handleImportSubjectsFile = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const list = parseListPayload(reader.result, "subjects");
+        if (!list) throw new Error("not a list");
+        setSubjects(list);
+        setImportMessage({ type: "success", text: `Subjects imported (${list.length}).` });
+      } catch (err) {
+        setImportMessage({ type: "error", text: "Couldn't read that Subjects file." });
+      }
+      e.target.value = "";
+    };
+    reader.readAsText(file);
+  };
+
+  const handleImportClassesFile = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const list = parseListPayload(reader.result, "classes");
+        if (!list) throw new Error("not a list");
+        setClasses(list);
+        setImportMessage({ type: "success", text: `Classes imported (${list.length}).` });
+      } catch (err) {
+        setImportMessage({ type: "error", text: "Couldn't read that Classes file." });
+      }
+      e.target.value = "";
+    };
+    reader.readAsText(file);
+  };
+
   const exportCSV = () => {
     const rows = [];
     classes.forEach((cls) => {
@@ -477,10 +537,20 @@ export default function ClassRoutineGenerator() {
           onInputChange={setNewTeacher}
           onAdd={addTeacher}
           placeholder="Teacher name"
+          onExport={exportTeachers}
+          onImportFile={handleImportTeachersFile}
+          fileInputRef={teachersFileInputRef}
         />
 
         <div className="bg-white rounded-xl shadow p-4">
-          <h2 className="text-lg font-bold text-gray-800 mb-3">📖 Subjects</h2>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-bold text-gray-800">📖 Subjects</h2>
+            <div className="flex gap-1">
+              <button onClick={exportSubjects} title="Export Subjects as JSON" className="text-xs px-1.5 py-1 rounded border border-gray-200 text-gray-500 hover:bg-gray-50">⬇️</button>
+              <button onClick={() => subjectsFileInputRef.current?.click()} title="Import Subjects from JSON" className="text-xs px-1.5 py-1 rounded border border-gray-200 text-gray-500 hover:bg-gray-50">⬆️</button>
+              <input ref={subjectsFileInputRef} type="file" accept=".json,application/json" onChange={handleImportSubjectsFile} className="hidden" />
+            </div>
+          </div>
           <div className="flex gap-2 mb-2">
             <input
               className="flex-1 px-3 py-1.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
@@ -516,6 +586,9 @@ export default function ClassRoutineGenerator() {
           onInputChange={setNewClass}
           onAdd={addClass}
           placeholder="Class name"
+          onExport={exportClasses}
+          onImportFile={handleImportClassesFile}
+          fileInputRef={classesFileInputRef}
         />
       </div>
 
@@ -1074,7 +1147,7 @@ function TeacherViewTable({ teachers, classes, periodsCount, allDays, getEntries
 // Reusable ManagementPanel / Chip
 // ════════════════════════════════════════════════════════════════════════
 
-function ManagementPanel({ title, color, items, onRemove, onRename, inputValue, onInputChange, onAdd, placeholder }) {
+function ManagementPanel({ title, color, items, onRemove, onRename, inputValue, onInputChange, onAdd, placeholder, onExport, onImportFile, fileInputRef }) {
   const colorMap = {
     blue: { btn: "bg-blue-500 hover:bg-blue-600", ring: "focus:ring-blue-400" },
     purple: { btn: "bg-purple-500 hover:bg-purple-600", ring: "focus:ring-purple-400" },
@@ -1084,7 +1157,26 @@ function ManagementPanel({ title, color, items, onRemove, onRename, inputValue, 
 
   return (
     <div className="bg-white rounded-xl shadow p-4">
-      <h2 className="text-lg font-bold text-gray-800 mb-3">{title}</h2>
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-lg font-bold text-gray-800">{title}</h2>
+        {(onExport || onImportFile) && (
+          <div className="flex gap-1">
+            {onExport && (
+              <button onClick={onExport} title={`Export ${title.replace(/^\S+\s/, "")} as JSON`} className="text-xs px-1.5 py-1 rounded border border-gray-200 text-gray-500 hover:bg-gray-50">
+                ⬇️
+              </button>
+            )}
+            {onImportFile && (
+              <>
+                <button onClick={() => fileInputRef.current?.click()} title={`Import ${title.replace(/^\S+\s/, "")} from JSON`} className="text-xs px-1.5 py-1 rounded border border-gray-200 text-gray-500 hover:bg-gray-50">
+                  ⬆️
+                </button>
+                <input ref={fileInputRef} type="file" accept=".json,application/json" onChange={onImportFile} className="hidden" />
+              </>
+            )}
+          </div>
+        )}
+      </div>
       <div className="flex gap-2 mb-3">
         <input
           className={`flex-1 px-3 py-1.5 border rounded-lg text-sm focus:outline-none focus:ring-2 ${c.ring}`}
